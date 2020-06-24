@@ -27,7 +27,7 @@
     margin: 0px 30px;
 }
 
-.form-group-custom {
+.form-group {
     border: 1px solid #E0E0E0;
     box-sizing: border-box;
     border-radius: 5px;
@@ -51,6 +51,12 @@ input[type=password], input[type=email], input[type=text]{
 
 .btn-login{
     background-color: black !important;
+    margin: 49px 21px 0px 0px;
+}
+
+.btn-login:disabled{
+    background-color: black !important;
+    cursor: no-drop !important;
     margin: 49px 21px 0px 0px;
 }
 
@@ -86,5 +92,12 @@ input[type=password], input[type=email], input[type=text]{
 }
 
 .policy{
-    margin-top: 50px !important;
+    margin-top: 20px !important;
+}
+
+.login-spinner{
+    left: 30% !important;
+    width: 5rem !important;
+    height: 5rem !important;
+    position: absolute !important;
 }
