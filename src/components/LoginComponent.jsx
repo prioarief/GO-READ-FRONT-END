@@ -22,7 +22,7 @@ const Login = (props) => {
 					: false
 			if (logged) {
 				swal('Good job!', 'Login Success!', 'success')
-				return <Redirect to='/register/'/>
+				return <Redirect to='/register'/>
 			}else{
 				return swal('Oooopssss!', 'Login Failled!', 'error')
 			}
