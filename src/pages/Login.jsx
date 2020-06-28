@@ -3,7 +3,8 @@ import AuthComponent from '../components/AuthComponent'
 import LoginComponent from '../components/LoginComponent'
 import { Col, Row } from 'reactstrap'
 
-const Login = () => {
+const Login = (props) => {
+	console.log(props)
 	return (
 		<Col>
 			<Row>
