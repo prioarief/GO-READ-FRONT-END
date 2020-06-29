@@ -39,7 +39,7 @@ nav.sidebar ul {
     background-color: black !important;
 } */
 
-.brand{
+.brand {
     margin-left: 250px !important;
     transition: 0.2s ease !important;
 }
@@ -50,6 +50,18 @@ nav.sidebar ul.slide {
     transform: translateX(0);
     display: flex;
     z-index: 99999;
+}
+
+.bookshelf {
+    width: 50px;
+    height: 50px;
+}
+
+.library {
+    font-size: 30px;
+    /* line-height: 39px; */
+    font-weight: bold;
+    color: #424242;
 }
 
 
@@ -64,7 +76,7 @@ nav.sidebar ul li a:hover {
     text-decoration: none;
 }
 
-nav.sidebar ul .menu_toggle{
+nav.sidebar ul .menu_toggle {
     position: relative;
     top: 20px;
     left: 200px;
@@ -168,7 +180,7 @@ nav.sidebar ul .menu_toggle{
         margin: 30px 0px 0px 20px !important;
         border-radius: 15px !important;
     }
-    
+
     .profile_name {
         font-size: 20px;
         margin-top: 6px;
@@ -178,12 +190,12 @@ nav.sidebar ul .menu_toggle{
         /* text-align: center; */
     }
 
-    .brand{
+    .brand {
         margin-left: 100px !important;
         transition: 0.2s ease !important;
     }
 
-    nav.sidebar{
+    nav.sidebar {
         width: 20%;
     }
 
@@ -204,7 +216,7 @@ nav.sidebar ul .menu_toggle{
         transition: 0.9s;
     }
 
-    nav.sidebar ul .menu_toggle{
+    nav.sidebar ul .menu_toggle {
         position: relative;
         top: 17px;
         left: 120px;
