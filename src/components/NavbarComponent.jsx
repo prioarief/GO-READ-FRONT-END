@@ -6,20 +6,22 @@ import {
 	NavbarToggler,
 	NavbarBrand,
 	Nav,
-	NavItem,
-	NavLink,
 	Input,
 	UncontrolledDropdown,
 	DropdownToggle,
 	DropdownMenu,
 	DropdownItem,
-	NavbarText,
 	FormGroup,
+	Label,
+	Form,
+	NavbarText,
 } from 'reactstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 const NavbarComponent = () => {
 	const [isOpen, setIsOpen] = useState(false)
-	const [collapsed, setCollapsed] = useState(false)
+	const [collapsed, setCollapsed] = useState(true)
 
 	const toggleNavbar = () => setCollapsed(!collapsed)
 	const toggle = () => setIsOpen(!isOpen)
@@ -75,9 +77,8 @@ const NavbarComponent = () => {
 					// className={collapsed || style.topbar_item}
 				>
 					<Nav className='mr-auto' navbar>
-						
 						<UncontrolledDropdown nav inNavbar>
-							<DropdownToggle nav caret>
+							<DropdownToggle nav caret className='font-weight-bold'>
 								All Categories
 							</DropdownToggle>
 							<DropdownMenu right>
@@ -89,7 +90,7 @@ const NavbarComponent = () => {
 							</DropdownMenu>
 						</UncontrolledDropdown>
 						<UncontrolledDropdown nav inNavbar>
-							<DropdownToggle nav caret>
+							<DropdownToggle nav caret className='font-weight-bold'>
 								All Times
 							</DropdownToggle>
 							<DropdownMenu right>
@@ -99,11 +100,25 @@ const NavbarComponent = () => {
 								<DropdownItem>Reset</DropdownItem>
 							</DropdownMenu>
 						</UncontrolledDropdown>
-						{/* <FormGroup className={'style.search'}>
-							<Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" />
-						</FormGroup> */}
+						{/* <label htmlFor="search" className={style.label_search}>Search</label>
+						<input type='text' className={style.search} placeholder='Search Book' /> */}
+						<Form inline>
+							<FormGroup className={style.form_search}>
+								<Label for='Keyword' className={style.label}>
+									<FontAwesomeIcon icon={faSearch} />
+								</Label>
+								<Input
+									type='text'
+									placeholder='Book Search'
+									className={style.input_search}
+								/>
+							</FormGroup>
+						</Form>
 					</Nav>
-					{/* <NavbarText>Simple Text</NavbarText> */}
+					<NavbarText>
+						<img src='./bookshelf.png' alt='' className={style.bookshelf} />
+						<span className={style.library}>Library</span>
+					</NavbarText>
 				</Collapse>
 			</Navbar>
 		</div>
