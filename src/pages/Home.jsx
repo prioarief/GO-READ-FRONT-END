@@ -1,12 +1,13 @@
 import React from 'react'
-import Sidebar from '../components/SidebarComponent'
-import Navbar from '../components/NavbarComponent'
-import { Col, Row } from 'reactstrap'
+// import Sidebar from '../components/SidebarComponent'
+// import Navbar frclsom '../components/NavbarComponent'
+import Slider from '../components/SliderComponent'
+// import { Col, Row } from 'reactstrap'
 
 const Home = () => {
 	return (
 		<div>
-			<Navbar/>
+			<Slider/>
 		</div>
 	)
 }
