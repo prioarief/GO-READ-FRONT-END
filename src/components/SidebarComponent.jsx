@@ -1,50 +1,42 @@
 import React, { useState } from 'react'
 
-// import {
-// 	Collapse,
-// 	Navbar,
-// 	NavbarToggler,
-// 	NavbarBrand,
-// 	Nav,
-// 	NavItem,
-// 	NavLink,
-// } from 'reactstrap'
+import style from './../styles/SidebarStyle.module.css'
 
 const Sidebar = (props) => {
-	const [collapsed, setCollapsed] = useState(false)
+	const [collapsed, setCollapsed] = useState(true)
 
 	const toggleNavbar = () => setCollapsed(!collapsed)
-	
-	// if(collapsed){
-
-	// }
 
 	return (
-			<nav>
-				{/* <div className='logo'>
-					<span>Prio Arief Gunawan</span>
-				</div> */}
-				<div className='menu-toggle'>
+		<nav className={style.sidebar}>
+			<div className={`${style.menu_toggle} ${style.slide}`}>
+				<input type='checkbox' name='' id='' onClick={toggleNavbar} />
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+			<ul className={collapsed || style.slide}>
+				<div className={`${style.menu_toggle} ${style.slide}`}>
 					<input type='checkbox' name='' id='' onClick={toggleNavbar} />
 					<span></span>
 					<span></span>
 					<span></span>
 				</div>
-				<ul className={collapsed || 'slide'}>
-					<li>
-						<a href='/'>Home</a>
-					</li>
-					<li>
-						<a href='/'>Products</a>
-					</li>
-					<li>
-						<a href='/'>Services</a>
-					</li>
-					<li>
-						<a href='/'>About</a>
-					</li>
-				</ul>
-			</nav>
+				<li>
+					<img src='./profile.png' alt='profile' className='avatar-profile' />
+				</li>
+					<h4 className='profile-name'>Prio Arief Gunawan</h4>
+				<li>
+					<a href='/'>Explore</a>
+				</li>
+				<li>
+					<a href='/'>History</a>
+				</li>
+				<li>
+					<a href='/'>Add Book</a>
+				</li>
+			</ul>
+		</nav>
 	)
 }
 

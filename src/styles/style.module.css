@@ -17,7 +17,7 @@ body{
 
 
 
-.photo-by {
+.photo_by {
     position: absolute;
     color: white;
     bottom: 20px;
@@ -61,35 +61,35 @@ input[type=text] {
     border: none;
 }
 
-.btn-login {
+.btn_login {
     background-color: black !important;
     margin: 49px 21px 0px 0px;
 }
 
-.btn-login:disabled {
+.btn_login:disabled {
     background-color: black !important;
     cursor: no-drop !important;
     margin: 49px 21px 0px 0px;
 }
 
-.btn-login:hover {
+.btn_login:hover {
     background-color: rgb(51, 48, 48) !important;
     margin: 49px 21px 0px 0px;
 }
 
-.btn-sign-up {
+.btn_sign_up {
     background-color: white !important;
     color: black !important;
     margin: 49px 21px 0px 0px;
 }
 
-.btn-sign-up:hover {
+.btn_sign_up:hover {
     background-color: rgb(238, 238, 238) !important;
     color: black !important;
     margin: 49px 21px 0px 0px;
 }
 
-.forgot-password {
+.forgot_password {
     text-decoration: none !important;
     margin-left: 50px;
 }
@@ -107,14 +107,14 @@ input[type=text] {
     margin-top: 20px !important;
 }
 
-.login-spinner {
+.login_spinner {
     left: 30% !important;
     width: 5rem !important;
     height: 5rem !important;
     position: absolute !important;
 }
 
-.avatar_profile {
+/* .avatar_profile {
     width: 120px !important;
     height: 120px !important;
     display: block !important;
@@ -128,7 +128,7 @@ input[type=text] {
     margin-bottom: 35px;
     font-weight: bold;
     text-align: center;
-}
+} */
 
 .topbar{
     padding: 0px 0px !important;
@@ -165,7 +165,7 @@ input[type=text] {
 
     
 
-    .photo-by {
+    .photo_by {
         position: absolute;
         color: white;
         bottom: 20px;
@@ -175,22 +175,5 @@ input[type=text] {
         font-style: normal;
         font-weight: bold;
         text-shadow: 2px 2px black;
-    }
-
-    .avatar_profile {
-        width: 120px !important;
-        height: 120px !important;
-        display: block !important;
-        margin: 30px 0px 0px 20px !important;
-        border-radius: 15px !important;
-    }
-    
-    .profile_name {
-        font-size: 20px;
-        margin-top: 6px;
-        margin-bottom: 15px;
-        font-weight: bold;
-        margin-left: -25px;
-        /* text-align: center; */
     }
 }

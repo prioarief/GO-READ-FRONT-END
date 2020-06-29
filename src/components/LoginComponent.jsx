@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { FormGroup, Label, Input, Button, Spinner, Col } from 'reactstrap'
 import { Link, Redirect } from 'react-router-dom'
 import swal from 'sweetalert'
+import style from '../styles/style.module.css'
 
 const Login = (props) => {
 	const [user, setUser] = useState({ email: '', password: '' })
@@ -39,18 +40,18 @@ const Login = (props) => {
 
 	return (
 		<div>
-			<div className='content'>
+			<div className={style.content}>
 				<div className='text-right'>
-					<img src='./bookshelf.png' className='bookshelf img-fluid' alt='' />
+					<img src='./bookshelf.png' className={`${style.bookshelf} img-fluid`} alt='' />
 				</div>
-				<div className='mt-5 font-weight-bold'>
-					<h2 className='login font-weight-bold'>Login</h2>
+				<div className={`mt-5 font-weight-bold`}>
+					<h2 className={`${style.login} font-weight-bold`}>Login</h2>
 					<p className='welcome'>
 						Welcome Back, Please Login <br /> to your account{' '}
 					</p>
 				</div>
-				<FormGroup>
-					<Label for='email' className='label'>
+				<FormGroup className={style.form_input}>
+					<Label for='email' className={style.label}>
 						Email
 					</Label>
 					<Input
@@ -65,8 +66,8 @@ const Login = (props) => {
 						<Spinner className='login-spinner' type='grow' color='info' />{' '}
 					</Col>
 				)}
-				<FormGroup>
-					<Label for='password' className='label'>
+				<FormGroup className={style.form_input}>
+					<Label for='password' className={style.label}>
 						Password
 					</Label>
 					<Input
@@ -85,18 +86,18 @@ const Login = (props) => {
 						/>{' '}
 						Remember me
 					</Label>
-					<a href='http://' className='forgot-password'>
+					<a href='http://' className={style.forgot_password}>
 						Forgot Password
 					</a>
 				</FormGroup>
 
-				<Button className='btn-login' disabled={isSubmit} onClick={loggin}>
+				<Button className={style.btn_login} disabled={isSubmit} onClick={loggin}>
 					Login
 				</Button>
 				<Link to='/register'>
-					<Button className='btn-sign-up'>Sign Up</Button>
+					<Button className={style.btn_sign_up}>Sign Up</Button>
 				</Link>
-				<p className='policy'>
+				<p className={style.policy}>
 					By signing up, you agree to Book’s <br /> Terms and Conditions &
 					Privacy Policy
 				</p>
