@@ -13,15 +13,7 @@ body {
 
 
 /* nav.sidebarbar */
-nav.sidebar {
-    /* display: block;
-    background-color: #eaeaea;
-    height: 100vh;
-    width: 5%;
-    color: black !important; */
-    /* align-items: center; */
-    /* justify-content: space-around; */
-}
+
 
 nav.sidebar ul {
     list-style-type: none;
