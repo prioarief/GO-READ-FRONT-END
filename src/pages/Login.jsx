@@ -6,9 +6,9 @@ import { Col, Row } from 'reactstrap'
 const Login = (props) => {
 	console.log(props)
 	return (
-		<Col>
+		<Col >
 			<Row>
-				<Col md='7'>
+				<Col md='7' style={{padding: '0px'}}>
 					<AuthComponent />
 				</Col>
 				<Col md='5'>

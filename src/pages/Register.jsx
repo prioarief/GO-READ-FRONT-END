@@ -7,7 +7,7 @@ const Register = () => {
 	return (
 		<Col>
 			<Row>
-				<Col md='7'>
+				<Col md='7' style={{padding: '0px'}}>
 					<AuthComponent />
 				</Col>
 				<Col md='5'>

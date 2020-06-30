@@ -12,9 +12,10 @@ import {
 	Row,
 	Col,
 } from 'reactstrap'
+import { Link } from 'react-router-dom'
 
 const ListBook = (props) => {
-	// console.log(props.data);
+	// console.log(props)
 
 	return (
 		<div>
@@ -32,9 +33,18 @@ const ListBook = (props) => {
 										className={style.card_img}
 									/>
 									<CardBody>
-										<CardTitle className={style.book_title}>
-											{book.title}
-										</CardTitle>
+										<Link
+											className={`text-decoration-none`}
+											to={`/detail/${book.id}`}
+											// to={`/detail/${book.title
+											// 	.toLowerCase()
+											// 	.split(' ')
+											// 	.join('-')}`}
+										>
+											<CardTitle className={style.book_title}>
+												{book.title}
+											</CardTitle>
+										</Link>
 										{/* <CardSubtitle>Card subtitle</CardSubtitle> */}
 										<CardText>
 											{book.description.length > 200

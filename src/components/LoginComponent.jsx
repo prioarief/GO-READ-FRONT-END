@@ -53,8 +53,8 @@ const Login = (props) => {
 					localStorage.setItem('RefreshToken', RefreshToken)
 				})
 				.catch((err) => {
+					console.log(err.response.data.data)
 					swal('Ooopsss!', `${err.response.data.data}!`, 'error')
-					// console.log(err.response.data.data)
 				})
 			setLoading(false)
 		}, 2000)

@@ -24,9 +24,9 @@ import {
 	FormText,
 } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faBookOpen } from '@fortawesome/free-solid-svg-icons'
 
-const NavbarComponent = () => {
+const NavbarComponent = (props) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [collapsed, setCollapsed] = useState(true)
 
@@ -39,6 +39,7 @@ const NavbarComponent = () => {
 			&times;
 		</button>
 	)
+	// console.log(props.genres[0])
 
 	return (
 		<div>
@@ -84,21 +85,23 @@ const NavbarComponent = () => {
 					</ul>
 				</nav>
 				<NavbarBrand href='/' className={collapsed || style.brand}>
-					Go Read
+					Go Read <FontAwesomeIcon icon={faBookOpen} />
 				</NavbarBrand>
 				<NavbarToggler onClick={toggle} />
 				<Collapse isOpen={isOpen} navbar>
 					<Nav className='mr-auto' navbar>
 						<UncontrolledDropdown nav inNavbar>
 							<DropdownToggle nav caret className='font-weight-bold'>
-								All Categories
+								All Genres
 							</DropdownToggle>
 							<DropdownMenu right>
-								<DropdownItem>Romance</DropdownItem>
-								<DropdownItem>Sports</DropdownItem>
-								<DropdownItem>Science</DropdownItem>
-								<DropdownItem divider />
-								<DropdownItem>Reset</DropdownItem>
+								{props.genres.map((genre) => {
+									return(
+										<DropdownItem>{genre.genre}</DropdownItem>
+									)
+								})}
+								{/* <DropdownItem divider />
+								<DropdownItem>Reset</DropdownItem> */}
 							</DropdownMenu>
 						</UncontrolledDropdown>
 						<UncontrolledDropdown nav inNavbar>
@@ -106,8 +109,9 @@ const NavbarComponent = () => {
 								All Times
 							</DropdownToggle>
 							<DropdownMenu right>
-								<DropdownItem>Option 1</DropdownItem>
-								<DropdownItem>Option 2</DropdownItem>
+								<DropdownItem>Latest</DropdownItem>
+								<DropdownItem>A-Z</DropdownItem>
+								<DropdownItem>Z-A</DropdownItem>
 								<DropdownItem divider />
 								<DropdownItem>Reset</DropdownItem>
 							</DropdownMenu>
@@ -127,11 +131,18 @@ const NavbarComponent = () => {
 					</Nav>
 					<NavbarText>
 						<img src='./bookshelf.png' alt='' className={style.bookshelf} />
-						<span className={style.library}>Go Read Library</span>
+						<span className={style.library}>
+							Go Read <FontAwesomeIcon icon={faBookOpen} />
+						</span>
 					</NavbarText>
 				</Collapse>
 			</Navbar>
-			<Modal isOpen={modal} toggle={toggle} centered className={style.modal_add}>
+			<Modal
+				isOpen={modal}
+				toggle={toggle}
+				centered
+				className={style.modal_add}
+			>
 				<ModalHeader toggle={toggle} close={closeBtn}>
 					ADD BOOK
 				</ModalHeader>
