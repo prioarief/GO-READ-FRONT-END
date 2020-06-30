@@ -170,6 +170,14 @@ nav.sidebar ul .menu_toggle {
     margin-right: 25px;
 }
 
+.input_title{
+    border: 1px solid black !important;
+}
+
+.modal_add{
+    max-width: 800px !important;
+}
+
 
 /* Hamburger Animations */
 /* .menu_toggle span:nth-child(2) {

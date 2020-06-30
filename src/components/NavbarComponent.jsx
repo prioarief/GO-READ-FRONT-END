@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+// import sidebar from './SidebarComponent'
 import style from './../styles/SidebarStyle.module.css'
 import {
 	Collapse,
@@ -6,6 +7,11 @@ import {
 	NavbarToggler,
 	NavbarBrand,
 	Nav,
+	Modal,
+	ModalHeader,
+	ModalBody,
+	ModalFooter,
+	Button,
 	Input,
 	UncontrolledDropdown,
 	DropdownToggle,
@@ -15,6 +21,7 @@ import {
 	Label,
 	Form,
 	NavbarText,
+	FormText,
 } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -24,7 +31,14 @@ const NavbarComponent = () => {
 	const [collapsed, setCollapsed] = useState(true)
 
 	const toggleNavbar = () => setCollapsed(!collapsed)
+	const [modal, setModal] = useState(false)
 	const toggle = () => setIsOpen(!isOpen)
+	const closeModal = () => setModal(!modal)
+	const closeBtn = (
+		<button className='close' onClick={closeModal}>
+			&times;
+		</button>
+	)
 
 	return (
 		<div>
@@ -63,7 +77,9 @@ const NavbarComponent = () => {
 							<a href='/'>History</a>
 						</li>
 						<li>
-							<a href='/'>Add Book</a>
+							<a href='#' onClick={closeModal}>
+								Add Book
+							</a>
 						</li>
 					</ul>
 				</nav>
@@ -71,11 +87,7 @@ const NavbarComponent = () => {
 					Go Read
 				</NavbarBrand>
 				<NavbarToggler onClick={toggle} />
-				<Collapse
-					isOpen={isOpen}
-					navbar
-					// className={collapsed || style.topbar_item}
-				>
+				<Collapse isOpen={isOpen} navbar>
 					<Nav className='mr-auto' navbar>
 						<UncontrolledDropdown nav inNavbar>
 							<DropdownToggle nav caret className='font-weight-bold'>
@@ -100,8 +112,6 @@ const NavbarComponent = () => {
 								<DropdownItem>Reset</DropdownItem>
 							</DropdownMenu>
 						</UncontrolledDropdown>
-						{/* <label htmlFor="search" className={style.label_search}>Search</label>
-						<input type='text' className={style.search} placeholder='Search Book' /> */}
 						<Form inline>
 							<FormGroup className={style.form_search}>
 								<Label for='Keyword' className={style.label}>
@@ -117,10 +127,68 @@ const NavbarComponent = () => {
 					</Nav>
 					<NavbarText>
 						<img src='./bookshelf.png' alt='' className={style.bookshelf} />
-						<span className={style.library}>Library</span>
+						<span className={style.library}>Go Read Library</span>
 					</NavbarText>
 				</Collapse>
 			</Navbar>
+			<Modal isOpen={modal} toggle={toggle} centered className={style.modal_add}>
+				<ModalHeader toggle={toggle} close={closeBtn}>
+					ADD BOOK
+				</ModalHeader>
+				<ModalBody>
+					<Form>
+						<FormGroup>
+							<Label for='title'>Title</Label>
+							<Input
+								type='text'
+								name='title'
+								id='title'
+								className={style.input_title}
+							/>
+						</FormGroup>
+						<FormGroup>
+							<Label for='image'>Image</Label>
+							<Input type='file' name='file' id='image' />
+							<FormText color='muted'>
+								This is some placeholder block-level help text for the above
+								input. It's a bit lighter and easily wraps to a new line.
+							</FormText>
+						</FormGroup>
+						<FormGroup>
+							<Label for='author'>Author</Label>
+							<Input type='select' name='select' id='author'>
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+								<option>5</option>
+							</Input>
+						</FormGroup>
+						<FormGroup>
+							<Label for='genre'>Genre</Label>
+							<Input type='select' name='select' id='genre'>
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+								<option>4</option>
+								<option>5</option>
+							</Input>
+						</FormGroup>
+						<FormGroup>
+							<Label for='desc'>Description</Label>
+							<Input type='textarea' name='text' id='desc' />
+						</FormGroup>
+					</Form>
+				</ModalBody>
+				<ModalFooter>
+					<Button color='primary' onClick={toggle}>
+						Do Something
+					</Button>{' '}
+					<Button color='secondary' onClick={toggle}>
+						Cancel
+					</Button>
+				</ModalFooter>
+			</Modal>
 		</div>
 	)
 }
