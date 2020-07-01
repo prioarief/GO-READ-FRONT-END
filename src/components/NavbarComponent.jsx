@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useQueryState } from 'react-router-use-location-state'
 // import sidebar from './SidebarComponent'
 import style from './../styles/SidebarStyle.module.css'
 import {
@@ -25,10 +26,15 @@ import {
 } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faBookOpen } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const NavbarComponent = (props) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [collapsed, setCollapsed] = useState(true)
+	const [search, setSearch] = useQueryState('search', '')
+	const [show, setShow] = useQueryState('show', '')
+	const [sort, setSort] = useQueryState('sort', '')
 
 	const toggleNavbar = () => setCollapsed(!collapsed)
 	const [modal, setModal] = useState(false)
@@ -39,7 +45,24 @@ const NavbarComponent = (props) => {
 			&times;
 		</button>
 	)
-	// console.log(props.genres[0])
+
+	// console.log(props.data('nav'))
+
+	const handleSearch = (e) => {
+		// console.log(e.target.value)
+		 setSearch(e.target.value)
+		// props.data(search)
+	}
+	
+	const sendData = {
+		search,
+		show,
+		sort
+	}
+
+	useEffect(() => {
+		props.data(search)
+	}, [search, show, sort])
 
 	return (
 		<div>
@@ -70,18 +93,28 @@ const NavbarComponent = (props) => {
 								className={style.avatar_profile}
 							/>
 						</li>
-						<h4 className={style.profile_name}>Prio Arief Gunawan</h4>
+						<h4 className={style.profile_name}>
+							{localStorage.getItem('name')}
+						</h4>
 						<li>
-							<a href='/'>Explore</a>
+							<Link>Explore</Link>
 						</li>
 						<li>
-							<a href='/'>History</a>
+							<Link>History</Link>
 						</li>
-						<li>
-							<a href='#' onClick={closeModal}>
-								Add Book
-							</a>
-						</li>
+
+						{(localStorage.getItem('role') === 'Admin') && (
+							<li>
+								<span style={{ cursor: 'pointer' }} onClick={closeModal}>
+									Add Book
+								</span>
+							</li>
+						)}
+						{localStorage.getItem('name') && (
+							<li>
+								<Link to='/logout'>Logout</Link>
+							</li>
+						)}
 					</ul>
 				</nav>
 				<NavbarBrand href='/' className={collapsed || style.brand}>
@@ -96,12 +129,10 @@ const NavbarComponent = (props) => {
 							</DropdownToggle>
 							<DropdownMenu right>
 								{props.genres.map((genre) => {
-									return(
-										<DropdownItem>{genre.genre}</DropdownItem>
-									)
+									return <DropdownItem>{genre.genre}</DropdownItem>
 								})}
-								{/* <DropdownItem divider />
-								<DropdownItem>Reset</DropdownItem> */}
+								<DropdownItem divider />
+								<DropdownItem>Reset</DropdownItem>
 							</DropdownMenu>
 						</UncontrolledDropdown>
 						<UncontrolledDropdown nav inNavbar>
@@ -109,9 +140,24 @@ const NavbarComponent = (props) => {
 								All Times
 							</DropdownToggle>
 							<DropdownMenu right>
-								<DropdownItem>Latest</DropdownItem>
-								<DropdownItem>A-Z</DropdownItem>
+								<DropdownItem onClick={(e) => setSort('latest')}>
+									Latest
+								</DropdownItem>
+								<DropdownItem onClick={(e) => setSort('title')}>
+									A-Z
+								</DropdownItem>
 								<DropdownItem>Z-A</DropdownItem>
+								<DropdownItem divider />
+								<DropdownItem>Reset</DropdownItem>
+							</DropdownMenu>
+						</UncontrolledDropdown>
+						<UncontrolledDropdown nav inNavbar>
+							<DropdownToggle nav caret className='font-weight-bold'>
+								Show
+							</DropdownToggle>
+							<DropdownMenu right>
+								<DropdownItem onClick={() => setShow(3)}>3</DropdownItem>
+								<DropdownItem onClick={() => setShow(6)}>6</DropdownItem>
 								<DropdownItem divider />
 								<DropdownItem>Reset</DropdownItem>
 							</DropdownMenu>
@@ -124,7 +170,10 @@ const NavbarComponent = (props) => {
 								<Input
 									type='text'
 									placeholder='Book Search'
+									value={search}
 									className={style.input_search}
+									// onChange={(e) => setSearch(e.target.value)}
+									onChange={handleSearch}
 								/>
 							</FormGroup>
 						</Form>

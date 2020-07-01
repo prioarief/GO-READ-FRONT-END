@@ -8620,6 +8620,11 @@ qs@~6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
+query-state-core@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/query-state-core/-/query-state-core-2.3.0.tgz#bfe1d00d073bfc52be1e50c6fb1a63bf0067041c"
+  integrity sha512-jYKdpxb3AJCxaPpn9WdRB1E9Cstz4MikCDb5PynwVrPuTPfCVpu+eOzTZtb96QyOeD26fe+RiS9XdwFTqoQCZg==
+
 query-string@^4.1.0:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-4.3.4.tgz#bbb693b9ca915c232515b228b1a02b609043dbeb"
@@ -8772,6 +8777,13 @@ react-router-dom@^5.2.0:
     react-router "5.2.0"
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
+
+react-router-use-location-state@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/react-router-use-location-state/-/react-router-use-location-state-2.3.1.tgz#27ae6538dc8323091f2b841c414fefbe2a9c05f3"
+  integrity sha512-yzRQRz1oqWbVk8v7cpoG/baUBRC3hSq170+bVi9i0RUdjocXkq+UHdhFTtz3OTWYiUzmzOsm4YcgxjW6FnWRzQ==
+  dependencies:
+    use-location-state "^2.3.1"
 
 react-router@5.2.0:
   version "5.2.0"
@@ -10511,6 +10523,13 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
+
+use-location-state@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/use-location-state/-/use-location-state-2.3.1.tgz#5975e55e1253d3203caf1060e6e9e4e408d33c24"
+  integrity sha512-dR8pm7rCtQ0MsUy7O4upotBRooV0knsrEVnOntkoM2I2SKckb2luRSvE/wSPsHNYUj5DdLgoq+10/4A/9P11zw==
+  dependencies:
+    query-state-core "^2.3.0"
 
 use@^3.1.0:
   version "3.1.1"

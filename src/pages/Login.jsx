@@ -4,7 +4,7 @@ import LoginComponent from '../components/LoginComponent'
 import { Col, Row } from 'reactstrap'
 
 const Login = (props) => {
-	console.log(props)
+	// console.log(props.history.push)
 	return (
 		<Col >
 			<Row>
@@ -12,7 +12,7 @@ const Login = (props) => {
 					<AuthComponent />
 				</Col>
 				<Col md='5'>
-					<LoginComponent data={'prio'} />
+					<LoginComponent data={props.history} />
 				</Col>
 			</Row>
 		</Col>

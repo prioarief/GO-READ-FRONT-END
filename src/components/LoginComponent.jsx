@@ -8,27 +8,11 @@ import style from '../styles/style.module.css'
 const Login = (props) => {
 	const [user, setUser] = useState({ email: '', password: '' })
 	const [isLoading, setLoading] = useState(false)
+	const [isLogin, setLogin] = useState(false)
 	const [isRemember, setRemember] = useState(false)
 	const [isSubmit, setSubmit] = useState(true)
 
-	// const loggin = () => {
-	// 	setLoading(true)
-	// 	let logged = null
-	// 	setTimeout(() => {
-	// 		setLoading(false)
-	// 		console.log(isRemember)
-	// 		logged =
-	// 			user.email === 'prio@gmail.com' && user.password === 'password'
-	// 				? true
-	// 				: false
-	// 		if (logged) {
-	// 			swal('Good job!', 'Login Success!', 'success')
-	// 			return <Redirect to='/register' />
-	// 		} else {
-	// 			return swal('Oooopssss!', 'Login Failled!', 'error')
-	// 		}
-	// 	}, 2000)
-	// }
+	console.log(props)
 
 	const handleLogin = (e) => {
 		e.preventDefault()
@@ -42,25 +26,34 @@ const Login = (props) => {
 					password: user.password,
 				},
 			})
-				.then((res) => {
-					console.log(props)
-					console.log(res)
-					const token = res.data.data[0].token
-					const RefreshToken = res.data.data[0].token
-					swal('Good job!', 'Login Success!', 'success')
-					// props.history.push('/')
-					localStorage.setItem('token', token)
-					localStorage.setItem('RefreshToken', RefreshToken)
-				})
-				.catch((err) => {
-					console.log(err.response.data.data)
-					swal('Ooopsss!', `${err.response.data.data}!`, 'error')
-				})
+			.then((res) => {
+				console.log(props)
+				console.log(res)
+				const token = res.data.data[0].token
+				const RefreshToken = res.data.data[0].token
+				swal('Good job!', 'Login Success!', 'success')
+				localStorage.setItem('token', token)
+				localStorage.setItem('name', res.data.data[0].name)
+				localStorage.setItem('email', res.data.data[0].email)
+				localStorage.setItem('role', res.data.data[0].role)
+				localStorage.setItem('RefreshToken', RefreshToken)
+				setLogin(true)
+				props.data.push('/books')
+				// props.data.push('/books')
+			})
+			.catch((err) => {
+				console.log(err.response.data.data)
+				swal('Ooopsss!', `${err.response.data.data}!`, 'error')
+			})
 			setLoading(false)
 		}, 2000)
 	}
 
 	useEffect(() => {
+		// if(isLogin){
+		// 	// <Redirect></Redirect>
+		// 	props.data.push('/books')
+		// }
 		const data =
 			user.email.trim().length !== 0 && user.password.trim().length !== 0
 				? false

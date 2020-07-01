@@ -2,43 +2,8 @@ import React, { Component } from 'react'
 // import Sidebar from '../components/SidebarComponent'
 import Navbar from '../components/NavbarComponent'
 import ListBook from '../components/ListBook'
-import { useEffect } from 'react'
+import Pagination from '../components/Pagination'
 import axios from 'axios'
-import { useState } from 'react'
-// import Slider from '../components/SliderComponent'
-// import { Col, Row } from 'reactstrap'
-
-// const Home = (props) => {
-// 	const [books, setBook] = useState([])
-
-// 	const getBook = () => {
-// 		const token = localStorage.getItem('RefreshToken')
-// 		axios({
-// 			method: 'GET',
-// 			url: 'http://localhost:3000/api/books',
-// 			headers: {
-// 				Authorization: token,
-// 			},
-// 		})
-// 			.then((res) => {
-// 				setBook(res.data.data)
-// 			})
-// 			.catch((err) => {
-// 				console.log(err.response)
-// 			})
-// 	}
-// 	useEffect(() => {
-
-// 		getBook()
-// 	})
-
-// 	return (
-// 		<div>
-// 			<Navbar/>
-// 			<ListBook data={books} />
-// 		</div>
-// 	)
-// }
 
 class Home extends Component {
 	constructor(props) {
@@ -46,14 +11,27 @@ class Home extends Component {
 		this.state = {
 			books: [],
 			genres: [],
+			search: '',
 		}
 	}
 
-	getBook = () => {
+	getParams = () => {
+		return new URLSearchParams(this.props.location.search)
+	}
+
+	
+
+	getBook = (search, sort, show) => {
 		const token = localStorage.getItem('RefreshToken')
 		axios({
 			method: 'GET',
 			url: 'http://localhost:3000/api/books',
+			params: {
+				show: show,
+				sort: sort,
+				page: 1,
+				search: search,
+			},
 			headers: {
 				Authorization: token,
 			},
@@ -62,11 +40,11 @@ class Home extends Component {
 				this.setState({ books: res.data.data })
 			})
 			.catch((err) => {
-				console.log(err.response)
+				console.log(err)
 			})
 	}
 
-	 getCategory = () => {
+	getCategory = () => {
 		const token = localStorage.getItem('RefreshToken')
 		axios({
 			method: 'GET',
@@ -83,16 +61,24 @@ class Home extends Component {
 			})
 	}
 
+	handleParams = (parameter) => {
+		this.getBook(parameter)
+	}
 	componentDidMount() {
-		this.getBook()
+		// console.log(this.getParams().get('sort'))
+		if(!localStorage.getItem('token')){
+			this.props.history.push('/login')
+		}
+		this.handleParams()
 		this.getCategory()
 	}
 
 	render() {
 		return (
 			<div>
-				<Navbar genres={this.state.genres}/>
+				<Navbar genres={this.state.genres} data={this.handleParams} />
 				<ListBook data={this.state.books} />
+				<Pagination />
 			</div>
 		)
 	}
