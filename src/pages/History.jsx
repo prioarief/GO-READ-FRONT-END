@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import Navbar from '../components/NavbarComponent'
-import ListBook from '../components/ListBook'
+import ListHistory from '../components/ListHistory'
 import Pagination from '../components/Pagination'
 import axios from 'axios'
 import SliderComponent from '../components/SliderComponent'
 
-class Home extends Component {
+class History extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -19,18 +19,18 @@ class Home extends Component {
 		return new URLSearchParams(this.props.location.search)
 	}
 
-	getBook = (search, sort, show, by) => {
+	getBook = () => {
 		const token = localStorage.getItem('RefreshToken')
 		axios({
-			method: 'GET',
-			url: 'http://localhost:3000/api/books',
-			params: {
-				show: show,
-				sort: sort,
-				page: 1,
-				search: search,
-				by: by,
-			},
+			method: 'POST',
+			url: 'http://localhost:3000/api/transaction/history',
+			// params: {
+			// 	show: show,
+			// 	sort: sort,
+			// 	page: 1,
+			// 	search: search,
+			// 	by: by,
+			// },
 			headers: {
 				Authorization: token,
 			},
@@ -41,9 +41,9 @@ class Home extends Component {
 			.catch((err) => {
 				console.log(err)
 			})
-	}
-
-	getCategory = () => {
+    }
+    
+    getCategory = () => {
 		const token = localStorage.getItem('RefreshToken')
 		axios({
 			method: 'GET',
@@ -77,18 +77,14 @@ class Home extends Component {
 	}
 
 	handleParams = (parameter) => {
-		this.getBook(
-			parameter,
-			this.getParams().get('sort'),
-			this.getParams().get('show'),
-			this.getParams().get('by')
-		)
+		this.getBook()
 	}
 	componentDidMount() {
 		if (!localStorage.getItem('token')) {
 			this.props.history.push('/login')
 		}
-		this.handleParams()
+        this.getBook()
+        // console.log(this.state.books)
 		this.getCategory()
 		this.getAuthor()
 	}
@@ -96,17 +92,22 @@ class Home extends Component {
 	render() {
 		return (
 			<div>
-				<Navbar genres={this.state.genres} authors={this.state.authors} data={this.handleParams} data_red={this.props.history} />
-				<SliderComponent data={this.state.books}/>
-				<ListBook data={this.state.books} />
-				<Pagination
+				<Navbar
+					genres={this.state.genres}
+					authors={this.state.authors}
+					data={this.handleParams}
+					data_red={this.props.history}
+				/>
+				<SliderComponent data={this.state.books} />
+				<ListHistory data={this.state.books} /> 
+				{/* <Pagination
 					data={this.state.books}
 					show={this.getParams().get('show')}
 					page={this.getParams().get('page')}
-				/>
+				/> */}
 			</div>
 		)
 	}
 }
 
-export default Home
+export default History

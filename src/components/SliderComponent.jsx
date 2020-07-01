@@ -1,39 +1,81 @@
-import React, { Component } from 'react'
-import Slider from 'react-slick'
+import React, { useState } from 'react'
+import {
+	Carousel,
+	CarouselItem,
+	CarouselControl,
+	CarouselIndicators,
+	CarouselCaption,
+} from 'reactstrap'
+import style from '../styles/book.module.css'
 
-export default class SimpleSlider extends Component {
-	render() {
-		const settings = {
-			dots: true,
-			infinite: true,
-			speed: 500,
-			slidesToShow: 1,
-			slidesToScroll: 1,
-		}
-		return (
-			<div>
-				<h2> Single Item</h2>
-				<Slider {...settings}>
-					<div>
-						<h3>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Debitis voluptatum quo libero, commodi delectus illum aliquam minima corrupti quos ipsam voluptates alias. Ducimus voluptatum voluptatibus molestias sunt repellendus. Quae, quaerat.</h3>
-					</div>
-					<div>
-						<h3>2</h3>
-					</div>
-					<div>
-						<h3>3</h3>
-					</div>
-					<div>
-						<h3>4</h3>
-					</div>
-					<div>
-						<h3>5</h3>
-					</div>
-					<div>
-						<h3>6</h3>
-					</div>
-				</Slider>
-			</div>
+const SliderComponent = (props) => {
+	const [activeIndex, setActiveIndex] = useState(0)
+	const [animating, setAnimating] = useState(false)
+
+	let items = props.data.map((item) => {
+		return(
+			{
+				src : `http://localhost:3000/images/${item.image}`,
+				classNames : style.carousell,
+				altText : item.title,
+				caption : item.title,
+			}
 		)
+	})
+
+	const next = () => {
+		if (animating) return
+		const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1
+		setActiveIndex(nextIndex)
 	}
+
+	const previous = () => {
+		if (animating) return
+		const nextIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1
+		setActiveIndex(nextIndex)
+	}
+
+	const goToIndex = (newIndex) => {
+		if (animating) return
+		setActiveIndex(newIndex)
+	}
+
+	const slides = items.map((item) => {
+		return (
+			<CarouselItem
+				onExiting={() => setAnimating(true)}
+				onExited={() => setAnimating(false)}
+				key={item.src}
+			>
+				<img src={item.src} alt={item.altText} className={item.classNames} />
+				<CarouselCaption
+					captionText={item.caption}
+					captionHeader={item.caption}
+				/>
+			</CarouselItem>
+		)
+	})
+
+	return (
+		<Carousel activeIndex={activeIndex} next={next} previous={previous}>
+			<CarouselIndicators
+				items={items}
+				activeIndex={activeIndex}
+				onClickHandler={goToIndex}
+			/>
+			{slides}
+			<CarouselControl
+				direction='prev'
+				directionText='Previous'
+				onClickHandler={previous}
+			/>
+			<CarouselControl
+				direction='next'
+				directionText='Next'
+				onClickHandler={next}
+			/>
+		</Carousel>
+	)
 }
+
+export default SliderComponent

@@ -128,10 +128,10 @@ const NavbarComponent = (props) => {
 							{localStorage.getItem('name')}
 						</h4>
 						<li>
-							<Link to='/'>Explore</Link>
+							<Link to='/books'>Explore</Link>
 						</li>
 						<li>
-							<Link to='/'>History</Link>
+							<Link to='/history'>History</Link>
 						</li>
 
 						{localStorage.getItem('role') === 'Admin' && (

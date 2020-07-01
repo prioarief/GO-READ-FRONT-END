@@ -161,6 +161,15 @@
     color: #FFFFFF;
 }
 
+.carousell{
+    /* margin-left: 350px !important; */
+    height: 500px !important;
+    margin: 50px 300px !important;
+    width: 990px !important;
+    border-radius: 20px !important;
+}
+
+
 .card_img {
     /* position: absolute; */
     width: 100% !important;
@@ -197,6 +206,13 @@
         display: block;
         position: absolute !important;
         z-index: -9;
+    }
+
+    .carousell{
+        /* margin-left: 350px !important; */
+        margin: 20px 20px !important;
+        width: 340px !important;
+        height: 150px !important;
     }
 
     .cover_full {
@@ -253,8 +269,8 @@
         position: absolute;
         width: 278px;
         height: 51px;
-        left: 30px;
-        top: 348px;
+        left: 180px;
+        top: 325px;
 
         /* font-family: Airbnb Cereal App; */
         font-weight: bold;

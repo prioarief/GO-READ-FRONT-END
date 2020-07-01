@@ -1,7 +1,18 @@
 import React, { useState } from 'react'
 import style from '../styles/book.module.css'
 import moment from 'moment'
-import { Button, ModalFooter, FormGroup, Label, Input, FormText, ModalHeader, ModalBody, Form, Modal } from 'reactstrap'
+import {
+	Button,
+	ModalFooter,
+	FormGroup,
+	Label,
+	Input,
+	FormText,
+	ModalHeader,
+	ModalBody,
+	Form,
+	Modal,
+} from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	faShoppingCart,
@@ -15,7 +26,6 @@ import Axios from 'axios'
 import { useEffect } from 'react'
 
 const Content = (props) => {
-	console.log(props.data.title)
 	const disable = props.data.status === 'Borrowed' ? true : false
 	const [isOpen, setIsOpen] = useState(false)
 	const date = moment(props.data.created_at).format('MMMM Do YYYY')
@@ -23,9 +33,9 @@ const Content = (props) => {
 	const [modal, setModal] = useState(false)
 	const toggle = () => setIsOpen(!isOpen)
 	const [bookData, setBookData] = useState({
-		title: props.data.title,
+		title: '',
 		image: '',
-		genre: props.data.idGenre,
+		genre: null,
 		author: null,
 		description: '',
 	})
@@ -34,7 +44,7 @@ const Content = (props) => {
 			&times;
 		</button>
 	)
-	const handleDelete =  () => {
+	const handleDelete = () => {
 		swal({
 			title: 'Are you sure?',
 			text:
@@ -64,14 +74,33 @@ const Content = (props) => {
 						})
 						props.data_red.push('/books')
 					})
-				
 			} else {
 				swal('Your imaginary file is safe!')
 			}
 		})
 	}
-	
-	const handleEdit =  (e) => {
+
+	const handleBorrow = () => {
+		const token = localStorage.getItem('token')
+		Axios({
+			method: 'GET',
+			url: `http://localhost:3000/api/transaction/borrow/${props.data.id}`,
+			headers: {
+				Authorization: token,
+			},
+		})
+			.then((res) => {
+				swal(`Book ${props.data.title} has been borrowed!`, {
+					icon: 'success',
+				})
+				props.data_red.push('/books')
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	}
+
+	const handleEdit = (e) => {
 		e.preventDefault()
 		const token = localStorage.getItem('RefreshToken')
 		const formData = new FormData()
@@ -81,7 +110,6 @@ const Content = (props) => {
 		formData.append('genre_id', bookData.genre)
 		formData.append('author_id', bookData.author)
 		formData.append('status', 'Available')
-		console.log(bookData.genre)
 		Axios({
 			method: 'PUT',
 			url: `http://localhost:3000/api/books/${props.data.id}`,
@@ -92,7 +120,6 @@ const Content = (props) => {
 			},
 		})
 			.then((res) => {
-				// console.log(res)
 				swal('Good job!', 'Data Succesfull Edited!', 'success')
 				props.data_red.push('/books')
 			})
@@ -101,8 +128,9 @@ const Content = (props) => {
 				swal('Ooopss!', `${err.response.data.data}`, 'error')
 			})
 	}
+
 	useEffect(() => {
-		console.log(props.data.title)
+		setBookData({ title: props.data.title })
 	}, [])
 	return (
 		<div>
@@ -112,10 +140,7 @@ const Content = (props) => {
 			<span className={style.edit} onClick={closeModal}>
 				<FontAwesomeIcon icon={faPenAlt} /> Edit
 			</span>
-			<span
-				className={style.delete}
-				onClick={handleDelete}
-			>
+			<span className={style.delete} onClick={handleDelete}>
 				<FontAwesomeIcon icon={faTrashAlt} /> Delete
 			</span>
 			<span className={style.category}>{props.data.genre}</span>
@@ -124,8 +149,15 @@ const Content = (props) => {
 			<span className={style.status}>{props.data.status}</span>
 			<span className={`${style.description}`}>{props.data.description}</span>
 			<Button className={style.btn_borrow} disabled={disable}>
-				<FontAwesomeIcon icon={faShoppingCart} /> Borrow
+				<span
+					to={`/borrow/${props.data.id}`}
+					className={`text-decoration-none text-white`}
+					onClick={handleBorrow}
+				>
+					<FontAwesomeIcon icon={faShoppingCart} /> Borrow
+				</span>
 			</Button>
+			
 
 			<Modal
 				isOpen={modal}
@@ -134,7 +166,7 @@ const Content = (props) => {
 				className={style.modal_add}
 			>
 				<ModalHeader toggle={toggle} close={closeBtn}>
-					EDIT BOOK
+					EDIT {props.data.title}
 				</ModalHeader>
 				<ModalBody>
 					<Form onSubmit={handleEdit}>
@@ -145,9 +177,11 @@ const Content = (props) => {
 								name='title'
 								id='title'
 								placeholder='Book Title'
-								value={props.data.title}
+								value={bookData.title}
 								className={style.input_title}
-								onChange={(e) => setBookData({ ...bookData, title:  e.target.value })}
+								onChange={(e) =>
+									setBookData({ ...bookData, title: e.target.value })
+								}
 							/>
 						</FormGroup>
 						<FormGroup>
@@ -156,11 +190,11 @@ const Content = (props) => {
 								type='file'
 								name='file'
 								id='image'
-								onChange={(e) => setBookData({ ...bookData, image: e.target.files })}
+								onChange={(e) =>
+									setBookData({ ...bookData, image: e.target.files })
+								}
 							/>
-							<FormText color='muted'>
-								Just Support jpeg/jpg/png type
-							</FormText>
+							<FormText color='muted'>Just Support jpeg/jpg/png type</FormText>
 						</FormGroup>
 						<FormGroup>
 							<Label for='author'>Author</Label>
@@ -168,7 +202,9 @@ const Content = (props) => {
 								type='select'
 								name='author'
 								id='author'
-								onChange={(e) => setBookData({ ...bookData, author:   e.target.value })}
+								onChange={(e) =>
+									setBookData({ ...bookData, author: e.target.value })
+								}
 							>
 								{props.authors.map((author) => {
 									return (
@@ -185,15 +221,23 @@ const Content = (props) => {
 								type='select'
 								name='genre'
 								id='genre'
-								onChange={(e) => setBookData({ ...bookData, genre:  e.target.value } )}
+								onChange={(e) =>
+									setBookData({ ...bookData, genre: e.target.value })
+								}
 							>
-										{/* <option key={props.data.idGenre} value={props.data.idGenre} selected={true}>
+								{/* <option key={props.data.idGenre} value={props.data.idGenre} selected={true}>
 											{props.data.genre}
 										</option> */}
 								{props.genres.map((genre) => {
-									const setSelected = (props.data.idGenre === genre.id) ? true : false
+									const setSelected =
+										props.data.idGenre === genre.id ? true : false
 									return (
-										<option key={genre.id} value={genre.id} selected={setSelected}>
+										<option
+											key={genre.id}
+											value={genre.id}
+											defaultValue={genre.id}
+											selected={setSelected}
+										>
 											{genre.genre}
 										</option>
 									)
@@ -206,8 +250,10 @@ const Content = (props) => {
 								type='textarea'
 								name='text'
 								id='desc'
-								value={props.data.description}
-								onChange={(e) => setBookData({ ...bookData, description: e.target.value })}
+								value={bookData.description}
+								onChange={(e) =>
+									setBookData({ ...bookData, description: e.target.value })
+								}
 							/>
 						</FormGroup>
 						<Button color='primary'>Edit</Button>{' '}
@@ -217,19 +263,5 @@ const Content = (props) => {
 		</div>
 	)
 }
-
-// class Content extends Component{
-// 	constructor(props){
-// 		super(props)
-// 		console.log(props)
-// 	}
-// 	render(){
-// 		return(
-// 			<div>
-// 				<p>{this.props}</p>
-// 			</div>
-// 		)
-// 	}
-// }
 
 export default Content
