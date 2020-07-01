@@ -35,6 +35,7 @@ const NavbarComponent = (props) => {
 	const [search, setSearch] = useQueryState('search', '')
 	const [show, setShow] = useQueryState('show', '')
 	const [sort, setSort] = useQueryState('sort', '')
+	const [by, setBy] = useQueryState('by', '')
 
 	const toggleNavbar = () => setCollapsed(!collapsed)
 	const [modal, setModal] = useState(false)
@@ -50,15 +51,10 @@ const NavbarComponent = (props) => {
 
 	const handleSearch = (e) => {
 		// console.log(e.target.value)
-		 setSearch(e.target.value)
+		setSearch(e.target.value)
 		// props.data(search)
 	}
-	
-	const sendData = {
-		search,
-		show,
-		sort
-	}
+
 
 	useEffect(() => {
 		props.data(search)
@@ -103,7 +99,7 @@ const NavbarComponent = (props) => {
 							<Link>History</Link>
 						</li>
 
-						{(localStorage.getItem('role') === 'Admin') && (
+						{localStorage.getItem('role') === 'Admin' && (
 							<li>
 								<span style={{ cursor: 'pointer' }} onClick={closeModal}>
 									Add Book
@@ -143,10 +139,20 @@ const NavbarComponent = (props) => {
 								<DropdownItem onClick={(e) => setSort('latest')}>
 									Latest
 								</DropdownItem>
-								<DropdownItem onClick={(e) => setSort('title')}>
+								<DropdownItem
+									onClick={(e) => {
+										setSort('title')
+										setBy('asc')
+									}}
+								>
 									A-Z
 								</DropdownItem>
-								<DropdownItem>Z-A</DropdownItem>
+								<DropdownItem onClick={(e) => {
+										setSort('title')
+										setBy('desc')
+									}}>
+									Z-A
+								</DropdownItem>
 								<DropdownItem divider />
 								<DropdownItem>Reset</DropdownItem>
 							</DropdownMenu>

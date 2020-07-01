@@ -1,21 +1,21 @@
-import React from 'react'
+import React, {  } from 'react'
 import AuthComponent from '../components/AuthComponent'
-import RegisterComponent from '../components/RegisterComponent'
+import ActivationComponent from '../components/ActivationComponent'
 import { Col, Row } from 'reactstrap'
 
-const Register = (props) => {
+const Login = (props) => {
 	return (
-		<Col>
+		<Col >
 			<Row>
 				<Col md='7' style={{padding: '0px'}}>
 					<AuthComponent />
 				</Col>
 				<Col md='5'>
-					<RegisterComponent data={props.history} />
+					<ActivationComponent data={props.history} />
 				</Col>
 			</Row>
 		</Col>
 	)
 }
 
-export default Register
+export default Login

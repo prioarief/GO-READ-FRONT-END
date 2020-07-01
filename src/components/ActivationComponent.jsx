@@ -6,9 +6,8 @@ import axios from 'axios'
 import style from '../styles/style.module.css'
 
 const Login = (props) => {
-	const [user, setUser] = useState({ email: '', password: '' })
+	const [user, setUser] = useState({ email: localStorage.getItem('email'), code: '' })
 	const [isLoading, setLoading] = useState(false)
-	const [isLogin, setLogin] = useState(false)
 	const [isRemember, setRemember] = useState(false)
 	const [isSubmit, setSubmit] = useState(true)
 
@@ -18,25 +17,24 @@ const Login = (props) => {
 		setTimeout(() => {
 			axios({
 				method: 'POST',
-				url: 'http://localhost:3000/api/auth/login',
+				url: 'http://localhost:3000/api/auth/activation',
 				data: {
-					email: user.email,
-					password: user.password,
+					email: localStorage.getItem('email'),
+					code: user.code,
 				},
 			})
 			.then((res) => {
-				console.log(props)
+				// console.log(props)
 				console.log(res)
-				const token = res.data.data[0].token
-				const RefreshToken = res.data.data[0].token
-				swal('Good job!', 'Login Success!', 'success')
-				localStorage.setItem('token', token)
-				localStorage.setItem('name', res.data.data[0].name)
-				localStorage.setItem('email', res.data.data[0].email)
-				localStorage.setItem('role', res.data.data[0].role)
-				localStorage.setItem('RefreshToken', RefreshToken)
-				setLogin(true)
-				props.data.push('/books')
+				// const token = res.data.data[0].token
+				// const RefreshToken = res.data.data[0].token
+				swal('Good job!', 'Activation Success!, please login', 'success')
+				// localStorage.setItem('token', token)
+				// localStorage.setItem('name', res.data.data[0].name)
+				// localStorage.setItem('email', res.data.data[0].email)
+				// localStorage.setItem('role', res.data.data[0].role)
+				// localStorage.setItem('RefreshToken', RefreshToken)
+				props.data.push('/login')
 				// props.data.push('/books')
 			})
 			.catch((err) => {
@@ -48,12 +46,8 @@ const Login = (props) => {
 	}
 
 	useEffect(() => {
-		// if(isLogin){
-		// 	// <Redirect></Redirect>
-		// 	props.data.push('/books')
-		// }
 		const data =
-			user.email.trim().length !== 0 && user.password.trim().length !== 0
+			user.email.trim().length !== 0 && user.code.trim().length !== 0
 				? false
 				: true
 		setSubmit(data)
@@ -70,9 +64,9 @@ const Login = (props) => {
 					/>
 				</div>
 				<div className={`mt-5 font-weight-bold`}>
-					<h2 className={`${style.login} font-weight-bold`}>Login</h2>
+					<h2 className={`${style.login} font-weight-bold`}>Activation</h2>
 					<p className='welcome'>
-						Welcome Back, Please Login <br /> to your account{' '}
+						Welcome Back, Please Activation for login <br /> to your account{' '}
 					</p>
 				</div>
 				<Form onSubmit={handleLogin}>
@@ -83,8 +77,8 @@ const Login = (props) => {
 						<Input
 							type='email'
 							placeholder='Enter Email'
-							value={user.email}
-							onChange={(e) => setUser({ ...user, email: e.target.value })}
+                            value={user.email}
+                            readOnly
 						/>
 					</FormGroup>
 					{isLoading && (
@@ -97,40 +91,24 @@ const Login = (props) => {
 						</Col>
 					)}
 					<FormGroup className={style.form_input}>
-						<Label for='password' className={style.label}>
-							Password
+						<Label for='code' className={style.label}>
+							Code
 						</Label>
 						<Input
-							type='password'
-							placeholder='Enter Password'
-							value={user.password}
-							onChange={(e) => setUser({ ...user, password: e.target.value })}
+							type='text'
+							placeholder='Enter Code'
+							value={user.code}
+							onChange={(e) => setUser({ ...user, code: e.target.value })}
 						/>
 					</FormGroup>
-					<FormGroup check>
-						<Label check>
-							<Input
-								type='checkbox'
-								value={isRemember}
-								onChange={(e) => setRemember(e.target.checked)}
-							/>{' '}
-							Remember me
-						</Label>
-						<a href='http://' className={style.forgot_password}>
-							Forgot Password
-						</a>
-					</FormGroup>
+					
 
 					<Button
 						className={style.btn_login}
 						disabled={isSubmit}
-						// onClick={loggin}
 					>
-						Login
+						Activation
 					</Button>
-					<Link to='/register'>
-						<Button className={style.btn_sign_up}>Sign Up</Button>
-					</Link>
 				</Form>
 				<p className={style.policy}>
 					By signing up, you agree to Book’s <br /> Terms and Conditions &

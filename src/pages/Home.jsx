@@ -21,7 +21,7 @@ class Home extends Component {
 
 	
 
-	getBook = (search, sort, show) => {
+	getBook = (search, sort, show, by) => {
 		const token = localStorage.getItem('RefreshToken')
 		axios({
 			method: 'GET',
@@ -31,6 +31,7 @@ class Home extends Component {
 				sort: sort,
 				page: 1,
 				search: search,
+				by: by,
 			},
 			headers: {
 				Authorization: token,
@@ -62,7 +63,7 @@ class Home extends Component {
 	}
 
 	handleParams = (parameter) => {
-		this.getBook(parameter)
+		this.getBook(parameter, this.getParams().get('sort'), this.getParams().get('show'), this.getParams().get('by') )
 	}
 	componentDidMount() {
 		// console.log(this.getParams().get('sort'))
