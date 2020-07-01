@@ -16,6 +16,10 @@
     border-radius: 15px;
 }
 
+.input_title{
+    border: 1px solid #ced4da !important;
+}
+
 .category {
     position: absolute;
     width: 95px;
@@ -128,6 +132,7 @@
     text-decoration: none !important;
     /* width: 236px;
     height: 40px; */
+    cursor: pointer !important;
     font-size: 20px !important;
     left: 1221px;
     top: 17px;
@@ -142,6 +147,7 @@
 .delete {
     position: absolute;
     text-decoration: none !important;
+    cursor: pointer !important;
     /* width: 236px;
     height: 40px; */
     font-size: 20px !important;

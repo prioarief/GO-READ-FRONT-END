@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { FormGroup, Label, Input, Button, Spinner, Col, Form } from 'reactstrap'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import swal from 'sweetalert'
 import axios from 'axios'
 import style from '../styles/style.module.css'
@@ -8,7 +8,6 @@ import style from '../styles/style.module.css'
 const Login = (props) => {
 	const [user, setUser] = useState({ email: '', password: '' })
 	const [isLoading, setLoading] = useState(false)
-	const [isLogin, setLogin] = useState(false)
 	const [isRemember, setRemember] = useState(false)
 	const [isSubmit, setSubmit] = useState(true)
 
@@ -35,9 +34,7 @@ const Login = (props) => {
 				localStorage.setItem('email', res.data.data[0].email)
 				localStorage.setItem('role', res.data.data[0].role)
 				localStorage.setItem('RefreshToken', RefreshToken)
-				setLogin(true)
 				props.data.push('/books')
-				// props.data.push('/books')
 			})
 			.catch((err) => {
 				console.log(err.response.data.data)
@@ -48,10 +45,6 @@ const Login = (props) => {
 	}
 
 	useEffect(() => {
-		// if(isLogin){
-		// 	// <Redirect></Redirect>
-		// 	props.data.push('/books')
-		// }
 		const data =
 			user.email.trim().length !== 0 && user.password.trim().length !== 0
 				? false

@@ -6,8 +6,6 @@ import {
 	CardText,
 	CardBody,
 	CardTitle,
-	CardSubtitle,
-	Button,
 	Container,
 	Row,
 	Col,
@@ -17,7 +15,6 @@ import { Link } from 'react-router-dom'
 
 const ListBook = (props) => {
 	const data = props.data.length
-
 	return (
 		<div>
 			<Container>
@@ -28,7 +25,7 @@ const ListBook = (props) => {
 					{data !== 14 &&
 						props.data.map((book) => {
 							return (
-								<Col md='4'>
+								<Col md='4' key={book.id}>
 									<Card className={style.card}>
 										<CardImg
 											top
@@ -41,16 +38,11 @@ const ListBook = (props) => {
 											<Link
 												className={`text-decoration-none`}
 												to={`/detail/${book.id}`}
-												// to={`/detail/${book.title
-												// 	.toLowerCase()
-												// 	.split(' ')
-												// 	.join('-')}`}
 											>
 												<CardTitle className={style.book_title}>
 													{book.title}
 												</CardTitle>
 											</Link>
-											{/* <CardSubtitle>Card subtitle</CardSubtitle> */}
 											<CardText>
 												{book.description.length > 150
 													? `${book.description

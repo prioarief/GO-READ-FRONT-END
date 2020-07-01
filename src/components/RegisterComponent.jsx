@@ -25,18 +25,9 @@ const Register = (props) => {
 				},
 			})
 			.then((res) => {
-				console.log(res)
-				// const token = res.data.data[0].token
-				// const RefreshToken = res.data.data[0].token
 				swal('Good job!', 'Registration Success! Please activate your account', 'success')
-				// localStorage.setItem('token', token)
-				// localStorage.setItem('name', res.data.data[0].name)
 				localStorage.setItem('email', user.email)
-				// localStorage.setItem('role', res.data.data[0].role)
-				// localStorage.setItem('RefreshToken', RefreshToken)
-				// // setLogin(true)
 				props.data.push('/activation')
-				// props.data.push('/books')
 			})
 			.catch((err) => {
 				console.log(err.response.data.data)
@@ -47,7 +38,6 @@ const Register = (props) => {
 	}
 	
 	useEffect(() => {
-		// console.log(props)
 		const data =
 			user.email.trim().length !== 0 && user.password.trim().length !== 0 && user.name.trim().length !== 0
 				? false

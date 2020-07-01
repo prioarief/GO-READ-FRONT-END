@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import Sidebar from '../components/SidebarComponent'
 import Navbar from '../components/NavbarComponent'
 import ListBook from '../components/ListBook'
 import Pagination from '../components/Pagination'
@@ -11,15 +10,13 @@ class Home extends Component {
 		this.state = {
 			books: [],
 			genres: [],
-			search: '',
+			authors: [],
 		}
 	}
 
 	getParams = () => {
 		return new URLSearchParams(this.props.location.search)
 	}
-
-	
 
 	getBook = (search, sort, show, by) => {
 		const token = localStorage.getItem('RefreshToken')
@@ -61,25 +58,52 @@ class Home extends Component {
 				console.log(err.response)
 			})
 	}
+	getAuthor = () => {
+		const token = localStorage.getItem('RefreshToken')
+		axios({
+			method: 'GET',
+			url: 'http://localhost:3000/api/authors',
+			headers: {
+				Authorization: token,
+			},
+		})
+			.then((res) => {
+				this.setState({ authors: res.data.data })
+			})
+			.catch((err) => {
+				console.log(err.response)
+			})
+	}
 
 	handleParams = (parameter) => {
-		this.getBook(parameter, this.getParams().get('sort'), this.getParams().get('show'), this.getParams().get('by') )
+		this.getBook(
+			parameter,
+			this.getParams().get('sort'),
+			this.getParams().get('show'),
+			this.getParams().get('by')
+		)
 	}
 	componentDidMount() {
-		// console.log(this.getParams().get('sort'))
-		if(!localStorage.getItem('token')){
+		if (!localStorage.getItem('token')) {
 			this.props.history.push('/login')
 		}
 		this.handleParams()
 		this.getCategory()
+		this.getAuthor()
+
+		// console.log(this.getParams().get('page'))
 	}
 
 	render() {
 		return (
 			<div>
-				<Navbar genres={this.state.genres} data={this.handleParams} />
+				<Navbar genres={this.state.genres} authors={this.state.authors} data={this.handleParams} data_red={this.props.history} />
 				<ListBook data={this.state.books} />
-				<Pagination />
+				<Pagination
+					data={this.state.books}
+					show={this.getParams().get('show')}
+					page={this.getParams().get('page')}
+				/>
 			</div>
 		)
 	}

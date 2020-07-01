@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { FormGroup, Label, Input, Button, Spinner, Col, Form } from 'reactstrap'
-import { Link, Redirect } from 'react-router-dom'
 import swal from 'sweetalert'
 import axios from 'axios'
 import style from '../styles/style.module.css'
@@ -8,10 +7,9 @@ import style from '../styles/style.module.css'
 const Login = (props) => {
 	const [user, setUser] = useState({ email: localStorage.getItem('email'), code: '' })
 	const [isLoading, setLoading] = useState(false)
-	const [isRemember, setRemember] = useState(false)
 	const [isSubmit, setSubmit] = useState(true)
 
-	const handleLogin = (e) => {
+	const handleActivation = (e) => {
 		e.preventDefault()
 		setLoading(true)
 		setTimeout(() => {
@@ -24,18 +22,8 @@ const Login = (props) => {
 				},
 			})
 			.then((res) => {
-				// console.log(props)
-				console.log(res)
-				// const token = res.data.data[0].token
-				// const RefreshToken = res.data.data[0].token
 				swal('Good job!', 'Activation Success!, please login', 'success')
-				// localStorage.setItem('token', token)
-				// localStorage.setItem('name', res.data.data[0].name)
-				// localStorage.setItem('email', res.data.data[0].email)
-				// localStorage.setItem('role', res.data.data[0].role)
-				// localStorage.setItem('RefreshToken', RefreshToken)
 				props.data.push('/login')
-				// props.data.push('/books')
 			})
 			.catch((err) => {
 				console.log(err.response.data.data)
@@ -69,7 +57,7 @@ const Login = (props) => {
 						Welcome Back, Please Activation for login <br /> to your account{' '}
 					</p>
 				</div>
-				<Form onSubmit={handleLogin}>
+				<Form onSubmit={handleActivation}>
 					<FormGroup className={style.form_input}>
 						<Label for='email' className={style.label}>
 							Email

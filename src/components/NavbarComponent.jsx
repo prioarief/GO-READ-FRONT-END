@@ -28,33 +28,68 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faBookOpen } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
+import Axios from 'axios'
+import swal from 'sweetalert'
 
 const NavbarComponent = (props) => {
+	const [bookData, setBookData] = useState({
+		title: '',
+		image: '',
+		genre: null,
+		author: null,
+		description: '',
+	})
 	const [isOpen, setIsOpen] = useState(false)
 	const [collapsed, setCollapsed] = useState(true)
 	const [search, setSearch] = useQueryState('search', '')
 	const [show, setShow] = useQueryState('show', '')
 	const [sort, setSort] = useQueryState('sort', '')
-	const [by, setBy] = useQueryState('by', '')
+	// const [by, setBy] = useQueryState('by', '')
 
 	const toggleNavbar = () => setCollapsed(!collapsed)
-	const [modal, setModal] = useState(false)
 	const toggle = () => setIsOpen(!isOpen)
 	const closeModal = () => setModal(!modal)
+	const [modal, setModal] = useState(false)
 	const closeBtn = (
 		<button className='close' onClick={closeModal}>
 			&times;
 		</button>
 	)
 
-	// console.log(props.data('nav'))
-
 	const handleSearch = (e) => {
-		// console.log(e.target.value)
 		setSearch(e.target.value)
-		// props.data(search)
 	}
 
+	const handleCreate = (e) => {
+		e.preventDefault()
+		const token = localStorage.getItem('RefreshToken')
+		const formData = new FormData()
+		formData.append('title', bookData.title)
+		formData.append('description', bookData.description)
+		formData.append('image', bookData.image[0])
+		formData.append('genre_id', bookData.genre)
+		formData.append('author_id', bookData.author)
+		formData.append('status', 'Available')
+		console.log(bookData.genre)
+		Axios({
+			method: 'POST',
+			url: 'http://localhost:3000/api/books',
+			data: formData,
+			headers: {
+				Authorization: token,
+				'Content-Type': 'multipart/form-data',
+			},
+		})
+			.then((res) => {
+				// console.log(res)
+				swal('Good job!', 'Data Succesfull Created!', 'success')
+				props.data_red.push('/books')
+			})
+			.catch((err) => {
+				console.log(err.response.data.data)
+				swal('Ooopss!', `${err.response.data.data}`, 'error')
+			})
+	}
 
 	useEffect(() => {
 		props.data(search)
@@ -66,7 +101,7 @@ const NavbarComponent = (props) => {
 				color='light'
 				light
 				expand='md'
-				className={collapsed || style.navbar_topbar}
+				className={collapsed ? '' : style.navbar_topbar}
 			>
 				<nav className={style.sidebar}>
 					<div className={`${style.menu_toggle} ${style.slide}`}>
@@ -75,7 +110,7 @@ const NavbarComponent = (props) => {
 						<span></span>
 						<span></span>
 					</div>
-					<ul className={collapsed || style.slide}>
+					<ul className={collapsed ? '' : style.slide}>
 						<div className={`${style.menu_toggle} ${style.slide}`}>
 							<input type='checkbox' name='' id='' onClick={toggleNavbar} />
 							<span></span>
@@ -93,10 +128,10 @@ const NavbarComponent = (props) => {
 							{localStorage.getItem('name')}
 						</h4>
 						<li>
-							<Link>Explore</Link>
+							<Link to='/'>Explore</Link>
 						</li>
 						<li>
-							<Link>History</Link>
+							<Link to='/'>History</Link>
 						</li>
 
 						{localStorage.getItem('role') === 'Admin' && (
@@ -113,7 +148,7 @@ const NavbarComponent = (props) => {
 						)}
 					</ul>
 				</nav>
-				<NavbarBrand href='/' className={collapsed || style.brand}>
+				<NavbarBrand href='/' className={collapsed ? '' : style.brand}>
 					Go Read <FontAwesomeIcon icon={faBookOpen} />
 				</NavbarBrand>
 				<NavbarToggler onClick={toggle} />
@@ -125,7 +160,9 @@ const NavbarComponent = (props) => {
 							</DropdownToggle>
 							<DropdownMenu right>
 								{props.genres.map((genre) => {
-									return <DropdownItem>{genre.genre}</DropdownItem>
+									return (
+										<DropdownItem key={genre.id}>{genre.genre}</DropdownItem>
+									)
 								})}
 								<DropdownItem divider />
 								<DropdownItem>Reset</DropdownItem>
@@ -142,15 +179,17 @@ const NavbarComponent = (props) => {
 								<DropdownItem
 									onClick={(e) => {
 										setSort('title')
-										setBy('asc')
+										// setBy('asc')
 									}}
 								>
 									A-Z
 								</DropdownItem>
-								<DropdownItem onClick={(e) => {
+								<DropdownItem
+									onClick={(e) => {
 										setSort('title')
-										setBy('desc')
-									}}>
+										// setBy('desc')
+									}}
+								>
 									Z-A
 								</DropdownItem>
 								<DropdownItem divider />
@@ -202,54 +241,77 @@ const NavbarComponent = (props) => {
 					ADD BOOK
 				</ModalHeader>
 				<ModalBody>
-					<Form>
+					<Form onSubmit={handleCreate}>
 						<FormGroup>
 							<Label for='title'>Title</Label>
 							<Input
 								type='text'
 								name='title'
 								id='title'
+								placeholder='Book Title'
 								className={style.input_title}
+								onChange={(e) => setBookData({ ...bookData, title:  e.target.value })}
 							/>
 						</FormGroup>
 						<FormGroup>
 							<Label for='image'>Image</Label>
-							<Input type='file' name='file' id='image' />
+							<Input
+								type='file'
+								name='file'
+								id='image'
+								onChange={(e) => setBookData({ ...bookData, image: e.target.files })}
+							/>
 							<FormText color='muted'>
-								This is some placeholder block-level help text for the above
-								input. It's a bit lighter and easily wraps to a new line.
+								Just Support jpeg/jpg/png type
 							</FormText>
 						</FormGroup>
 						<FormGroup>
 							<Label for='author'>Author</Label>
-							<Input type='select' name='select' id='author'>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
+							<Input
+								type='select'
+								name='author'
+								id='author'
+								onChange={(e) => setBookData({ ...bookData, author:   e.target.value })}
+							>
+								{props.authors.map((author) => {
+									return (
+										<option key={author.id} value={author.id}>
+											{author.author}
+										</option>
+									)
+								})}
 							</Input>
 						</FormGroup>
 						<FormGroup>
 							<Label for='genre'>Genre</Label>
-							<Input type='select' name='select' id='genre'>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
+							<Input
+								type='select'
+								name='genre'
+								id='genre'
+								onChange={(e) => setBookData({ ...bookData, genre:  e.target.value } )}
+							>
+								{props.genres.map((genre) => {
+									return (
+										<option key={genre.id} value={genre.id}>
+											{genre.genre}
+										</option>
+									)
+								})}
 							</Input>
 						</FormGroup>
 						<FormGroup>
 							<Label for='desc'>Description</Label>
-							<Input type='textarea' name='text' id='desc' />
+							<Input
+								type='textarea'
+								name='text'
+								id='desc'
+								onChange={(e) => setBookData({ ...bookData, description: e.target.value })}
+							/>
 						</FormGroup>
+						<Button color='primary'>Create</Button>{' '}
 					</Form>
 				</ModalBody>
 				<ModalFooter>
-					<Button color='primary' onClick={toggle}>
-						Do Something
-					</Button>{' '}
 					<Button color='secondary' onClick={toggle}>
 						Cancel
 					</Button>
