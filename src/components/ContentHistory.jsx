@@ -14,15 +14,9 @@ import swal from 'sweetalert'
 import Axios from 'axios'
 
 const Content = (props) => {
-	const disable = props.data.status === 'Borrowed' ? true : false
+	console.log(props)
+	const disable = props.data.returned_at === null ? true : false
 	const date = moment(props.data.created_at).format('MMMM Do YYYY')
-	// const [bookData, setBookData] = useState({
-	// 	title: '',
-	// 	image: '',
-	// 	genre: null,
-	// 	author: null,
-	// 	description: '',
-	// })
 	
 	
 	const handleReturn = () => {
@@ -38,7 +32,7 @@ const Content = (props) => {
 				swal(`Book ${props.data.title} has been returned!`, {
 					icon: 'success',
 				})
-				props.data_red.push('/books')
+				props.data_red.push('/history')
 			})
 			.catch((err) => {
 				console.log(err)
@@ -53,10 +47,10 @@ const Content = (props) => {
 			<span className={style.category}>{props.data.genre}</span>
 			<span className={style.title}>{props.data.title}</span>
 			<span className={style.date}>{date}</span>
-			<span className={style.status}>{props.data.status}</span>
+			<span className={style.status}>{(disable) ? 'Borrowed' : 'Returned'}</span>
 			<span className={`${style.description}`}>{props.data.description}</span>
 			
-			{!disable && <Button className={style.btn_borrow}>
+			{disable && <Button className={style.btn_borrow}>
 				<span
 					className={`text-decoration-none text-white`}
 					onClick={handleReturn}

@@ -12,6 +12,7 @@ class History extends Component {
 			books: [],
 			genres: [],
 			authors: [],
+			image: [],
 		}
 	}
 
@@ -76,6 +77,23 @@ class History extends Component {
 			})
 	}
 
+	getImage = () => {
+		const token = localStorage.getItem('RefreshToken')
+		axios({
+			method: 'GET',
+			url: 'http://localhost:3000/api/books/image',
+			headers: {
+				Authorization: token,
+			},
+		})
+			.then((res) => {
+				this.setState({ image: res.data.data })
+			})
+			.catch((err) => {
+				console.log(err.response)
+			})
+	}
+
 	handleParams = (parameter) => {
 		this.getBook()
 	}
@@ -87,6 +105,7 @@ class History extends Component {
         // console.log(this.state.books)
 		this.getCategory()
 		this.getAuthor()
+		this.getImage()
 	}
 
 	render() {
@@ -98,13 +117,13 @@ class History extends Component {
 					data={this.handleParams}
 					data_red={this.props.history}
 				/>
-				<SliderComponent data={this.state.books} />
+				<SliderComponent data={this.state.image} />
 				<ListHistory data={this.state.books} /> 
-				{/* <Pagination
+				<Pagination
 					data={this.state.books}
 					show={this.getParams().get('show')}
 					page={this.getParams().get('page')}
-				/> */}
+				/>
 			</div>
 		)
 	}

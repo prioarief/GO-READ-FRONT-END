@@ -12,6 +12,7 @@ class Home extends Component {
 			books: [],
 			genres: [],
 			authors: [],
+			image: [],
 		}
 	}
 
@@ -76,6 +77,23 @@ class Home extends Component {
 			})
 	}
 
+	getImage = () => {
+		const token = localStorage.getItem('RefreshToken')
+		axios({
+			method: 'GET',
+			url: 'http://localhost:3000/api/books/image',
+			headers: {
+				Authorization: token,
+			},
+		})
+			.then((res) => {
+				this.setState({ image: res.data.data })
+			})
+			.catch((err) => {
+				console.log(err.response)
+			})
+	}
+
 	handleParams = (parameter) => {
 		this.getBook(
 			parameter,
@@ -91,16 +109,17 @@ class Home extends Component {
 		this.handleParams()
 		this.getCategory()
 		this.getAuthor()
+		this.getImage()
 	}
 
 	render() {
 		return (
 			<div>
 				<Navbar genres={this.state.genres} authors={this.state.authors} data={this.handleParams} data_red={this.props.history} />
-				<SliderComponent data={this.state.books}/>
+				<SliderComponent data={this.state.image}/>
 				<ListBook data={this.state.books} />
 				<Pagination
-					data={this.state.books}
+					data={this.state.image}
 					show={this.getParams().get('show')}
 					page={this.getParams().get('page')}
 				/>

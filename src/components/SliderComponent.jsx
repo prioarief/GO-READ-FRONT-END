@@ -11,14 +11,12 @@ import style from '../styles/book.module.css'
 const SliderComponent = (props) => {
 	const [activeIndex, setActiveIndex] = useState(0)
 	const [animating, setAnimating] = useState(false)
-
+	
 	let items = props.data.map((item) => {
 		return(
 			{
 				src : `http://localhost:3000/images/${item.image}`,
 				classNames : style.carousell,
-				altText : item.title,
-				caption : item.title,
 			}
 		)
 	})

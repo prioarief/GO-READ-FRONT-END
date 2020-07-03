@@ -129,9 +129,9 @@ const Content = (props) => {
 			})
 	}
 
-	useEffect(() => {
-		setBookData({ title: props.data.title })
-	}, [])
+	// useEffect(() => {
+	// 	setBookData({ title: props.data.title })
+	// }, [])
 	return (
 		<div>
 			<Link to='/' className={style.back}>
