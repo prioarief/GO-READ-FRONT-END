@@ -1,10 +1,9 @@
 import React, {  } from 'react'
 import AuthComponent from '../components/AuthComponent'
-import LoginComponent from '../components/LoginComponent'
+import ActivationComponent from '../components/ActivationComponent'
 import { Col, Row } from 'reactstrap'
 
 const Login = (props) => {
-	// console.log(props.history.push)
 	return (
 		<Col >
 			<Row>
@@ -12,7 +11,7 @@ const Login = (props) => {
 					<AuthComponent />
 				</Col>
 				<Col md='5'>
-					<LoginComponent data={props.history} />
+					<ActivationComponent data={props.history} />
 				</Col>
 			</Row>
 		</Col>

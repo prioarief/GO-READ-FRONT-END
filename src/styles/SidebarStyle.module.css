@@ -22,7 +22,7 @@ nav.sidebar ul {
     position: absolute;
     left: 0;
     top: 0;
-    height: 100vh;
+    height: 150vh;
     /* align-items: center; */
     /* justify-content: space-evenly; */
     flex-direction: column;
@@ -103,7 +103,7 @@ nav.sidebar ul .menu_toggle {
     width: 120px !important;
     height: 120px !important;
     display: block !important;
-    margin: 30px 0px 0px 60px !important;
+    margin: 30px 0px 0px 80px !important;
     border-radius: 150px !important;
 }
 
@@ -156,6 +156,10 @@ nav.sidebar ul .menu_toggle {
 
 .input_search {
     width: 370px !important;
+<<<<<<< HEAD
+=======
+    background-color: #f8f9fa !important;
+>>>>>>> develop
 }
 
 .bookshelf {
@@ -170,6 +174,17 @@ nav.sidebar ul .menu_toggle {
     margin-right: 25px;
 }
 
+<<<<<<< HEAD
+=======
+.input_title{
+    border: 1px solid #ced4da !important;
+}
+
+.modal_add{
+    max-width: 600px !important;
+}
+
+>>>>>>> develop
 
 /* Hamburger Animations */
 /* .menu_toggle span:nth-child(2) {
@@ -238,7 +253,7 @@ nav.sidebar ul .menu_toggle {
         position: absolute;
         left: 0;
         top: 0;
-        height: 100vh;
+        height: 350vh;
         /* align-items: center; */
         /* justify-content: space-evenly; */
         flex-direction: column;

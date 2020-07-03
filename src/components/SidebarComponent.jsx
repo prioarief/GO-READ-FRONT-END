@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-
 import style from './../styles/SidebarStyle.module.css'
 
-const Sidebar = (props) => {
+const SidebarComponent = (props) => {
 	const [collapsed, setCollapsed] = useState(true)
-
+    console.log(props)
 	const toggleNavbar = () => setCollapsed(!collapsed)
 
 	return (
@@ -23,21 +22,23 @@ const Sidebar = (props) => {
 					<span></span>
 				</div>
 				<li>
-					<img src='./profile.png' alt='profile' className='avatar-profile' />
+					<img src='./mee.jpg' alt='profile' className={style.avatar_profile} />
 				</li>
-					<h4 className='profile-name'>Prio Arief Gunawan</h4>
+				<h4 className={style.profile_name}>Prio Arief Gunawan</h4>
 				<li>
 					<a href='/'>Explore</a>
 				</li>
 				<li>
 					<a href='/'>History</a>
 				</li>
-				<li>
-					<a href='/'>Add Book</a>
-				</li>
+				{/* <li>
+					<a href='#' onClick={closeModal}>
+						Add Book
+					</a>
+				</li> */}
 			</ul>
 		</nav>
 	)
 }
 
-export default Sidebar
+export default SidebarComponent

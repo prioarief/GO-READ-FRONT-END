@@ -4,19 +4,26 @@
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.29",
+<<<<<<< HEAD
     "@fortawesome/free-regular-svg-icons": "^5.13.1",
+=======
+>>>>>>> develop
     "@fortawesome/free-solid-svg-icons": "^5.13.1",
     "@fortawesome/react-fontawesome": "^0.1.11",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
-    "classnames": "^2.2.6",
+    "moment": "^2.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
+    "react-router-use-location-state": "^2.3.1",
     "react-scripts": "3.4.1",
+    "react-slick": "^0.26.1",
     "reactstrap": "^8.4.1",
+    "slick-carousel": "^1.8.1",
     "sweetalert": "^2.1.2"
   },
   "scripts": {
