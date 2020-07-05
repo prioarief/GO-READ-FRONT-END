@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useQueryState } from 'react-router-use-location-state'
 import style from '../styles/book.module.css'
 import {
@@ -9,22 +9,24 @@ import {
 } from 'reactstrap'
 
 const PaginationComponent = (props) => {
-	// const [thisPage, setThisPage] = useQueryState('page', 1)
-	let dataLength = props.data.length
+	const [thisPage, setThisPage] = useQueryState('page', 0)
+	let dataLength = props.data 
 	let show = props.show === null ? 6 : props.show
-	// let pageActive = props.show === null ? 1 : props.page
-	let totalPage = (dataLength / show)
+	let pageActive = props.show === null ? 1 : props.page
+	let totalPage = Math.ceil(dataLength / show)
 	let number = []
-	// console.log(dataLength)
+	// console.log(totalPage)
+	// console.log(props.qparams)
+
 
 	// // setThistotalPage(1)
 	for (let i = 1; i <= totalPage; i++) {
 		number.push(i)
 		}
-		// console.log(dataLength/show)
-		// console.log(show)
-
-		useEffect(() => {}, [dataLength])
+		
+		useEffect(() => {
+			props.qparams(null ,thisPage)
+		}, [pageActive])
 		return (
 			<Container>
 				<Pagination
@@ -39,8 +41,11 @@ const PaginationComponent = (props) => {
 				</PaginationItem> */}
 					{number.map((v, i) => {
 						return (
-							<PaginationItem active={false} key={i}>
-								<PaginationLink href='#'>{v}</PaginationLink>
+							<PaginationItem active={(thisPage === v) ? true: false} key={i}>
+								<PaginationLink onClick={((e) => {
+									e.preventDefault()
+									setThisPage(v)
+								})}>{v}</PaginationLink>
 							</PaginationItem>
 						)
 					})}

@@ -4,11 +4,17 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../src/styles/style.css'
+
+import { Provider } from 'react-redux'
+import store from './redux/store'
+
 // import 'slick-carousel/slick/slick.css';
 // import 'slick-carousel/slick/slick-theme.css';
 
 ReactDOM.render(
-		<App />,
+	<Provider store={store}>
+		<App />
+	</Provider>,
 	document.getElementById('root')
 )
 

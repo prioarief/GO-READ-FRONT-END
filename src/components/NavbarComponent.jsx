@@ -44,6 +44,7 @@ const NavbarComponent = (props) => {
 	const [search, setSearch] = useQueryState('search', '')
 	const [show, setShow] = useQueryState('show', '')
 	const [sort, setSort] = useQueryState('sort', '')
+	// const [page, setPage] = useQueryState('page', '')
 	// const [by, setBy] = useQueryState('by', '')
 
 	const toggleNavbar = () => setCollapsed(!collapsed)
@@ -55,11 +56,11 @@ const NavbarComponent = (props) => {
 			&times;
 		</button>
 	)
-
+	
 	const handleSearch = (e) => {
 		setSearch(e.target.value)
 	}
-
+	
 	const handleCreate = (e) => {
 		e.preventDefault()
 		const token = localStorage.getItem('RefreshToken')
@@ -80,21 +81,22 @@ const NavbarComponent = (props) => {
 				'Content-Type': 'multipart/form-data',
 			},
 		})
-			.then((res) => {
-				// console.log(res)
-				swal('Good job!', 'Data Succesfull Created!', 'success')
-				props.data_red.push('/books')
-			})
-			.catch((err) => {
-				console.log(err.response.data.data)
-				swal('Ooopss!', `${err.response.data.data}`, 'error')
-			})
+		.then((res) => {
+			// console.log(res)
+			swal('Good job!', 'Data Succesfull Created!', 'success')
+			props.data_red.push('/books')
+		})
+		.catch((err) => {
+			console.log(err.response.data.data)
+			swal('Ooopss!', `${err.response.data.data}`, 'error')
+		})
 	}
-
+	
 	useEffect(() => {
-		props.data(search)
+		props.data(search, 1)
+		// setPage(1)
 	}, [search, show, sort])
-
+	
 	return (
 		<div>
 			<Navbar

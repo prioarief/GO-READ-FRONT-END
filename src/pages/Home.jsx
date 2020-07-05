@@ -4,6 +4,8 @@ import ListBook from '../components/ListBook'
 import Pagination from '../components/Pagination'
 import axios from 'axios'
 import SliderComponent from '../components/SliderComponent'
+import {connect} from 'react-redux'
+
 
 class Home extends Component {
 	constructor(props) {
@@ -13,22 +15,26 @@ class Home extends Component {
 			genres: [],
 			authors: [],
 			image: [],
+			bookTotal : 0,
+			page: 1
 		}
+		// console.log(this.props.auth)
 	}
 
 	getParams = () => {
 		return new URLSearchParams(this.props.location.search)
 	}
 
-	getBook = (search, sort, show, by) => {
+	getBook = (search, sort, page, show, by) => {
 		const token = localStorage.getItem('RefreshToken')
+		// const token = this.props.auth.data.token
 		axios({
 			method: 'GET',
 			url: 'http://localhost:3000/api/books',
 			params: {
 				show: show,
 				sort: sort,
-				page: 1,
+				page: page,
 				search: search,
 				by: by,
 			},
@@ -37,7 +43,8 @@ class Home extends Component {
 			},
 		})
 			.then((res) => {
-				this.setState({ books: res.data.data })
+				// console.log(res.data.length)
+				this.setState({ books: res.data.data, bookTotal : res.data.length })
 			})
 			.catch((err) => {
 				console.log(err)
@@ -94,22 +101,41 @@ class Home extends Component {
 			})
 	}
 
-	handleParams = (parameter) => {
+	handleParams = (search, page) => {
 		this.getBook(
-			parameter,
+			search,
 			this.getParams().get('sort'),
+			page,
 			this.getParams().get('show'),
 			this.getParams().get('by')
 		)
 	}
+	
+	// handlePage = (parameter) => {
+	// 	// this.getBook(
+	// 	// 	this.getParams().get('search'),
+	// 	// 	this.getParams().get('sort'),
+	// 	// 	this.getParams().get('page'),
+	// 	// 	parameter,
+	// 	// 	this.getParams().get('by')
+	// 	// )
+	// 	console.log(parameter)
+	// }
 	componentDidMount() {
-		if (!localStorage.getItem('token')) {
-			this.props.history.push('/login')
-		}
+		// if (!localStorage.getItem('token')) {
+		// 	this.props.history.push('/login')
+		// }
 		this.handleParams()
 		this.getCategory()
 		this.getAuthor()
 		this.getImage()
+		console.log(this.getParams().get('page') || 1)
+	}
+	
+	componentDidUpdate(){
+		// this.handleParams()
+		// console.log(this.getParams().get('page'))
+
 	}
 
 	render() {
@@ -119,13 +145,21 @@ class Home extends Component {
 				<SliderComponent data={this.state.image}/>
 				<ListBook data={this.state.books} />
 				<Pagination
-					data={this.state.image}
+					data={this.state.bookTotal}
 					show={this.getParams().get('show')}
 					page={this.getParams().get('page')}
+					qparams={this.handleParams}
+					// parameter={this.handleParams}
 				/>
 			</div>
 		)
 	}
 }
 
-export default Home
+const mapStateToProps = (state) => ({
+	auth: state.auth
+})
+
+// const mapDispatchToProps
+
+export default connect(mapStateToProps)(Home) 
