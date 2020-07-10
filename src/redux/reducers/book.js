@@ -1,5 +1,6 @@
 const inialState = {
 	value: [],
+	detail: {},
 	count: 0,
 	error: null
 }
@@ -68,7 +69,8 @@ const book = (state = inialState, action) => {
 		}
 		case 'DETAIL_FULFILLED': {
 			return {
-				//  ...state
+				 ...state,
+				 detail: action.payload.data.data
 				// value: action.payload.data.data,
 			}
 		}

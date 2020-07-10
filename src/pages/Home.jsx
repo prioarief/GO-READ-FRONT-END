@@ -20,7 +20,6 @@ class Home extends Component {
 			bookTotal: 0,
 			page: 1,
 		}
-		// console.log(this.props.auth)
 	}
 
 	getParams = () => {
@@ -33,64 +32,15 @@ class Home extends Component {
 		.then((res) => {
 			// console.log(res)
 		})
-		// const token = this.props.auth.data.token
-
-		// axios({
-		// 	method: 'GET',
-		// 	url: 'http://localhost:3000/api/books',
-		// 	params: {
-		// 		show: show,
-		// 		sort: sort,
-		// 		page: page,
-		// 		search: search,
-		// 		by: by,
-		// 	},
-		// 	headers: {
-		// 		Authorization: token,
-		// 	},
-		// })
-		// 	.then((res) => {
-		// 		// console.log(res.data.length)
-		// 		this.setState({ books: res.data.data, bookTotal : res.data.length })
-		// 	})
-		// 	.catch((err) => {
-		// 		console.log(err)
-		// 	})
 	}
 
 	getCategory = () => {
 		const token = this.props.auth.data.token
 		this.props.dispatch(getGenre(token))
-		// axios({
-		// 	method: 'GET',
-		// 	url: 'http://localhost:3000/api/genres',
-		// 	headers: {
-		// 		Authorization: token,
-		// 	},
-		// })
-		// 	.then((res) => {
-		// 		this.setState({ genres: res.data.data })
-		// 	})
-		// 	.catch((err) => {
-		// 		console.log(err.response)
-		// 	})
 	}
 	getAuthor = () => {
 		const token = this.props.auth.data.token
 		this.props.dispatch(getAuthor(token))
-		// axios({
-		// 	method: 'GET',
-		// 	url: 'http://localhost:3000/api/authors',
-		// 	headers: {
-		// 		Authorization: token,
-		// 	},
-		// })
-		// 	.then((res) => {
-		// 		this.setState({ authors: res.data.data })
-		// 	})
-		// 	.catch((err) => {
-		// 		console.log(err.response)
-		// 	})
 	}
 
 	getImage = () => {
@@ -172,6 +122,7 @@ class Home extends Component {
 
 const mapStateToProps = (state) => ({
 	auth: state.auth,
+	book: state.book,
 })
 
 // const mapDispatchToProps = { getBook }

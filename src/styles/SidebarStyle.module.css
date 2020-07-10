@@ -15,7 +15,7 @@ body {
 /* nav.sidebarbar */
 
 .dropdown_nav{
-    padding-top: 15px !important;
+    padding-top: 20px !important;
 }
 
 nav.sidebar ul {
@@ -136,7 +136,8 @@ nav.sidebar ul .menu_toggle {
     width: 406px !important;
     height: 43px !important;
     margin-left: 200px;
-    padding: 20px;
+    /* padding: 20px; */
+    padding-top: 200px !important;
 
 }
 
@@ -291,7 +292,7 @@ nav.sidebar ul .menu_toggle {
     }
 
     .input_search {
-        width: 170px !important;
+        width: 250px !important;
         /* margin-left: 30px !important; */
     }
 

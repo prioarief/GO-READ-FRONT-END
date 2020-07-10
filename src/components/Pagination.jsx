@@ -33,15 +33,17 @@ const PaginationComponent = (props) => {
 				aria-label='Page navigation example'
 				className={style.pagination}
 			>
-				<PaginationItem>
-					<PaginationLink
-						previous
-						onClick={(e) => {
-							e.preventDefault()
-							setThisPage(thisPage - 1)
-						}}
-					/>
-				</PaginationItem>
+				{thisPage !== 1 && (
+					<PaginationItem>
+						<PaginationLink
+							previous
+							onClick={(e) => {
+								e.preventDefault()
+								setThisPage(thisPage - 1)
+							}}
+						/>
+					</PaginationItem>
+				)}
 				{number.map((v, i) => {
 					return (
 						<PaginationItem active={thisPage === v ? true : false} key={i}>
@@ -56,15 +58,17 @@ const PaginationComponent = (props) => {
 						</PaginationItem>
 					)
 				})}
-				<PaginationItem>
-					<PaginationLink
-						next
-						onClick={(e) => {
-							e.preventDefault()
-							setThisPage(thisPage + 1)
-						}}
-					/>
-				</PaginationItem>
+				{thisPage < totalPage && (
+					<PaginationItem>
+						<PaginationLink
+							next
+							onClick={(e) => {
+								e.preventDefault()
+								setThisPage(thisPage + 1)
+							}}
+						/>
+					</PaginationItem>
+				)}
 			</Pagination>
 		</Container>
 	)

@@ -127,7 +127,7 @@ const NavbarComponent = (props) => {
 							<Link to='/history'>History</Link>
 						</li>
 
-						{localStorage.getItem('name') && (
+						{props.auth.data.token && (
 							<li>
 								<Link to='/logout'>Logout</Link>
 							</li>
@@ -222,7 +222,7 @@ const NavbarComponent = (props) => {
 	)
 }
 const mapStateToProps = (state) => ({
-	// auth: state.auth,
+	auth: state.auth,
 	book: state.book,
 	author: state.author,
 	genre: state.genre,

@@ -25,7 +25,6 @@ const ListBook = (props) => {
 	// 	})
 	// }, [])
 
-	// console.log(props.book.value.length)
 	const data = props.book.value.length
 	return (
 		<div>

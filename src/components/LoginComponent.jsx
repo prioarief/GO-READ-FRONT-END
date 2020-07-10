@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { FormGroup, Label, Input, Button, Spinner, Col, Form } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import swal from 'sweetalert'
-import axios from 'axios'
+import Cookies from 'universal-cookie'
 import { connect } from 'react-redux'
 import { Login as login } from '../redux/actions/auth'
 import style from '../styles/style.module.css'
 
 const Login = (props) => {
-	const [user, setUser] = useState({ email: '', password: '' })
+	const cookie = new Cookies()
+	const [user, setUser] = useState({ email: cookie.get('email') || '', password: cookie.get('password') || '' })
 	const [isLoading, setLoading] = useState(false)
 	const [isRemember, setRemember] = useState(false)
 	const [isSubmit, setSubmit] = useState(true)
@@ -16,45 +17,28 @@ const Login = (props) => {
 	const handleLogin = (e) => {
 		e.preventDefault()
 		const data = {
-			email : user.email,
-			password : user.password,
+			email: user.email,
+			password: user.password,
 		}
 
-		// console.log(data)
 
-		props.login(data).then(() => {
-			props.data.push('/home')
-			// console.log(props)
-		})
-		// setLoading(true)
-		// setTimeout(() => {
-		// 	axios({
-		// 		method: 'POST',
-		// 		url: 'http://localhost:3000/api/auth/login',
-		// 		data: {
-		// 			email: user.email,
-		// 			password: user.password,
-		// 		},
-		// 	})
-		// 		.then((res) => {
-		// 			// console.log(props)
-		// 			// console.log(res)
-		// 			const token = res.data.data[0].token
-		// 			const RefreshToken = res.data.data[0].token
-		// 			swal('Good job!', 'Login Success!', 'success')
-		// 			localStorage.setItem('token', token)
-		// 			localStorage.setItem('name', res.data.data[0].name)
-		// 			localStorage.setItem('email', res.data.data[0].email)
-		// 			localStorage.setItem('role', res.data.data[0].role)
-		// 			localStorage.setItem('RefreshToken', RefreshToken)
-		// 			props.data.push('/books')
-		// 		})
-		// 		.catch((err) => {
-		// 			console.log(err.response.data.data)
-		// 			swal('Ooopsss!', `${err.response.data.data}!`, 'error')
-		// 		})
-		// 	setLoading(false)
-		// }, 2000)
+		setLoading(true)
+		setTimeout(() => {
+			props
+				.login(data)
+				.then(() => {
+					if (isRemember) {
+						cookie.set('email', data.email)
+						cookie.set('password', data.password)
+					}
+					swal('Good job!', 'Login Success!', 'success')
+					props.data.push('/home')
+				})
+				.catch((err) => {
+					swal('Ooopss!', `${err.response.data.data}`, 'error')
+				})
+			setLoading(false)
+		}, 1000)
 	}
 
 	useEffect(() => {

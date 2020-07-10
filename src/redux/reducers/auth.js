@@ -1,5 +1,7 @@
 const inialState = {
 	data: {},
+	errorMessage: null,
+	isLoading: false
 }
 
 const auth = (state = inialState, action) => {
@@ -7,18 +9,19 @@ const auth = (state = inialState, action) => {
 		case 'LOGIN_PENDING': {
 			return {
 				...state,
-				data: {},
+				isLoading: true
 			}
 		}
 		case 'LOGIN_REJECTED': {
 			return {
 				...state,
-				data: {},
+				errorMessage : action.payload.response.data.data
 			}
 		}
 		case 'LOGIN_FULFILLED': {
 			return {
 				...state,
+				isLoading: false,
 				data: action.payload.data.data[0],
 			}
 		}

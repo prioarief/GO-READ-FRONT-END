@@ -1,96 +1,34 @@
-import React, { useState } from 'react'
+import React from 'react'
 import style from '../styles/book.module.css'
 import moment from 'moment'
 import {
 	Button,
-	ModalFooter,
-	FormGroup,
-	Label,
-	Input,
-	FormText,
-	ModalHeader,
-	ModalBody,
-	Form,
-	Modal,
 } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	faShoppingCart,
 	faArrowLeft,
-	faPenAlt,
-	faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import swal from 'sweetalert'
 import Axios from 'axios'
-import { useEffect } from 'react'
+import { connect } from 'react-redux'
 
 const Content = (props) => {
-	const disable = props.data.status === 'Borrowed' ? true : false
-	const [isOpen, setIsOpen] = useState(false)
-	const date = moment(props.data.created_at).format('MMMM Do YYYY')
-	const closeModal = () => setModal(!modal)
-	const [modal, setModal] = useState(false)
-	const toggle = () => setIsOpen(!isOpen)
-	const [bookData, setBookData] = useState({
-		title: '',
-		image: '',
-		genre: null,
-		author: null,
-		description: '',
-	})
-	const closeBtn = (
-		<button className='close' onClick={closeModal}>
-			&times;
-		</button>
-	)
-	const handleDelete = () => {
-		swal({
-			title: 'Are you sure?',
-			text:
-				'Once deleted, you will not be able to recover this imaginary file!',
-			icon: 'warning',
-			buttons: true,
-			dangerMode: true,
-		}).then((willDelete) => {
-			if (willDelete) {
-				const token = localStorage.getItem('token')
-				Axios({
-					method: 'DELETE',
-					url: `http://localhost:3000/api/books/${props.data.id}`,
-					headers: {
-						Authorization: token,
-					},
-				})
-					.then((res) => {
-						swal(`Data id ${props.data.id} has been deleted!`, {
-							icon: 'success',
-						})
-						props.data_red.push('/books')
-					})
-					.catch((err) => {
-						swal('Poof! Your imaginary file has been deleted!', {
-							icon: 'error',
-						})
-						props.data_red.push('/books')
-					})
-			} else {
-				swal('Your imaginary file is safe!')
-			}
-		})
-	}
-
+	const disable = props.book.detail[0].status === 'Borrowed' ? true : false
+	const date = moment(props.book.detail[0].created_at).format('DD MMMM YYYY')
+	console.log(props)
 	const handleBorrow = () => {
 		const token = localStorage.getItem('token')
 		Axios({
 			method: 'GET',
-			url: `http://localhost:3000/api/transaction/borrow/${props.data.id}`,
+			url: `http://localhost:3000/api/transaction/borrow/${props.book.detail[0].id}`,
 			headers: {
 				Authorization: token,
 			},
 		})
 			.then((res) => {
-				swal(`Book ${props.data.title} has been borrowed!`, {
+				swal(`Book ${props.book.detail[0].title} has been borrowed!`, {
 					icon: 'success',
 				})
 				props.data_red.push('/books')
@@ -99,63 +37,21 @@ const Content = (props) => {
 				console.log(err)
 			})
 	}
-
-	const handleEdit = (e) => {
-		e.preventDefault()
-		const token = localStorage.getItem('RefreshToken')
-		const formData = new FormData()
-		formData.append('title', bookData.title)
-		formData.append('description', bookData.description)
-		formData.append('image', bookData.image[0])
-		formData.append('genre_id', bookData.genre)
-		formData.append('author_id', bookData.author)
-		formData.append('status', 'Available')
-		Axios({
-			method: 'PUT',
-			url: `http://localhost:3000/api/books/${props.data.id}`,
-			data: formData,
-			headers: {
-				Authorization: token,
-				'Content-Type': 'multipart/form-data',
-			},
-		})
-			.then((res) => {
-				swal('Good job!', 'Data Succesfull Edited!', 'success')
-				props.data_red.push('/books')
-			})
-			.catch((err) => {
-				console.log(err.response.data.data)
-				swal('Ooopss!', `${err.response.data.data}`, 'error')
-			})
-	}
-
-	// useEffect(() => {
-	// 	setBookData({ title: props.data.title })
-	// }, [])
+	
 	return (
-		<div>
+		<div style={{overflow: 'hidden'}}>
 			<Link to='/' className={style.back}>
 				<FontAwesomeIcon icon={faArrowLeft} />
 			</Link>
-			{localStorage.getItem('role') === 'Admin' && (
-				<span className={style.edit} onClick={closeModal}>
-					<FontAwesomeIcon icon={faPenAlt} /> Edit
-				</span>
-			)}
-			{localStorage.getItem('role') === 'Admin' && (
-				<span className={style.delete} onClick={handleDelete}>
-					<FontAwesomeIcon icon={faTrashAlt} /> Delete
-				</span>
-			)}
 
-			<span className={style.category}>{props.data.genre}</span>
-			<span className={style.title}>{props.data.title}</span>
+			<span className={style.category}>{props.book.detail[0].genre}</span>
+			<span className={style.title}>{props.book.detail[0].title}</span>
 			<span className={style.date}>{date}</span>
-			<span className={style.status}>{props.data.status}</span>
-			<span className={`${style.description}`}>{props.data.description}</span>
+			<span className={style.status}>{props.book.detail[0].status}</span>
+			<span className={`${style.description}`}>{props.book.detail[0].description}</span>
 			<Button className={style.btn_borrow} disabled={disable}>
 				<span
-					to={`/borrow/${props.data.id}`}
+					to={`/borrow/${props.book.detail[0].id}`}
 					className={`text-decoration-none text-white`}
 					onClick={handleBorrow}
 				>
@@ -163,109 +59,14 @@ const Content = (props) => {
 				</span>
 			</Button>
 
-			<Modal
-				isOpen={modal}
-				toggle={toggle}
-				centered
-				className={style.modal_add}
-			>
-				<ModalHeader toggle={toggle} close={closeBtn}>
-					EDIT {props.data.title}
-				</ModalHeader>
-				<ModalBody>
-					<Form onSubmit={handleEdit}>
-						<FormGroup>
-							<Label for='title'>Title</Label>
-							<Input
-								type='text'
-								name='title'
-								id='title'
-								placeholder='Book Title'
-								value={bookData.title}
-								className={style.input_title}
-								onChange={(e) =>
-									setBookData({ ...bookData, title: e.target.value })
-								}
-							/>
-						</FormGroup>
-						<FormGroup>
-							<Label for='image'>Image</Label>
-							<Input
-								type='file'
-								name='file'
-								id='image'
-								onChange={(e) =>
-									setBookData({ ...bookData, image: e.target.files })
-								}
-							/>
-							<FormText color='muted'>Just Support jpeg/jpg/png type</FormText>
-						</FormGroup>
-						<FormGroup>
-							<Label for='author'>Author</Label>
-							<Input
-								type='select'
-								name='author'
-								id='author'
-								onChange={(e) =>
-									setBookData({ ...bookData, author: e.target.value })
-								}
-							>
-								{props.authors.map((author) => {
-									return (
-										<option key={author.id} value={author.id}>
-											{author.author}
-										</option>
-									)
-								})}
-							</Input>
-						</FormGroup>
-						<FormGroup>
-							<Label for='genre'>Genre</Label>
-							<Input
-								type='select'
-								name='genre'
-								id='genre'
-								onChange={(e) =>
-									setBookData({ ...bookData, genre: e.target.value })
-								}
-							>
-								{/* <option key={props.data.idGenre} value={props.data.idGenre} selected={true}>
-											{props.data.genre}
-										</option> */}
-								{props.genres.map((genre) => {
-									const setSelected =
-										props.data.idGenre === genre.id ? true : false
-									return (
-										<option
-											key={genre.id}
-											value={genre.id}
-											defaultValue={genre.id}
-											selected={setSelected}
-										>
-											{genre.genre}
-										</option>
-									)
-								})}
-							</Input>
-						</FormGroup>
-						<FormGroup>
-							<Label for='desc'>Description</Label>
-							<Input
-								type='textarea'
-								name='text'
-								id='desc'
-								value={bookData.description}
-								onChange={(e) =>
-									setBookData({ ...bookData, description: e.target.value })
-								}
-							/>
-						</FormGroup>
-						<Button color='primary'>Edit</Button>{' '}
-					</Form>
-				</ModalBody>
-			</Modal>
+			
 		</div>
 	)
 }
 
-export default Content
+const mapStateToProps = (state) => ({
+	auth: state.auth,
+	book: state.book,
+})
+
+export default connect(mapStateToProps)(Content)
