@@ -137,12 +137,17 @@ const Content = (props) => {
 			<Link to='/' className={style.back}>
 				<FontAwesomeIcon icon={faArrowLeft} />
 			</Link>
-			<span className={style.edit} onClick={closeModal}>
-				<FontAwesomeIcon icon={faPenAlt} /> Edit
-			</span>
-			<span className={style.delete} onClick={handleDelete}>
-				<FontAwesomeIcon icon={faTrashAlt} /> Delete
-			</span>
+			{localStorage.getItem('role') === 'Admin' && (
+				<span className={style.edit} onClick={closeModal}>
+					<FontAwesomeIcon icon={faPenAlt} /> Edit
+				</span>
+			)}
+			{localStorage.getItem('role') === 'Admin' && (
+				<span className={style.delete} onClick={handleDelete}>
+					<FontAwesomeIcon icon={faTrashAlt} /> Delete
+				</span>
+			)}
+
 			<span className={style.category}>{props.data.genre}</span>
 			<span className={style.title}>{props.data.title}</span>
 			<span className={style.date}>{date}</span>
@@ -157,7 +162,6 @@ const Content = (props) => {
 					<FontAwesomeIcon icon={faShoppingCart} /> Borrow
 				</span>
 			</Button>
-			
 
 			<Modal
 				isOpen={modal}

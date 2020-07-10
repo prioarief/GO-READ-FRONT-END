@@ -4,8 +4,10 @@ import ListBook from '../components/ListBook'
 import Pagination from '../components/Pagination'
 import axios from 'axios'
 import SliderComponent from '../components/SliderComponent'
-import {connect} from 'react-redux'
-
+import { connect } from 'react-redux'
+import { getBook } from '../redux/actions/book'
+import { getGenre } from '../redux/actions/genre'
+import { getAuthor } from '../redux/actions/author'
 
 class Home extends Component {
 	constructor(props) {
@@ -15,8 +17,8 @@ class Home extends Component {
 			genres: [],
 			authors: [],
 			image: [],
-			bookTotal : 0,
-			page: 1
+			bookTotal: 0,
+			page: 1,
 		}
 		// console.log(this.props.auth)
 	}
@@ -26,66 +28,73 @@ class Home extends Component {
 	}
 
 	getBook = (search, sort, page, show, by) => {
-		const token = localStorage.getItem('RefreshToken')
-		// const token = this.props.auth.data.token
-		axios({
-			method: 'GET',
-			url: 'http://localhost:3000/api/books',
-			params: {
-				show: show,
-				sort: sort,
-				page: page,
-				search: search,
-				by: by,
-			},
-			headers: {
-				Authorization: token,
-			},
+		const token = this.props.auth.data.token
+		this.props.dispatch(getBook(token, show, search, page, sort, by))
+		.then((res) => {
+			// console.log(res)
 		})
-			.then((res) => {
-				// console.log(res.data.length)
-				this.setState({ books: res.data.data, bookTotal : res.data.length })
-			})
-			.catch((err) => {
-				console.log(err)
-			})
+		// const token = this.props.auth.data.token
+
+		// axios({
+		// 	method: 'GET',
+		// 	url: 'http://localhost:3000/api/books',
+		// 	params: {
+		// 		show: show,
+		// 		sort: sort,
+		// 		page: page,
+		// 		search: search,
+		// 		by: by,
+		// 	},
+		// 	headers: {
+		// 		Authorization: token,
+		// 	},
+		// })
+		// 	.then((res) => {
+		// 		// console.log(res.data.length)
+		// 		this.setState({ books: res.data.data, bookTotal : res.data.length })
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log(err)
+		// 	})
 	}
 
 	getCategory = () => {
-		const token = localStorage.getItem('RefreshToken')
-		axios({
-			method: 'GET',
-			url: 'http://localhost:3000/api/genres',
-			headers: {
-				Authorization: token,
-			},
-		})
-			.then((res) => {
-				this.setState({ genres: res.data.data })
-			})
-			.catch((err) => {
-				console.log(err.response)
-			})
+		const token = this.props.auth.data.token
+		this.props.dispatch(getGenre(token))
+		// axios({
+		// 	method: 'GET',
+		// 	url: 'http://localhost:3000/api/genres',
+		// 	headers: {
+		// 		Authorization: token,
+		// 	},
+		// })
+		// 	.then((res) => {
+		// 		this.setState({ genres: res.data.data })
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log(err.response)
+		// 	})
 	}
 	getAuthor = () => {
-		const token = localStorage.getItem('RefreshToken')
-		axios({
-			method: 'GET',
-			url: 'http://localhost:3000/api/authors',
-			headers: {
-				Authorization: token,
-			},
-		})
-			.then((res) => {
-				this.setState({ authors: res.data.data })
-			})
-			.catch((err) => {
-				console.log(err.response)
-			})
+		const token = this.props.auth.data.token
+		this.props.dispatch(getAuthor(token))
+		// axios({
+		// 	method: 'GET',
+		// 	url: 'http://localhost:3000/api/authors',
+		// 	headers: {
+		// 		Authorization: token,
+		// 	},
+		// })
+		// 	.then((res) => {
+		// 		this.setState({ authors: res.data.data })
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log(err.response)
+		// 	})
 	}
 
 	getImage = () => {
-		const token = localStorage.getItem('RefreshToken')
+		const token = this.props.auth.data.token
 		axios({
 			method: 'GET',
 			url: 'http://localhost:3000/api/books/image',
@@ -110,7 +119,7 @@ class Home extends Component {
 			this.getParams().get('by')
 		)
 	}
-	
+
 	// handlePage = (parameter) => {
 	// 	// this.getBook(
 	// 	// 	this.getParams().get('search'),
@@ -129,24 +138,29 @@ class Home extends Component {
 		this.getCategory()
 		this.getAuthor()
 		this.getImage()
-		console.log(this.getParams().get('page') || 1)
+		// console.log(this.getParams().get('page') || 1)
 	}
-	
-	componentDidUpdate(){
+
+	componentDidUpdate() {
 		// this.handleParams()
 		// console.log(this.getParams().get('page'))
-
 	}
 
 	render() {
+		// console.log(this.props.book.value)
 		return (
 			<div>
-				<Navbar genres={this.state.genres} authors={this.state.authors} data={this.handleParams} data_red={this.props.history} />
-				<SliderComponent data={this.state.image}/>
-				<ListBook data={this.state.books} />
+				<Navbar
+					// genres={this.state.genres}
+					// authors={this.state.authors}
+					data={this.handleParams}
+					data_red={this.props.history}
+				/>
+				{/* <SliderComponent data={this.state.image} /> */}
+				<ListBook data={this.props.book} />
 				<Pagination
-					data={this.state.bookTotal}
-					show={this.getParams().get('show')}
+					// data={this.state.bookTotal}
+					show={this.getParams().get('show') || 6}
 					page={this.getParams().get('page')}
 					qparams={this.handleParams}
 					// parameter={this.handleParams}
@@ -157,9 +171,9 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => ({
-	auth: state.auth
+	auth: state.auth,
 })
 
-// const mapDispatchToProps
+// const mapDispatchToProps = { getBook }
 
-export default connect(mapStateToProps)(Home) 
+export default connect(mapStateToProps)(Home)

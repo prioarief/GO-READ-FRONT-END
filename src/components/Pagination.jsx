@@ -7,10 +7,11 @@ import {
 	PaginationItem,
 	PaginationLink,
 } from 'reactstrap'
+import { connect } from 'react-redux'
 
 const PaginationComponent = (props) => {
-	const [thisPage, setThisPage] = useQueryState('page', 0)
-	let dataLength = props.data 
+	const [thisPage, setThisPage] = useQueryState('page', 1)
+	let dataLength = props.book.count
 	let show = props.show === null ? 6 : props.show
 	let pageActive = props.show === null ? 1 : props.page
 	let totalPage = Math.ceil(dataLength / show)
@@ -18,50 +19,62 @@ const PaginationComponent = (props) => {
 	// console.log(totalPage)
 	// console.log(props.qparams)
 
-
 	// // setThistotalPage(1)
 	for (let i = 1; i <= totalPage; i++) {
 		number.push(i)
-		}
-		
-		useEffect(() => {
-			props.qparams(null ,thisPage)
-		}, [pageActive])
-		return (
-			<Container>
-				<Pagination
-					aria-label='Page navigation example'
-					className={style.pagination}
-				>
-					{/* <PaginationItem disabled>
-					<PaginationLink first href='#' />
-				</PaginationItem>
-				<PaginationItem disabled>
-					<PaginationLink previous href='#' />
-				</PaginationItem> */}
-					{number.map((v, i) => {
-						return (
-							<PaginationItem active={(thisPage === v) ? true: false} key={i}>
-								<PaginationLink onClick={((e) => {
-									e.preventDefault()
-									setThisPage(v)
-								})}>{v}</PaginationLink>
-							</PaginationItem>
-						)
-					})}
-					{/* <PaginationItem active={false}>
-					<PaginationLink href='#'>{page}</PaginationLink>
-				</PaginationItem> */}
-					{/* <PaginationItem>
-					<PaginationLink next href='#' />
-				</PaginationItem>
-				<PaginationItem>
-					<PaginationLink last href='#' />
-				</PaginationItem> */}
-				</Pagination>
-			</Container>
-		)
 	}
 
+	useEffect(() => {
+		props.qparams(null, thisPage)
+	}, [pageActive])
+	return (
+		<Container>
+			<Pagination
+				aria-label='Page navigation example'
+				className={style.pagination}
+			>
+				<PaginationItem>
+					<PaginationLink
+						previous
+						onClick={(e) => {
+							e.preventDefault()
+							setThisPage(thisPage - 1)
+						}}
+					/>
+				</PaginationItem>
+				{number.map((v, i) => {
+					return (
+						<PaginationItem active={thisPage === v ? true : false} key={i}>
+							<PaginationLink
+								onClick={(e) => {
+									e.preventDefault()
+									setThisPage(v)
+								}}
+							>
+								{v}
+							</PaginationLink>
+						</PaginationItem>
+					)
+				})}
+				<PaginationItem>
+					<PaginationLink
+						next
+						onClick={(e) => {
+							e.preventDefault()
+							setThisPage(thisPage + 1)
+						}}
+					/>
+				</PaginationItem>
+			</Pagination>
+		</Container>
+	)
+}
 
-export default PaginationComponent
+const mapStateToProps = (state) => ({
+	// auth: state.auth,
+	book: state.book,
+})
+
+// const mapDispatchToProps
+
+export default connect(mapStateToProps)(PaginationComponent)

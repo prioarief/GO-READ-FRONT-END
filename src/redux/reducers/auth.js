@@ -1,36 +1,76 @@
-const initialState = {
-	isLoading: false,
-	isError: false,
-	errorMessage: '',
+const inialState = {
 	data: {},
 }
 
-const auth = (state = initialState, action) => {
+const auth = (state = inialState, action) => {
 	switch (action.type) {
-		case 'LOGIN_PENDING':
+		case 'LOGIN_PENDING': {
 			return {
 				...state,
-				isLoading: true,
-				isError: false,
+				data: {},
 			}
-		case 'LOGIN_REJECTED':
+		}
+		case 'LOGIN_REJECTED': {
 			return {
 				...state,
-				isLoading: false,
-				isError: true,
-				errorMessage: 'Data Rejected',
+				data: {},
 			}
-		case 'LOGIN_FULFILLED':
-			console.log(action.payload.data.data[0])
+		}
+		case 'LOGIN_FULFILLED': {
 			return {
 				...state,
-				isLoading: false,
-				isError: false,
-				data: action.payload.data.data[0]
+				data: action.payload.data.data[0],
 			}
+		}
+		
+		case 'REGISTER_PENDING': {
+			return {
+				...state,
+				data: {},
+			}
+		}
+		case 'REGISTER_REJECTED': {
+			return {
+				...state,
+				data: {},
+			}
+		}
+		case 'REGISTER_FULFILLED': {
+			return {
+				...state,
+				data: action.payload.data.data.data[0],
+		}
+		}
+		
+		case 'ACTIVATION_PENDING': {
+			return {
+				...state,
+				data: {},
+			}
+		}
+		case 'ACTIVATION_REJECTED': {
+			return {
+				...state,
+				data: {},
+			}
+		}
+		case 'ACTIVATION_FULFILLED': {
+			return {
+				...state,
+				data: action.payload,
+			}
+		}
+		
+		case 'LOGOUT': {
+			return {
+				...state,
+				data: {},
+			}
+		}
 
-		default:
+		default: {
 			return state
+		}
 	}
 }
 

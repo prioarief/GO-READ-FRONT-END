@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import swal from 'sweetalert'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { login } from '../redux/actions/auth'
+import { Login as login } from '../redux/actions/auth'
 import style from '../styles/style.module.css'
 
 const Login = (props) => {
@@ -15,46 +15,46 @@ const Login = (props) => {
 
 	const handleLogin = (e) => {
 		e.preventDefault()
-		// const data = {
-		// 	email : user.email,
-		// 	password : user.password,
-		// }
+		const data = {
+			email : user.email,
+			password : user.password,
+		}
 
 		// console.log(data)
 
-		// props.login(data).then(() => {
-		// 	props.data.push('/home')
-		// 	// console.log(props)
-		// })
-		setLoading(true)
-		setTimeout(() => {
-			axios({
-				method: 'POST',
-				url: 'http://localhost:3000/api/auth/login',
-				data: {
-					email: user.email,
-					password: user.password,
-				},
-			})
-				.then((res) => {
-					// console.log(props)
-					// console.log(res)
-					const token = res.data.data[0].token
-					const RefreshToken = res.data.data[0].token
-					swal('Good job!', 'Login Success!', 'success')
-					localStorage.setItem('token', token)
-					localStorage.setItem('name', res.data.data[0].name)
-					localStorage.setItem('email', res.data.data[0].email)
-					localStorage.setItem('role', res.data.data[0].role)
-					localStorage.setItem('RefreshToken', RefreshToken)
-					props.data.push('/books')
-				})
-				.catch((err) => {
-					console.log(err.response.data.data)
-					swal('Ooopsss!', `${err.response.data.data}!`, 'error')
-				})
-			setLoading(false)
-		}, 2000)
+		props.login(data).then(() => {
+			props.data.push('/home')
+			// console.log(props)
+		})
+		// setLoading(true)
+		// setTimeout(() => {
+		// 	axios({
+		// 		method: 'POST',
+		// 		url: 'http://localhost:3000/api/auth/login',
+		// 		data: {
+		// 			email: user.email,
+		// 			password: user.password,
+		// 		},
+		// 	})
+		// 		.then((res) => {
+		// 			// console.log(props)
+		// 			// console.log(res)
+		// 			const token = res.data.data[0].token
+		// 			const RefreshToken = res.data.data[0].token
+		// 			swal('Good job!', 'Login Success!', 'success')
+		// 			localStorage.setItem('token', token)
+		// 			localStorage.setItem('name', res.data.data[0].name)
+		// 			localStorage.setItem('email', res.data.data[0].email)
+		// 			localStorage.setItem('role', res.data.data[0].role)
+		// 			localStorage.setItem('RefreshToken', RefreshToken)
+		// 			props.data.push('/books')
+		// 		})
+		// 		.catch((err) => {
+		// 			console.log(err.response.data.data)
+		// 			swal('Ooopsss!', `${err.response.data.data}!`, 'error')
+		// 		})
+		// 	setLoading(false)
+		// }, 2000)
 	}
 
 	useEffect(() => {

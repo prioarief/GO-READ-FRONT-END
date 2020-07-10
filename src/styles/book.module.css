@@ -194,7 +194,7 @@
 }
 
 .pagination{
-    margin: 50px 0px !important;
+    margin: 50px 500px !important;
 }
 
 
@@ -351,5 +351,9 @@
         border: none !important;
         box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.25) !important;
         border-radius: 15px !important;
+    }
+
+    .pagination{
+        margin: 20px 45px !important;
     }
 }
