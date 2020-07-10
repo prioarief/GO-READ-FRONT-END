@@ -27,6 +27,8 @@ const PaginationComponent = (props) => {
 	useEffect(() => {
 		props.qparams(null, thisPage)
 	}, [pageActive])
+
+	console.log(dataLength)
 	return (
 		<Container>
 			<Pagination

@@ -282,6 +282,7 @@ nav.sidebar ul .menu_toggle {
         box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
         width: 300px;
         margin-left: 17px;
+        margin-top: 12px !important;
         /* height: 10px; */
     }
 

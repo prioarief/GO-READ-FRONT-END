@@ -118,7 +118,7 @@ const NavbarComponent = (props) => {
 							/>
 						</li>
 						<h4 className={style.profile_name}>
-							{localStorage.getItem('name')}
+							{props.auth.data.name}
 						</h4>
 						<li>
 							<Link to='/books'>Explore</Link>
@@ -194,7 +194,7 @@ const NavbarComponent = (props) => {
 							</DropdownMenu>
 						</UncontrolledDropdown>
 						
-							<FormGroup className={style.form_search}>
+							<FormGroup className={style.form_search} style={{marginTop: '10px'}}>
 								<Label for='Keyword' className={style.label}>
 									<FontAwesomeIcon icon={faSearch} />
 								</Label>

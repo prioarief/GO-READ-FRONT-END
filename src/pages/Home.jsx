@@ -20,6 +20,7 @@ class Home extends Component {
 			bookTotal: 0,
 			page: 1,
 		}
+		console.log(this.props.book)
 	}
 
 	getParams = () => {
@@ -84,7 +85,8 @@ class Home extends Component {
 		// if (!localStorage.getItem('token')) {
 		// 	this.props.history.push('/login')
 		// }
-		this.handleParams()
+		// if(this.props.book.count)
+		// this.handleParams()
 		this.getCategory()
 		this.getAuthor()
 		this.getImage()

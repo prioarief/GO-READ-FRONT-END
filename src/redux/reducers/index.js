@@ -10,7 +10,7 @@ import authReducers from './auth'
 const persistConfig = {
     key: 'root',
     storage,
-    whiteList: ['auth', 'book', 'genre']
+    whiteList: ['auth']
 }
 
 const rootReducers = combineReducers({

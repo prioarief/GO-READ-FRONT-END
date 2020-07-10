@@ -55,19 +55,6 @@ class DetailBook extends Component {
 			.then(() => {
 				this.props.dispatch(getBook(token))
 			})
-		// axios({
-		// 	method: 'GET',
-		// 	url: `http://localhost:3000/api/books/${this.props.match.params.book}`,
-		// 	headers: {
-		// 		Authorization: token,
-		// 	},
-		// })
-		// 	.then((res) => {
-		// 		this.setState({book : res.data.data[0]})
-		// 	})
-		// 	.catch((err) => {
-		// 		console.log(err.response)
-		// 	})
 	}
 
 	componentDidMount() {
@@ -78,12 +65,9 @@ class DetailBook extends Component {
 	render() {
 		return (
 			<div>
-				<Cover data={this.props.book.detail[0]} />
+				<Cover />
 				<Content
-					data={this.state.book}
 					data_red={this.props.history}
-					genres={this.state.genres}
-					authors={this.state.authors}
 				/>
 			</div>
 		)
