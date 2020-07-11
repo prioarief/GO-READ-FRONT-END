@@ -1,0 +1,149 @@
+.content_title {
+    position: absolute !important;
+    top: 110px;
+    left: 270px;
+    width: 50%;
+}
+
+.content {
+    position: absolute !important;
+    top: 240px;
+    left: 300px;
+    width: 150vh;
+    /* bottom: 120px !important; */
+    margin-bottom: 30px !important;
+}
+
+.btn_add {
+    position: absolute;
+    top: 190px;
+    left: 300px;
+    background-color: rgb(47, 84, 165) !important;
+    margin-bottom: 20px !important;
+}
+
+.btn_create {
+    background-color: rgb(47, 84, 165) !important;
+}
+
+.btn_create:hover {
+    background-color: rgb(51, 103, 214) !important;
+}
+
+.btn_add:hover {
+    background-color: rgb(51, 103, 214) !important;
+}
+
+.container {
+    position: absolute;
+    /* left: 250px !important; */
+    /* top: 190px; */
+    width: 80% !important;
+}
+
+.card {
+    box-shadow: 1px 2px 2px 2px rgb(201, 197, 197) !important;
+    /* width: 280px !important; */
+    height: 350px !important;
+    border-radius: 15px;
+    margin-bottom: 10px !important;
+}
+
+.card_container {
+    /* border: 2px solid black !important; */
+    /* max-width: 20% !important; */
+    padding: 10px 10px !important;
+    /* height: 200px !important; */
+    width: 10px !important;
+    /* margin-right: 20px !important; */
+}
+
+.img {
+    /* width: 300px !important; */
+    height: 200px;
+}
+
+.title {
+    position: absolute;
+    width: 150px;
+    height: 200px;
+    left: 240px;
+    top: 10px;
+    border-radius: 15px;
+}
+
+.table_content {
+    /* position: absolute !important;
+    top: 190px;
+    left: 280px; */
+    /* width: 75% !important; */
+
+}
+
+/* Responsive Mobile */
+@media screen and (max-width : 768px) {
+    .content {
+        top: 60px;
+        left: 0px;
+        width: 100%;
+    }
+
+    .content_title {
+        top: 110px;
+        left: 140px;
+        /* width: 100%; */
+    }
+
+    .table_content {
+        position: absolute !important;
+        top: 200px !important;
+        left: 80px;
+        width: 70% !important;
+    }
+
+    .btn_add {
+        position: absolute;
+        top: 180px;
+        left: 80px;
+        background-color: rgb(47, 84, 165) !important;
+        margin-bottom: 20px !important;
+    }
+
+    .container {
+        position: absolute;
+        left: 76px !important;
+        top: 190px;
+    }
+
+    .desc {
+        font-size: 12px !important;
+    }
+
+    .img {
+        /* width: 300px !important; */
+        height: 100px !important;
+    }
+
+    .card_container {
+        width: 150px !important;
+        /* display: block !important;
+        /* padding: 10px 10px !important; */
+        /* max-width: 20% !important; */
+        /* height: 200px !important; */
+        /* border: 2px solid black !important; */
+        /* margin-right: 20px !important; */
+    }
+
+    .card {
+        height: 180px !important;
+        /* width: 220px !important;
+        box-shadow: 1.5px 2px 5px 1px rgb(177, 175, 175);
+        margin-bottom: 20px !important; */
+        /* height: 100px !important; */
+        /* margin-right: 120px !important; */
+    }
+
+    .desc {
+        display: none;
+    }
+}

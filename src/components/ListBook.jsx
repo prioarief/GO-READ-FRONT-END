@@ -13,11 +13,9 @@ import {
 } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { useState } from 'react'
-import { useEffect } from 'react'
 
 const ListBook = (props) => {
-	const [bookData] = useState(props.book.value)
+	// const [bookData] = useState(props.book.value)
 	// console.log(props.book.value)
 	// useEffect(() => {
 	// 	props.book.value.map((a) => {

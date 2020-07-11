@@ -145,11 +145,11 @@ const NavbarComponent = (props) => {
 								All Genres
 							</DropdownToggle>
 							<DropdownMenu right>
-								{genre.map((data) => {
+								{/* {genre.map((data) => {
 									return (
 										<DropdownItem key={data.id}>{data.genre}</DropdownItem>
 									)
-								})}
+								})} */}
 							</DropdownMenu>
 						</UncontrolledDropdown>
 						<UncontrolledDropdown nav inNavbar>

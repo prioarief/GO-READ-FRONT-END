@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingCart, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import swal from 'sweetalert'
-import Axios from 'axios'
 import { connect } from 'react-redux'
 import { Borrow } from '../redux/actions/transaction'
 
@@ -27,13 +26,6 @@ const Content = (props) => {
 			.catch((err) => {
 				console.log(err)
 			})
-		// Axios({
-		// 	method: 'GET',
-		// 	url: `http://localhost:3000/api/transaction/borrow/${props.book.detail[0].id}`,
-		// 	headers: {
-		// 		Authorization: token,
-		// 	},
-		// })
 	}
 
 	return (
