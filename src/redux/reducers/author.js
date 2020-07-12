@@ -81,6 +81,32 @@ const author = (state = inialState, action) => {
 			}
 		}
 		
+		case 'EDIT_PENDING': {
+			return {
+				...state,
+				errorMsg: null,
+				// value: {},
+			}
+		}
+		case 'EDIT_REJECTED': {
+			console.log(action.payload)
+			return {
+				...state,
+				errorMsg: action.payload,
+				// value: {},
+				
+			}
+		}
+		case 'EDIT_FULFILLED': {
+			return {
+				...state,
+				errorMsg: null,
+
+				// errorMsg: null,
+				// value: action.payload.data.data,
+			}
+		}
+		
 		case 'DELETE_PENDING': {
 			return {
 				...state,

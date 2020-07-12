@@ -11,21 +11,28 @@ import {
 	Form,
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import { insertAuthor, getAuthor } from '../../../redux/actions/author'
+import {
+	insertAuthor,
+	getAuthor,
+	editAuthor,
+} from '../../../redux/actions/author'
 import swal from 'sweetalert'
 
 const BookModal = (props) => {
 	const [modal, setOpenModal] = useState(props.open)
 	const [id, setId] = useState(props.param)
-	const [Author, setAuthor] = useState('')
+	const [Author, setAuthor] = useState({
+		id: props.author.detail[0].id,
+		author: props.author.detail[0].author,
+	})
 	// console.log(props)
 
 	const toggle = () => {
 		props.setModal(!modal)
 		setOpenModal(!modal)
-		setAuthor('')
+		setAuthor({ ...Author, author: '', id: '' })
 	}
-	
+
 	const handleCreate = (e) => {
 		e.preventDefault()
 		const token = props.auth.data.token
@@ -40,11 +47,32 @@ const BookModal = (props) => {
 			// props.data('/dashboard')
 		})
 	}
-	
+
+	const handleEdit = (e) => {
+		e.preventDefault()
+		const token = props.auth.data.token
+		const data = {
+			// id: Author.id,
+			author: Author.author,
+		}
+		props
+			.dispatch(editAuthor(token, Author.id, data))
+			.then(() => {
+				setOpen(!props.open)
+				swal('Good job!', 'Data Successfully Edited!', 'success')
+				props.dispatch(getAuthor(token))
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	}
+
 	const setOpen = async (param) => {
 		setOpenModal(param)
 		setId(props.param)
-		await setAuthor(props.author.detail[0].author)
+		// props.dispatch(getDetailAuthor(props.auth.data.token,))
+
+		// await setAuthor(props.author.detail[0].author)
 		// getDetailAuthor(props.auth.data.token, props.param)
 		// console.log(id)
 	}
@@ -56,17 +84,21 @@ const BookModal = (props) => {
 	)
 
 	useEffect(() => {
-		modal ? setOpen(!props.open)  : setOpen(props.open)
+		modal ? setOpen(!props.open) : setOpen(props.open)
 		// setAuthor(props.author.detail[0].author)
-		console.log(Author)
+		// console.log(Author)
 	}, [props.open])
 
-	// useEffect(() => {
-	// 	// getDetailAuthor(props.auth.data.token, 17)
-	// 	// return () => {
-	// 	// }
-	// 	setAuthor(props.author.detail[0].author)
-	// }, [props.author.detail[0].author])
+	useEffect(() => {
+		// getDetailAuthor(props.auth.data.token, 17)
+		setAuthor({
+			...Author,
+			author: props.author.detail[0].author,
+			id: props.author.detail[0].id,
+		})
+		// return () => {
+		// }
+	}, [props.author.detail[0].author])
 
 	return (
 		<div>
@@ -75,7 +107,7 @@ const BookModal = (props) => {
 					{props.titleModal || 'ADD AUTHOR'}
 				</ModalHeader>
 				<ModalBody>
-					<Form onSubmit={handleCreate}>
+					<Form onSubmit={props.titleModal ? handleEdit : handleCreate}>
 						<FormGroup>
 							<Label for='author'>Author</Label>
 							<Input
@@ -84,8 +116,10 @@ const BookModal = (props) => {
 								name='author'
 								id='author'
 								placeholder='Author Name'
-								value={Author || ''}
-								onChange={(e) => setAuthor( e.target.value )}
+								value={Author.author}
+								onChange={(e) =>
+									setAuthor({ ...Author, author: e.target.value })
+								}
 							/>
 						</FormGroup>
 						<Button color='primary' className={style.btn_create}>

@@ -52,3 +52,17 @@ export const deleteAuthor = (token, id) => {
 		}),
 	}
 }
+
+export const editAuthor = (token, id, data) => {
+	return {
+		type: 'EDIT',
+		payload: axios({
+			method: 'PUT',
+			url: `http://localhost:3000/api/authors/${id}`,
+			data: data,
+			headers: {
+				Authorization: token,
+			},
+		}),
+	}
+}

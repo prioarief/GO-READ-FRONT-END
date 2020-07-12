@@ -70,7 +70,7 @@ const AuthorContent = (props) => {
 		// props.getDetailAuthor(props.auth.data.token, param)
 		// console.log(param)
 		props.dispatch(getDetailAuthor(props.auth.data.token, param)).then(() => {
-			props.dispatch(getAuthor(props.auth.data.token))
+			// props.dispatch(getAuthor(props.auth.data.token))
 		})
 	}
 	// useEffect(() => {
