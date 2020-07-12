@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import History from './pages/History.jsx'
 import Dashboard from './pages/Dashboard'
 
+
 function App() {
 	return (
 		<Router>

@@ -18,7 +18,7 @@ export const getDetailAuthor = (token, id) => {
 		type: 'DETAIL',
 		payload: axios({
 			method: 'GET',
-			url: `http://localhost:3000/api/authors/${id}`,
+			url: `${process.env.REACT_APP_API_URL}/authors/${id}`,
 			headers: {
 				Authorization : token
 			}

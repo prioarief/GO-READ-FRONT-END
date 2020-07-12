@@ -17,6 +17,7 @@ import {
 	editAuthor,
 } from '../../../redux/actions/author'
 import swal from 'sweetalert'
+// require('dotenv').config()
 
 const BookModal = (props) => {
 	const [modal, setOpenModal] = useState(props.open)
@@ -25,7 +26,7 @@ const BookModal = (props) => {
 		id: props.author.detail[0].id,
 		author: props.author.detail[0].author,
 	})
-	// console.log(props)
+	// console.log(process.env.REACT_APP_API_URL)
 
 	const toggle = () => {
 		props.setModal(!modal)
