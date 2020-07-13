@@ -160,7 +160,6 @@ nav.sidebar ul .menu_toggle {
 
 .input_search {
     width: 370px !important;
-    display: inline !important;
     background-color: #f8f9fa !important;
 }
 
@@ -176,13 +175,6 @@ nav.sidebar ul .menu_toggle {
     margin-right: 25px;
 }
 
-.input_title{
-    border: 1px solid #ced4da !important;
-}
-
-.modal_add{
-    max-width: 600px !important;
-}
 
 
 /* Hamburger Animations */
