@@ -160,14 +160,8 @@ nav.sidebar ul .menu_toggle {
 
 .input_search {
     width: 370px !important;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
     display: inline !important;
->>>>>>> develop
     background-color: #f8f9fa !important;
->>>>>>> develop
 }
 
 .bookshelf {
@@ -182,8 +176,6 @@ nav.sidebar ul .menu_toggle {
     margin-right: 25px;
 }
 
-<<<<<<< HEAD
-=======
 .input_title{
     border: 1px solid #ced4da !important;
 }
@@ -192,7 +184,6 @@ nav.sidebar ul .menu_toggle {
     max-width: 600px !important;
 }
 
->>>>>>> develop
 
 /* Hamburger Animations */
 /* .menu_toggle span:nth-child(2) {
