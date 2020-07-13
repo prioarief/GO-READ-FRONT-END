@@ -4,6 +4,10 @@ import ListBook from '../components/ListBook'
 import Pagination from '../components/Pagination'
 import axios from 'axios'
 import SliderComponent from '../components/SliderComponent'
+import { connect } from 'react-redux'
+import { getBook } from '../redux/actions/book'
+import { getGenre } from '../redux/actions/genre'
+import { getAuthor } from '../redux/actions/author'
 
 class Home extends Component {
 	constructor(props) {
@@ -13,72 +17,36 @@ class Home extends Component {
 			genres: [],
 			authors: [],
 			image: [],
+			bookTotal: 0,
+			page: 1,
 		}
+		console.log(this.props.book)
 	}
 
 	getParams = () => {
 		return new URLSearchParams(this.props.location.search)
 	}
 
-	getBook = (search, sort, show, by) => {
-		const token = localStorage.getItem('RefreshToken')
-		axios({
-			method: 'GET',
-			url: 'http://localhost:3000/api/books',
-			params: {
-				show: show,
-				sort: sort,
-				page: 1,
-				search: search,
-				by: by,
-			},
-			headers: {
-				Authorization: token,
-			},
-		})
+	getBook = (search, sort, page, show, by) => {
+		const token = this.props.auth.data.token
+		this.props
+			.dispatch(getBook(token, show, search, page, sort, by))
 			.then((res) => {
-				this.setState({ books: res.data.data })
-			})
-			.catch((err) => {
-				console.log(err)
+				// console.log(res)
 			})
 	}
 
 	getCategory = () => {
-		const token = localStorage.getItem('RefreshToken')
-		axios({
-			method: 'GET',
-			url: 'http://localhost:3000/api/genres',
-			headers: {
-				Authorization: token,
-			},
-		})
-			.then((res) => {
-				this.setState({ genres: res.data.data })
-			})
-			.catch((err) => {
-				console.log(err.response)
-			})
+		const token = this.props.auth.data.token
+		this.props.dispatch(getGenre(token))
 	}
 	getAuthor = () => {
-		const token = localStorage.getItem('RefreshToken')
-		axios({
-			method: 'GET',
-			url: 'http://localhost:3000/api/authors',
-			headers: {
-				Authorization: token,
-			},
-		})
-			.then((res) => {
-				this.setState({ authors: res.data.data })
-			})
-			.catch((err) => {
-				console.log(err.response)
-			})
+		const token = this.props.auth.data.token
+		this.props.dispatch(getAuthor(token))
 	}
 
 	getImage = () => {
-		const token = localStorage.getItem('RefreshToken')
+		const token = this.props.auth.data.token
 		axios({
 			method: 'GET',
 			url: 'http://localhost:3000/api/books/image',
@@ -94,38 +62,50 @@ class Home extends Component {
 			})
 	}
 
-	handleParams = (parameter) => {
+	handleParams = (search, page) => {
 		this.getBook(
-			parameter,
+			search,
 			this.getParams().get('sort'),
+			page,
 			this.getParams().get('show'),
 			this.getParams().get('by')
 		)
 	}
+
 	componentDidMount() {
-		if (!localStorage.getItem('token')) {
-			this.props.history.push('/login')
-		}
 		this.handleParams()
 		this.getCategory()
 		this.getAuthor()
-		this.getImage()
+		if(this.props.auth.data.role === 'Admin'){
+			this.props.history.push('/dashboard')
+		}
+		// this.getImage()
 	}
+
+	componentDidUpdate() {}
 
 	render() {
 		return (
 			<div>
-				<Navbar genres={this.state.genres} authors={this.state.authors} data={this.handleParams} data_red={this.props.history} />
-				<SliderComponent data={this.state.image}/>
-				<ListBook data={this.state.books} />
+				<Navbar
+					data={this.handleParams}
+					data_red={this.props.history}
+				/>
+				{/* <SliderComponent data={this.state.image} /> */}
+				<ListBook data={this.props.book} />
 				<Pagination
-					data={this.state.image}
-					show={this.getParams().get('show')}
+					show={this.getParams().get('show') || 6}
 					page={this.getParams().get('page')}
+					qparams={this.handleParams}
 				/>
 			</div>
 		)
 	}
 }
 
-export default Home
+const mapStateToProps = (state) => ({
+	auth: state.auth,
+	book: state.book,
+})
+
+export default connect(mapStateToProps)(Home)

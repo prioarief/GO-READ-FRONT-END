@@ -12,18 +12,29 @@ import {
 	Alert,
 } from 'reactstrap'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 const ListBook = (props) => {
-	const data = props.data.length
+	// const [bookData] = useState(props.book.value)
+	// console.log(props.book.value)
+	// useEffect(() => {
+	// 	props.book.value.map((a) => {
+	// 		return setBookData
+	// 	})
+	// }, [])
+
+	const data = props.book.value.length
 	return (
 		<div>
 			<Container>
-					{data === 14 && (
-						<Alert color='danger' className='mt-5'>Data not found!</Alert>
-					)}
+				{data === 14 && (
+					<Alert color='danger' className='mt-5'>
+						Data not found!
+					</Alert>
+				)}
 				<Row>
 					{data !== 14 &&
-						props.data.map((book) => {
+						props.book.value.map((book) => {
 							return (
 								<Col md='4' key={book.id}>
 									<Card className={style.card}>
@@ -65,4 +76,11 @@ const ListBook = (props) => {
 	)
 }
 
-export default ListBook
+const mapStateToProps = (state) => ({
+	auth: state.auth,
+	book: state.book,
+})
+
+// const mapDispatchToProps
+
+export default connect(mapStateToProps)(ListBook)

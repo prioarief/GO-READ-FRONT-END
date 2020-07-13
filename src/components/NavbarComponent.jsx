@@ -30,69 +30,62 @@ import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import Axios from 'axios'
 import swal from 'sweetalert'
+import { connect } from 'react-redux'
 
 const NavbarComponent = (props) => {
-	const [bookData, setBookData] = useState({
-		title: '',
-		image: '',
-		genre: null,
-		author: null,
-		description: '',
-	})
+	const [genre] = useState(props.genre.value)
 	const [isOpen, setIsOpen] = useState(false)
 	const [collapsed, setCollapsed] = useState(true)
 	const [search, setSearch] = useQueryState('search', '')
-	const [show, setShow] = useQueryState('show', '')
+	const [show, setShow] = useQueryState('show', 6)
 	const [sort, setSort] = useQueryState('sort', '')
+	// const [page, setPage] = useQueryState('page', '')
 	// const [by, setBy] = useQueryState('by', '')
 
 	const toggleNavbar = () => setCollapsed(!collapsed)
 	const toggle = () => setIsOpen(!isOpen)
-	const closeModal = () => setModal(!modal)
-	const [modal, setModal] = useState(false)
-	const closeBtn = (
-		<button className='close' onClick={closeModal}>
-			&times;
-		</button>
-	)
 
 	const handleSearch = (e) => {
-		setSearch(e.target.value)
+		if(e.key === 'Enter'){
+			setSearch(e.target.value)
+		}
+
 	}
 
-	const handleCreate = (e) => {
-		e.preventDefault()
-		const token = localStorage.getItem('RefreshToken')
-		const formData = new FormData()
-		formData.append('title', bookData.title)
-		formData.append('description', bookData.description)
-		formData.append('image', bookData.image[0])
-		formData.append('genre_id', bookData.genre)
-		formData.append('author_id', bookData.author)
-		formData.append('status', 'Available')
-		console.log(bookData.genre)
-		Axios({
-			method: 'POST',
-			url: 'http://localhost:3000/api/books',
-			data: formData,
-			headers: {
-				Authorization: token,
-				'Content-Type': 'multipart/form-data',
-			},
-		})
-			.then((res) => {
-				// console.log(res)
-				swal('Good job!', 'Data Succesfull Created!', 'success')
-				props.data_red.push('/books')
-			})
-			.catch((err) => {
-				console.log(err.response.data.data)
-				swal('Ooopss!', `${err.response.data.data}`, 'error')
-			})
-	}
+	// const handleCreate = (e) => {
+	// 	e.preventDefault()
+	// 	const token = localStorage.getItem('RefreshToken')
+	// 	const formData = new FormData()
+	// 	formData.append('title', bookData.title)
+	// 	formData.append('description', bookData.description)
+	// 	formData.append('image', bookData.image[0])
+	// 	formData.append('genre_id', bookData.genre)
+	// 	formData.append('author_id', bookData.author)
+	// 	formData.append('status', 'Available')
+	// 	// console.log(bookData.genre)
+	// 	Axios({
+	// 		method: 'POST',
+	// 		url: 'http://localhost:3000/api/books',
+	// 		data: formData,
+	// 		headers: {
+	// 			Authorization: token,
+	// 			'Content-Type': 'multipart/form-data',
+	// 		},
+	// 	})
+	// 		.then((res) => {
+	// 			// console.log(res)
+	// 			swal('Good job!', 'Data Succesfull Created!', 'success')
+	// 			props.data_red.push('/books')
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log(err.response)
+	// 			swal('Ooopss!', `${err.response.data.data}`, 'error')
+	// 		})
+	// }
 
 	useEffect(() => {
-		props.data(search)
+		props.data(search, 1)
+		// setPage(1)
 	}, [search, show, sort])
 
 	return (
@@ -125,7 +118,7 @@ const NavbarComponent = (props) => {
 							/>
 						</li>
 						<h4 className={style.profile_name}>
-							{localStorage.getItem('name')}
+							{props.auth.data.name}
 						</h4>
 						<li>
 							<Link to='/books'>Explore</Link>
@@ -134,14 +127,7 @@ const NavbarComponent = (props) => {
 							<Link to='/history'>History</Link>
 						</li>
 
-						{localStorage.getItem('role') === 'Admin' && (
-							<li>
-								<span style={{ cursor: 'pointer' }} onClick={closeModal}>
-									Add Book
-								</span>
-							</li>
-						)}
-						{localStorage.getItem('name') && (
+						{props.auth.data.token && (
 							<li>
 								<Link to='/logout'>Logout</Link>
 							</li>
@@ -155,30 +141,33 @@ const NavbarComponent = (props) => {
 				<Collapse isOpen={isOpen} navbar>
 					<Nav className='mr-auto' navbar>
 						<UncontrolledDropdown nav inNavbar>
-							<DropdownToggle nav caret className='font-weight-bold'>
+							<DropdownToggle nav caret className={`font-weight-bold ${style.dropdown_nav}`}>
 								All Genres
 							</DropdownToggle>
 							<DropdownMenu right>
-								{props.genres.map((genre) => {
+								{/* {genre.map((data) => {
 									return (
-										<DropdownItem key={genre.id}>{genre.genre}</DropdownItem>
+										<DropdownItem key={data.id}>{data.genre}</DropdownItem>
 									)
-								})}
-								<DropdownItem divider />
-								<DropdownItem>Reset</DropdownItem>
+								})} */}
 							</DropdownMenu>
 						</UncontrolledDropdown>
 						<UncontrolledDropdown nav inNavbar>
-							<DropdownToggle nav caret className='font-weight-bold'>
+							<DropdownToggle nav caret className={`font-weight-bold ${style.dropdown_nav}`}>
 								All Times
 							</DropdownToggle>
 							<DropdownMenu right>
-								<DropdownItem onClick={(e) => setSort('latest')}>
+								<DropdownItem
+									onClick={(e) => {
+										setSort('latest')
+										// setBy('')
+									}}
+								>
 									Latest
 								</DropdownItem>
 								<DropdownItem
 									onClick={(e) => {
-										setSort('title')
+										setSort('title-asc')
 										// setBy('asc')
 									}}
 								>
@@ -186,42 +175,39 @@ const NavbarComponent = (props) => {
 								</DropdownItem>
 								<DropdownItem
 									onClick={(e) => {
-										setSort('title')
+										setSort('title-desc')
 										// setBy('desc')
 									}}
 								>
 									Z-A
 								</DropdownItem>
-								<DropdownItem divider />
-								<DropdownItem>Reset</DropdownItem>
 							</DropdownMenu>
 						</UncontrolledDropdown>
 						<UncontrolledDropdown nav inNavbar>
-							<DropdownToggle nav caret className='font-weight-bold'>
+							<DropdownToggle nav caret className={`font-weight-bold ${style.dropdown_nav}`}>
 								Show
 							</DropdownToggle>
 							<DropdownMenu right>
 								<DropdownItem onClick={() => setShow(3)}>3</DropdownItem>
 								<DropdownItem onClick={() => setShow(6)}>6</DropdownItem>
-								<DropdownItem divider />
-								<DropdownItem>Reset</DropdownItem>
+								<DropdownItem onClick={() => setShow(9)}>9</DropdownItem>
 							</DropdownMenu>
 						</UncontrolledDropdown>
-						<Form inline>
-							<FormGroup className={style.form_search}>
+						
+							<FormGroup className={style.form_search} style={{marginTop: '10px'}}>
 								<Label for='Keyword' className={style.label}>
 									<FontAwesomeIcon icon={faSearch} />
 								</Label>
 								<Input
 									type='text'
 									placeholder='Book Search'
-									value={search}
+									// value={search}
 									className={style.input_search}
 									// onChange={(e) => setSearch(e.target.value)}
-									onChange={handleSearch}
+									onKeyDown={handleSearch}
 								/>
 							</FormGroup>
-						</Form>
+						
 					</Nav>
 					<NavbarText>
 						<img src='./bookshelf.png' alt='' className={style.bookshelf} />
@@ -231,94 +217,17 @@ const NavbarComponent = (props) => {
 					</NavbarText>
 				</Collapse>
 			</Navbar>
-			<Modal
-				isOpen={modal}
-				toggle={toggle}
-				centered
-				className={style.modal_add}
-			>
-				<ModalHeader toggle={toggle} close={closeBtn}>
-					ADD BOOK
-				</ModalHeader>
-				<ModalBody>
-					<Form onSubmit={handleCreate}>
-						<FormGroup>
-							<Label for='title'>Title</Label>
-							<Input
-								type='text'
-								name='title'
-								id='title'
-								placeholder='Book Title'
-								className={style.input_title}
-								onChange={(e) => setBookData({ ...bookData, title:  e.target.value })}
-							/>
-						</FormGroup>
-						<FormGroup>
-							<Label for='image'>Image</Label>
-							<Input
-								type='file'
-								name='file'
-								id='image'
-								onChange={(e) => setBookData({ ...bookData, image: e.target.files })}
-							/>
-							<FormText color='muted'>
-								Just Support jpeg/jpg/png type
-							</FormText>
-						</FormGroup>
-						<FormGroup>
-							<Label for='author'>Author</Label>
-							<Input
-								type='select'
-								name='author'
-								id='author'
-								onChange={(e) => setBookData({ ...bookData, author:   e.target.value })}
-							>
-								{props.authors.map((author) => {
-									return (
-										<option key={author.id} value={author.id}>
-											{author.author}
-										</option>
-									)
-								})}
-							</Input>
-						</FormGroup>
-						<FormGroup>
-							<Label for='genre'>Genre</Label>
-							<Input
-								type='select'
-								name='genre'
-								id='genre'
-								onChange={(e) => setBookData({ ...bookData, genre:  e.target.value } )}
-							>
-								{props.genres.map((genre) => {
-									return (
-										<option key={genre.id} value={genre.id}>
-											{genre.genre}
-										</option>
-									)
-								})}
-							</Input>
-						</FormGroup>
-						<FormGroup>
-							<Label for='desc'>Description</Label>
-							<Input
-								type='textarea'
-								name='text'
-								id='desc'
-								onChange={(e) => setBookData({ ...bookData, description: e.target.value })}
-							/>
-						</FormGroup>
-						<Button color='primary'>Create</Button>{' '}
-					</Form>
-				</ModalBody>
-				<ModalFooter>
-					<Button color='secondary' onClick={toggle}>
-						Cancel
-					</Button>
-				</ModalFooter>
-			</Modal>
+			
 		</div>
 	)
 }
+const mapStateToProps = (state) => ({
+	auth: state.auth,
+	book: state.book,
+	author: state.author,
+	genre: state.genre,
+})
 
-export default NavbarComponent
+// const mapDispatchToProps
+
+export default connect(mapStateToProps)(NavbarComponent)

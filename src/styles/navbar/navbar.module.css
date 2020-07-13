@@ -1,0 +1,116 @@
+.topbar {
+    position: absolute !important;
+    background-color: rgb(51, 103, 214) !important;
+    color: white !important;
+    width: 85%;
+    right: 0 !important;
+    top: 12;
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+}
+
+.dropdown {
+    position: absolute !important;
+    right: 25px;
+    top: 10px;
+    color: white !important;
+}
+
+.account {
+    color: white !important;
+}
+
+.account .user {
+    /* display: inline-block; */
+    /* display: none; */
+}
+
+.title {
+    /* display: none; */
+    font-weight: bold !important;
+}
+
+.logout{
+    text-decoration: none !important;
+    color: rgb(168, 165, 165);
+}
+
+.navbar-toggler {
+    /* background-color: white !important; */
+}
+
+
+
+.sidebar {
+    position: fixed !important;
+    background-color: rgb(47, 84, 165) !important;
+    color: white !important;
+    width: 15%;
+    height: 100vh !important;
+    margin-right: 200px !important;
+}
+
+
+.nav_item {
+    flex-direction: column !important;
+    position: absolute;
+    top: 100px !important;
+}
+
+.link {
+    color: white !important;
+    display: flex !important;
+    flex-direction: row !important;
+    margin-bottom: 20px !important;
+    /* justify-content: space-evenly !important; */
+}
+
+.link:hover {
+    color: rgba(255, 255, 255, 0.884) !important;
+}
+
+.title_sidebar {
+    color: white !important;
+    position: absolute !important;
+    top: 10px !important;
+}
+
+.title_topbar {
+    color: white !important;
+    margin-left: 20px !important;
+    /* width: 900px !important; */
+    cursor: pointer;
+}
+
+.link_item {
+    position: absolute;
+    left: 50px !important;
+
+}
+
+
+
+
+/* Responsive Mobile */
+@media screen and (max-width : 768px) {
+    .account .user {
+        /* display: inline-block; */
+        display: none;
+    }
+
+    .sidebar {
+        position: fixed !important;
+        background-color: rgb(47, 84, 165) !important;
+        color: white !important;
+        width: 15%;
+
+        height: 100vh !important;
+        margin-right: 200px !important;
+    }
+
+    .title,
+    .link_item {
+        display: none;
+    }
+
+}

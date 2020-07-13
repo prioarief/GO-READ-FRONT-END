@@ -17,6 +17,7 @@ const SliderComponent = (props) => {
 			{
 				src : `http://localhost:3000/images/${item.image}`,
 				classNames : style.carousell,
+				caption: item.title
 			}
 		)
 	})
