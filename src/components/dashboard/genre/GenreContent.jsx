@@ -1,32 +1,37 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { deleteGenre } from '../../../redux/actions/genre'
-import style from '../../../styles/dashboard/book.module.css'
 import {
-	Button,
-	Table,
-} from 'reactstrap'
+	deleteGenre,
+	getGenre,
+	getDetailGenre,
+} from '../../../redux/actions/genre'
+import style from '../../../styles/dashboard/book.module.css'
+import { Button, Table } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 import GenreModal from './GenreModal'
 import swal from 'sweetalert'
 
-const Content = (props) => {
+const AuthorContent = (props) => {
 	const [genre, setGenre] = useState(props.genre.value)
 	const [id, setId] = useState(0)
 	const [openModal, setOpen] = useState(false)
+	const [title, setTitle] = useState('')
 	const showModal = (e) => {
 		e.preventDefault()
+		setTitle('')
 		setOpen(true)
 	}
-	
+
 	const setModal = (param) => {
 		setOpen(param)
 	}
-	
+
+	const fetchAuthor = (token) => {
+		props.dispatch(getGenre(token))
+	}
+
 	const handleDelete = (param) => {
-		console.log(param)
-		console.log(props)
 		swal({
 			title: 'Are you sure?',
 			text:
@@ -38,60 +43,39 @@ const Content = (props) => {
 			if (willDelete) {
 				const token = props.auth.data.token
 				props
-					.deleteGenre(token, param)
+					.dispatch(deleteGenre(token, param))
 					.then((res) => {
 						swal(`Data id ${param} has been deleted!`, {
 							icon: 'success',
 						})
-						props.data.push('/dashboard')
+						props.dispatch(getGenre(token))
 					})
 					.catch((err) => {
 						swal('Poof! Your imaginary file has been deleted!', {
 							icon: 'error',
 						})
 						console.log(err)
-						props.data.push('/dashboard')
+						// props.data.push('/dashboard')
 					})
-				// Axios({
-				// 	method: 'DELETE',
-				// 	url: `http://localhost:3000/api/authors/${param}`,
-				// 	headers: {
-				// 		Authorization: token,
-				// 	},
-				// })
-				// 	.then((res) => {
-				// 		swal(`Data id ${param} has been deleted!`, {
-				// 			icon: 'success',
-				// 		})
-				// 		// props.data_red.push('/books')
-				// 	})
-				// 	.catch((err) => {
-				// 		swal('Poof! Your imaginary file has been deleted!', {
-				// 			icon: 'error',
-				// 		})
-				// 		console.log(err)
-				// 		// props.data_red.push('/books')
-				// 	})
 			} else {
 				swal('Your imaginary file is safe!')
 			}
 		})
 	}
-	
+
 	const handleEdit = (param) => {
-		// props.getDetailAuthor(props.auth.data.token, param)
 		setId(param)
-		console.log(param)
+		setTitle('EDIT GENRE')
 		setOpen(true)
-
+		// props.getDetailGenre(props.auth.data.token, param)
+		// console.log(param)
+		props.dispatch(getDetailGenre(props.auth.data.token, param)).then(() => {
+			// props.dispatch(getAuthor(props.auth.data.token))
+		})
 	}
-
-	// console.log(author)
 	// useEffect(() => {
-	// 	props.getBook(props.auth.data.token)
-	// 	setBook(props.book.value)
-	// 	console.log(props)
-	// }, [props])
+	// 	fetchAuthor(props.auth.data.token)
+	// }, [])
 	return (
 		<div>
 			<h2 className={style.content_title}>Genre Data</h2>
@@ -103,7 +87,7 @@ const Content = (props) => {
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Genre Name</th>
+							<th>Genre</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -118,22 +102,22 @@ const Content = (props) => {
 											color='primary'
 											size='sm'
 											className={`style.btn_add mr-2`}
-											onClick={((e) => {
+											onClick={(e) => {
 												e.preventDefault()
 												handleEdit(data.id)
-											})}
+											}}
 											title='Edit'
-											>
+										>
 											<FontAwesomeIcon icon={faPencilAlt} />
 										</Button>
 										<Button
 											color='danger'
 											size='sm'
 											title='Delete'
-											onClick={((e) => {
+											onClick={(e) => {
 												e.preventDefault()
 												handleDelete(data.id)
-											})}
+											}}
 										>
 											<FontAwesomeIcon icon={faTrashAlt} />
 										</Button>
@@ -144,22 +128,22 @@ const Content = (props) => {
 					</tbody>
 				</Table>
 			</div>
-			{/* <GenreModal
+			<GenreModal
 				open={openModal}
 				setModal={setModal}
+				titleModal={title}
 				data={props.data.push}
 				param={id}
-			/> */}
+			/>
 		</div>
 	)
 }
 
 const mapStateTopProps = (state) => ({
 	// book: state.book,
-	// author: state.author,
 	genre: state.genre,
+	// author: state.author,
 	auth: state.auth,
 })
 
-const mapDispatchToProps = { deleteGenre }
-export default connect(mapStateTopProps, mapDispatchToProps)(Content)
+export default connect(mapStateTopProps)(AuthorContent)

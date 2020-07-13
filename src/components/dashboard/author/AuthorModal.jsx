@@ -19,7 +19,7 @@ import {
 import swal from 'sweetalert'
 // require('dotenv').config()
 
-const BookModal = (props) => {
+const AuthorModal = (props) => {
 	const [modal, setOpenModal] = useState(props.open)
 	const [id, setId] = useState(props.param)
 	const [Author, setAuthor] = useState({
@@ -38,7 +38,7 @@ const BookModal = (props) => {
 		e.preventDefault()
 		const token = props.auth.data.token
 		const data = {
-			author: Author.name,
+			author: Author.author,
 		}
 		props.dispatch(insertAuthor(token, data)).then(() => {
 			setOpen(!props.open)
@@ -140,4 +140,4 @@ const mapStateTopProps = (state) => ({
 })
 
 // const mapDispatchToProps = { insertAuthor, getAuthor }
-export default connect(mapStateTopProps)(BookModal)
+export default connect(mapStateTopProps)(AuthorModal)

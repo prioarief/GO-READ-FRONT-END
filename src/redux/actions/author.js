@@ -5,7 +5,7 @@ export const getAuthor = (token) => {
 		type: 'AUTHOR',
 		payload: axios({
 			method: 'GET',
-			url: 'http://localhost:3000/api/authors',
+			url: `${process.env.REACT_APP_API_URL}/authors`,
 			headers: {
 				Authorization : token
 			}
@@ -31,7 +31,7 @@ export const insertAuthor = (token, data) => {
 		type: 'INSERT',
 		payload: axios({
 			method: 'POST',
-			url: 'http://localhost:3000/api/authors',
+			url: `${process.env.REACT_APP_API_URL}/authors`,
 			data: data,
 			headers: {
 				Authorization: token,
@@ -45,7 +45,7 @@ export const deleteAuthor = (token, id) => {
 		type: 'DELETE',
 		payload: axios({
 			method: 'DELETE',
-			url: `http://localhost:3000/api/authors/${id}`,
+			url: `${process.env.REACT_APP_API_URL}/authors/${id}`,
 			headers: {
 				Authorization: token,
 			},
@@ -58,7 +58,7 @@ export const editAuthor = (token, id, data) => {
 		type: 'EDIT',
 		payload: axios({
 			method: 'PUT',
-			url: `http://localhost:3000/api/authors/${id}`,
+			url: `${process.env.REACT_APP_API_URL}/authors/${id}`,
 			data: data,
 			headers: {
 				Authorization: token,

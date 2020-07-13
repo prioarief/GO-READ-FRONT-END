@@ -35,7 +35,7 @@ const Login = (props) => {
 					props.data.push('/home')
 				})
 				.catch((err) => {
-					swal('Ooopss!', `${err.response.data.data}`, 'error')
+					swal('Ooopss!', `${err}`, 'error')
 				})
 			setLoading(false)
 		}, 1000)

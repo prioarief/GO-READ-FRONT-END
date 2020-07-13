@@ -5,7 +5,7 @@ export const getGenre = (token) => {
 		type: 'GENRE',
 		payload: axios({
 			method: 'GET',
-			url: 'http://localhost:3000/api/genres',
+			url: `${process.env.REACT_APP_API_URL}/genres`,
 			headers: {
 				Authorization: token,
 			},
@@ -18,7 +18,7 @@ export const insertGenre = (token, data) => {
 		type: 'INSERT',
 		payload: axios({
 			method: 'POST',
-			url: 'http://localhost:3000/api/genres',
+			url: `${process.env.REACT_APP_API_URL}/genres`,
 			data: data,
 			headers: {
 				Authorization: token,
@@ -32,10 +32,23 @@ export const deleteGenre = (token, id) => {
 		type: 'DELETE',
 		payload: axios({
 			method: 'DELETE',
-			url: `http://localhost:3000/api/genres/${id}`,
+			url: `${process.env.REACT_APP_API_URL}/genres/${id}`,
 			headers: {
 				Authorization: token,
 			},
+		}),
+	}
+}
+
+export const getDetailGenre = (token, id) => {
+	return {
+		type: 'DETAIL',
+		payload: axios({
+			method: 'GET',
+			url: `${process.env.REACT_APP_API_URL}/genres/${id}`,
+			headers: {
+				Authorization : token
+			}
 		}),
 	}
 }

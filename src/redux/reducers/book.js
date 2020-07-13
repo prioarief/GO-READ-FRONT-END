@@ -95,6 +95,28 @@ const book = (state = inialState, action) => {
 				// value: action.payload.data.data,
 			}
 		}
+		
+		case 'EDIT_PENDING': {
+			// console.log(action.payload)
+			return {
+				...state,
+				value: {},
+			}
+		}
+		case 'EDIT_REJECTED': {
+			console.log(action.payload)
+			return {
+				...state,
+				error : action.payload.response.data.data,
+				// value: {},
+			}
+		}
+		case 'EDIT_FULFILLED': {
+			return {
+				 ...state
+				// value: action.payload.data.data,
+			}
+		}
 
 		default: {
 			return state

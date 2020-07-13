@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 // import { getBook } from '../../redux/actions/book'
 import style from '../../styles/dashboard/book.module.css'
 import Author from '../dashboard/author/AuthorContent'
-import Genre from '../dashboard//genre/GenreContent'
+import Genre from '../dashboard/genre/GenreContent'
+import Book from '../dashboard/book/BookContent'
 // import Author from '../dashboard/author/AuthorContent'
 import { Button } from 'reactstrap'
 // import {
@@ -28,7 +29,13 @@ const Content = (props) => {
 		case 'Genre':
 			return (
 				<div>
-					<Genre/>
+					<Genre data={props.data} />
+				</div>
+			)
+		case 'Book':
+			return (
+				<div>
+					<Book data={props.data} />
 				</div>
 			)
 		case 'Admin':

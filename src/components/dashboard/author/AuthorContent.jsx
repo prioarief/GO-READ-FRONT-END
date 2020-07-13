@@ -92,7 +92,7 @@ const AuthorContent = (props) => {
 						</tr>
 					</thead>
 					<tbody>
-						{author.map((data, index) => {
+						{props.author.value.map((data, index) => {
 							return (
 								<tr key={index + 1}>
 									<th scope='row'>{index + 1}</th>

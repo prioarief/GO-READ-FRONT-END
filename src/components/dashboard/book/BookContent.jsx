@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { getBook, deleteBook } from '../../../redux/actions/book'
-import style from '../../../styles/dashboard/book.module.css'
 import {
-	Card,
-	CardImg,
-	CardBody,
-	CardTitle,
-	CardText,
-	Row,
-	Col,
-	Button,
-} from 'reactstrap'
-import BookModal from './BookModal'
+	deleteBook,
+	getBook,
+	detailBook,
+} from '../../../redux/actions/book'
+import {getAuthor} from '../../../redux/actions/author'
+import {getGenre} from '../../../redux/actions/genre'
+import style from '../../../styles/dashboard/book.module.css'
+import { Button, Table, Row, Col, Card, CardImg, CardBody, CardTitle, CardText } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import BookModal from './BookModal'
 import swal from 'sweetalert'
 
-const Content = (props) => {
+const BookContent = (props) => {
 	const [book, setBook] = useState(props.book.value)
+	const [id, setId] = useState(0)
 	const [openModal, setOpen] = useState(false)
+	const [title, setTitle] = useState('')
 	const showModal = (e) => {
 		e.preventDefault()
+		setTitle('')
 		setOpen(true)
 	}
 
@@ -29,9 +29,9 @@ const Content = (props) => {
 		setOpen(param)
 	}
 
-	const handleDelete = (param) => {
-		console.log(param)
-		console.log(props)
+	
+
+	const handleDelete = async (param) => {
 		swal({
 			title: 'Are you sure?',
 			text:
@@ -39,16 +39,21 @@ const Content = (props) => {
 			icon: 'warning',
 			buttons: true,
 			dangerMode: true,
-		}).then((willDelete) => {
+		}).then(async(willDelete) => {
 			if (willDelete) {
 				const token = props.auth.data.token
+				await props.dispatch(getAuthor(token))
 				props
-					.deleteBook(token, param)
-					.then((res) => {
+					.dispatch(deleteBook(token, param))
+					.then(async (res) => {
+						await props.dispatch(getGenre(token))
+						await props.dispatch(getBook(token, props.book.count))
 						swal(`Data id ${param} has been deleted!`, {
 							icon: 'success',
 						})
-						// props.data.push('/dashboard')
+						setTimeout(() => {
+							window.location.reload('/dashboard')
+						}, 200);
 					})
 					.catch((err) => {
 						swal('Poof! Your imaginary file has been deleted!', {
@@ -63,9 +68,19 @@ const Content = (props) => {
 		})
 	}
 
-	useEffect(() => {
-		// props.getBook(props.auth.data.token)
-	}, [])
+	const handleEdit = (param) => {
+		setId(param)
+		setTitle('EDIT BOOK')
+		setOpen(true)
+		// props.getDetailAuthor(props.auth.data.token, param)
+		// console.log(param)
+		props.dispatch(detailBook(props.auth.data.token, param)).then(() => {
+			props.dispatch(getAuthor(props.auth.data.token))
+		})
+	}
+	// useEffect(() => {
+	// 	props.dispatch(getBook(props.auth.data.token))
+	// }, [props.book.value])
 	return (
 		<div>
 			<h2 className={style.content_title}>Book Data({props.book.count})</h2>
@@ -109,7 +124,7 @@ const Content = (props) => {
 											className={`style.btn_add mr-2`}
 											onClick={(e) => {
 												e.preventDefault()
-												// handleEdit(data.id)
+												handleEdit(data.id)
 											}}
 											title='Edit'
 										>
@@ -133,7 +148,13 @@ const Content = (props) => {
 					})}
 				</Row>
 			</div>
-			<BookModal open={openModal} setModal={setModal} data={props.data.push} />
+			<BookModal
+				open={openModal}
+				setModal={setModal}
+				titleModal={title}
+				data={props.data.push}
+				param={id}
+			/>
 		</div>
 	)
 }
@@ -141,8 +162,8 @@ const Content = (props) => {
 const mapStateTopProps = (state) => ({
 	book: state.book,
 	genre: state.genre,
+	author: state.author,
 	auth: state.auth,
 })
 
-const mapDispatchToProps = { getBook, deleteBook }
-export default connect(mapStateTopProps, mapDispatchToProps)(Content)
+export default connect(mapStateTopProps)(BookContent)

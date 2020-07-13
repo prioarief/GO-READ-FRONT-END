@@ -22,9 +22,10 @@ const Dashboard = (props) => {
 		props.dispatch(getGenre(token))
 	}
 	const Book = (token) => {
-		props.dispatch(getBook(token))
+		props.dispatch(getBook(token, props.book.count))
 	}
 
+	// console.log(props.book.count)
 	useEffect(() => {
 		Author(props.auth.data.token)
 		Book(props.auth.data.token)
