@@ -119,11 +119,11 @@ class History extends Component {
 				/>
 				<SliderComponent data={this.state.image} />
 				<ListHistory data={this.state.books} /> 
-				<Pagination
+				{/* <Pagination
 					data={this.state.books}
 					show={this.getParams().get('show')}
 					page={this.getParams().get('page')}
-				/>
+				/> */}
 			</div>
 		)
 	}
