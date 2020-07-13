@@ -17,6 +17,13 @@ Go read is a frontend library application for viewing and borrowing books.
 * Sweetalert
 * etc
 
+## Fiture
+* Author, genre and book management
+* Login, register and email verify
+* borrow and return book
+* and many features to be made/coming soon
+* etc
+
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
@@ -32,6 +39,13 @@ To install Go Read, follow these steps
 clone this repository
 npm / yarn install
 ```
+
+## Screenshoot
+![dashboard](https://user-images.githubusercontent.com/49262552/87291785-0ae06d80-c52a-11ea-925f-9b0c9b842dc6.png)
+![home](https://user-images.githubusercontent.com/49262552/87292037-6874ba00-c52a-11ea-8f6f-b88fc34c919d.png)
+![detail](https://user-images.githubusercontent.com/49262552/87292023-63176f80-c52a-11ea-9a59-02df54f34407.png)
+![borrow](https://user-images.githubusercontent.com/49262552/87292009-60b51580-c52a-11ea-94fb-959131a98e38.png)
+
 
 ## Contributing to Go Read
 <!--- If your README is long or you have some specific process or steps you want contributors to follow, consider creating a separate CONTRIBUTING.md file--->
