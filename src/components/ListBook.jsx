@@ -55,11 +55,11 @@ const ListBook = (props) => {
 												</CardTitle>
 											</Link>
 											<CardText>
-												{book.description.length > 150
+												{book.description.length > 120
 													? `${book.description
 															.split(' ')
 															.join(' ')
-															.slice(0, 150)}......`
+															.slice(0, 120)}......`
 													: `${book.description
 															.split(' ')
 															.join(' ')

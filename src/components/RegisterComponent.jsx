@@ -5,6 +5,8 @@ import style from '../styles/style.module.css'
 import { useState } from 'react'
 import Axios from 'axios'
 import swal from 'sweetalert'
+import {Register as register} from '../redux/actions/auth'
+import { connect } from 'react-redux'
 
 const Register = (props) => {
 	const [user, setUser] = useState({ email: '', password: '', name: '' })
@@ -13,28 +15,47 @@ const Register = (props) => {
 	const handleRegister = (e) => {
 		e.preventDefault()
 		setLoading(true)
+		
 		setTimeout(() => {
-			Axios({
-				method: 'POST',
-				url: 'http://localhost:3000/api/auth/register',
-				data: {
-					name: user.name,
-					email: user.email,
-					password: user.password,
-					role: '2',
-				},
-			})
-			.then((res) => {
-				swal('Good job!', 'Registration Success! Please activate your account', 'success')
-				localStorage.setItem('email', user.email)
-				props.data.push('/activation')
+			const data = {
+				email: user.email,
+				password: user.password,
+				name: user.name,
+				role: 2
+			}
+			props
+			.dispatch(register(data))
+			.then(() => {
+				swal('Good job!', 'Register Success!', 'success')
+				props.data.push('/login')
 			})
 			.catch((err) => {
-				console.log(err.response.data.data)
-				swal('Ooopsss!', `${err.response.data.data}!`, 'error')
+				swal('Ooopss!', `${err.response.data.data}`, 'error')
 			})
 			setLoading(false)
-		}, 2000)
+		}, 2000);
+		// setTimeout(() => {
+		// 	Axios({
+		// 		method: 'POST',
+		// 		url: 'http://localhost:3000/api/auth/register',
+		// 		data: {
+		// 			name: user.name,
+		// 			email: user.email,
+		// 			password: user.password,
+		// 			role: '2',
+		// 		},
+		// 	})
+		// 	.then((res) => {
+		// 		swal('Good job!', 'Registration Success! Please activate your account', 'success')
+		// 		localStorage.setItem('email', user.email)
+		// 		props.data.push('/activation')
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log(err.response.data.data)
+		// 		swal('Ooopsss!', `${err.response.data.data}!`, 'error')
+		// 	})
+		// 	setLoading(false)
+		// }, 2000)
 	}
 	
 	useEffect(() => {
@@ -121,4 +142,10 @@ const Register = (props) => {
 	)
 }
 
-export default Register
+const mapStateToProps = (state) => ({
+	auth: state.auth,
+})
+
+// const mapDispatchToProps = { login }
+
+export default connect(mapStateToProps)(Register)
