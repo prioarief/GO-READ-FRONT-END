@@ -5,7 +5,7 @@ export const getAuthor = (token) => {
 		type: 'AUTHOR',
 		payload: axios({
 			method: 'GET',
-			url: `${process.env.REACT_APP_API_URL}/authors`,
+			url: `${process.env.REACT_APP_API_URL}/api/authors`,
 			headers: {
 				Authorization : token
 			}
@@ -18,7 +18,7 @@ export const getDetailAuthor = (token, id) => {
 		type: 'DETAIL',
 		payload: axios({
 			method: 'GET',
-			url: `${process.env.REACT_APP_API_URL}/authors/${id}`,
+			url: `${process.env.REACT_APP_API_URL}/api/authors/${id}`,
 			headers: {
 				Authorization : token
 			}
@@ -31,7 +31,7 @@ export const insertAuthor = (token, data) => {
 		type: 'INSERT',
 		payload: axios({
 			method: 'POST',
-			url: `${process.env.REACT_APP_API_URL}/authors`,
+			url: `${process.env.REACT_APP_API_URL}/api/authors`,
 			data: data,
 			headers: {
 				Authorization: token,
@@ -45,7 +45,7 @@ export const deleteAuthor = (token, id) => {
 		type: 'DELETE',
 		payload: axios({
 			method: 'DELETE',
-			url: `${process.env.REACT_APP_API_URL}/authors/${id}`,
+			url: `${process.env.REACT_APP_API_URL}/api/authors/${id}`,
 			headers: {
 				Authorization: token,
 			},
@@ -58,7 +58,7 @@ export const editAuthor = (token, id, data) => {
 		type: 'EDIT',
 		payload: axios({
 			method: 'PUT',
-			url: `${process.env.REACT_APP_API_URL}/authors/${id}`,
+			url: `${process.env.REACT_APP_API_URL}/api/authors/${id}`,
 			data: data,
 			headers: {
 				Authorization: token,

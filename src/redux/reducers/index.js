@@ -5,6 +5,7 @@ import bookReducers from './book'
 import genreReducers from './genre'
 import authorReducers from './author'
 import authReducers from './auth'
+import historyReducers from './transaction'
 
 
 const persistConfig = {
@@ -18,6 +19,7 @@ const rootReducers = combineReducers({
     book : bookReducers,
     genre : genreReducers,
     author : authorReducers,
+    history : historyReducers,
 })
 
 export default persistReducer(persistConfig, rootReducers)

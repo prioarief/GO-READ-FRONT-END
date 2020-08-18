@@ -6,8 +6,8 @@ const Cover = (props) => {
 	console.log(props)
 	return (
 		<div>
-			<img src={`http://localhost:3000/images/${props.book.detail[0].image}`} className={`${style.cover} img-fluid`} alt='' />
-			<img src={`http://localhost:3000/images/${props.book.detail[0].image}`} className={`${style.cover_full} img-fluid`} alt='' />
+			<img src={`${process.env.REACT_APP_API_URL}/images/${props.detail.image}`} className={`${style.cover} img-fluid`} alt='' />
+			<img src={`${process.env.REACT_APP_API_URL}/images/${props.detail.image}`} className={`${style.cover_full} img-fluid`} alt='' />
 		</div>
 	)
 }

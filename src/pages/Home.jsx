@@ -79,6 +79,9 @@ class Home extends Component {
 		if(this.props.auth.data.role === 'Admin'){
 			this.props.history.push('/dashboard')
 		}
+		if(!this.props.auth.data.token){
+			this.props.history.push('/login')
+		}
 		// this.getImage()
 	}
 

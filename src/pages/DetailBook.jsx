@@ -1,82 +1,46 @@
-import React, { Component } from 'react'
-import axios from 'axios'
-import Cover from '../components/CoverComponent'
-import Content from '../components/ContentDetailBook'
-import { connect } from 'react-redux'
-import { detailBook, getBook } from '../redux/actions/book'
+import React, { Component } from 'react';
+import axios from 'axios';
+import Cover from '../components/CoverComponent';
+import Content from '../components/ContentDetailBook';
+import { connect } from 'react-redux';
+import { detailBook, getBook } from '../redux/actions/book';
 
 class DetailBook extends Component {
 	constructor(props) {
-		super(props)
+		super(props);
 		this.state = {
 			book: {},
 			genres: [],
 			authors: [],
-		}
+		};
 	}
 
-	// getCategory = () => {
-	// 	const token = localStorage.getItem('RefreshToken')
-	// 	axios({
-	// 		method: 'GET',
-	// 		url: 'http://localhost:3000/api/genres',
-	// 		headers: {
-	// 			Authorization: token,
-	// 		},
-	// 	})
-	// 		.then((res) => {
-	// 			this.setState({ genres: res.data.data })
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err.response)
-	// 		})
-	// }
-	// getAuthor = () => {
-	// 	const token = localStorage.getItem('RefreshToken')
-	// 	axios({
-	// 		method: 'GET',
-	// 		url: 'http://localhost:3000/api/authors',
-	// 		headers: {
-	// 			Authorization: token,
-	// 		},
-	// 	})
-	// 		.then((res) => {
-	// 			this.setState({ authors: res.data.data })
-	// 		})
-	// 		.catch((err) => {
-	// 			console.log(err.response)
-	// 		})
-	// }
+	getDetailBook = async () => {
+		const id = parseInt(this.props.match.params.book);
+		const data = this.props.book.value;
+		const filterData = data.filter((e) => {
+			return e.id === id;
+		});
 
-	getDetailBook = () => {
-		const token = this.props.auth.data.token
-		this.props
-			.dispatch(detailBook(token, this.props.match.params.book))
-			.then(() => {
-				this.props.dispatch(getBook(token))
-			})
-	}
+		await this.setState({ book: filterData[0] });
+	};
 
 	componentDidMount() {
-		this.getDetailBook()
-		// this.getAuthor()
-		// this.getCategory()
+		this.getDetailBook();
 	}
 	render() {
 		return (
 			<div>
-				<Cover />
-				<Content
-					data_red={this.props.history}
-				/>
+				<Cover detail={this.state.book} />
+				<Content data_red={this.props.history} detail={this.state.book} />
 			</div>
-		)
+		);
 	}
 }
 
 const mapStateToProps = (state) => ({
 	auth: state.auth,
 	book: state.book,
-})
+});
 
-export default connect(mapStateToProps)(DetailBook)
+export default connect(mapStateToProps)(DetailBook);

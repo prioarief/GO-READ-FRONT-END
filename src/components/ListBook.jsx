@@ -41,7 +41,7 @@ const ListBook = (props) => {
 										<CardImg
 											top
 											width='100%'
-											src={`http://localhost:3000/images/${book.image}`}
+											src={`http://18.209.179.39:8080/images/${book.image}`}
 											alt='Card image cap'
 											className={style.card_img}
 										/>
