@@ -27,7 +27,7 @@ const ListBook = (props) => {
 	return (
 		<div>
 			<Container>
-				{/* {data === 14 && (
+				{data === 14 && (
 					<Alert color='danger' className='mt-5'>
 						Data not found!
 					</Alert>
@@ -70,7 +70,7 @@ const ListBook = (props) => {
 								</Col>
 							)
 						})}
-				</Row> */}
+				</Row>
 			</Container>
 		</div>
 	)

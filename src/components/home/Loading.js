@@ -1,16 +1,9 @@
 import React from 'react';
-import { Col, Spinner } from 'reactstrap';
-import style from '../../styles/style.module.css'
+import { Spinner } from 'reactstrap';
 const Loading = () => {
 	return (
 		<div>
-			<Col md='12'>
-				<Spinner
-					className={style.login_spinner}
-					type='grow'
-					color='primary'
-				/>{' '}
-			</Col>
+			<Spinner type='grow' color='primary' className='loading' />{' '}
 		</div>
 	);
 };

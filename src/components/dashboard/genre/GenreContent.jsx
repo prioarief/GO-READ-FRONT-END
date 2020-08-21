@@ -171,6 +171,7 @@ export class GenreContent extends Component {
 	render() {
 		return (
 			<div>
+				{this.state.isLoading && <Loading />}
 				<h2 className={style.content_title}>Genre Data</h2>
 				<Button
 					color='info'
@@ -180,7 +181,6 @@ export class GenreContent extends Component {
 					Add Genre
 				</Button>
 				<div className={style.content}>
-					{this.state.isLoading && <Loading />}
 					<Table striped className={style.table_content}>
 						<thead>
 							<tr>

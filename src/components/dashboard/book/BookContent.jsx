@@ -275,6 +275,7 @@ export class BookContent extends Component {
 		const { book, books, authors, genres } = this.state;
 		return (
 			<div>
+				{this.state.isLoading && <Loading />}
 				<h2 className={style.content_title}>Book Data</h2>
 				<Button
 					color='info'
@@ -284,7 +285,6 @@ export class BookContent extends Component {
 					Add Book
 				</Button>
 				<div className={style.content}>
-					{this.state.isLoading && <Loading />}
 					<Table striped className={style.table_content}>
 						<thead>
 							<tr>

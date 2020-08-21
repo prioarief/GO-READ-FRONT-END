@@ -3,7 +3,6 @@ import style from '../styles/book.module.css'
 import { connect } from 'react-redux'
 
 const Cover = (props) => {
-	console.log(props)
 	return (
 		<div>
 			<img src={`${process.env.REACT_APP_API_URL}/images/${props.detail.image}`} className={`${style.cover} img-fluid`} alt='' />

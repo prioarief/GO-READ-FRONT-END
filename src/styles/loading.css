@@ -1,0 +1,21 @@
+.loading {
+    position: absolute !important;
+    width: 13rem !important;
+    height: 13rem !important;
+    z-index: 9999 !important;
+    left: 700px !important;
+    top: 200px !important;
+}
+
+
+@media screen and (max-width: 576px) {
+    .loading {
+        position: absolute !important;
+        width: 13rem !important;
+        height: 13rem !important;
+        z-index: 9999 !important;
+        left: 90px !important;
+        top: 100px !important;
+    }
+
+}

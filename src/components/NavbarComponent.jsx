@@ -30,16 +30,17 @@ import {
 import style from './../styles/SidebarStyle.module.css';
 import { History, Return } from '../redux/actions/transaction';
 import swal from 'sweetalert';
+import Loading from './home/Loading';
 
 const NavbarComponent = (props) => {
-	const [genre] = useState(props.genre.value || null);
+	// const [genre] = useState(props.genre.value || null);
 	const [isOpen, setIsOpen] = useState(false);
 	const [collapsed, setCollapsed] = useState(true);
+	const [loading, setLoading] = useState(false);
 	const [search, setSearch] = useQueryState('search', '');
 	const [show, setShow] = useQueryState('show', 6);
 	const [sort, setSort] = useQueryState('sort', '');
 	const [modal, setModal] = useState(false);
-	const [book, setBook] = useState(props.history.history || null);
 
 	const toggleHistory = () => setModal(!modal);
 
@@ -53,31 +54,34 @@ const NavbarComponent = (props) => {
 	};
 
 	const getHistory = async () => {
-		setModal(!modal);
+		setLoading(true);
 		const { dispatch, auth } = props;
 		const token = auth.data.token;
 		await dispatch(History(token))
 			.then((res) => {
-				setBook('oke');
-				console.log(res.value.data.data, 'booj');
-				console.log(book, 'book');
+				setLoading(false);
+				setModal(!modal);
 			})
 			.catch((err) => {
+				setLoading(false);
 				console.log(err.response.status);
 			});
 	};
 
 	const handleReturn = async (id) => {
+		setLoading(true);
 		const { dispatch, auth } = props;
 		const token = auth.data.token;
 		await dispatch(Return(token, id))
 			.then((res) => {
+				setLoading(false);
 				swal('Book has been returned!', {
 					icon: 'success',
 				});
-				props.data_red.push('/home');
+				return props.data_red.push('/');
 			})
 			.catch((err) => {
+				setLoading(false);
 				console.log(err);
 			});
 	};
@@ -140,23 +144,6 @@ const NavbarComponent = (props) => {
 				<NavbarToggler onClick={toggle} />
 				<Collapse isOpen={isOpen} navbar>
 					<Nav className='mr-auto' navbar>
-						{/* <UncontrolledDropdown nav inNavbar>
-							<DropdownToggle
-								nav
-								caret
-								className={`font-weight-bold ${style.dropdown_nav}`}
-							>
-								All Genres
-							</DropdownToggle>
-							<DropdownMenu right>
-								{genre !== null &&
-									genre.map((data) => {
-										return (
-											<DropdownItem key={data.id}>{data.genre}</DropdownItem>
-										);
-									})}
-							</DropdownMenu>
-						</UncontrolledDropdown> */}
 						<UncontrolledDropdown nav inNavbar>
 							<DropdownToggle
 								nav
@@ -241,8 +228,8 @@ const NavbarComponent = (props) => {
 								</tr>
 							</thead>
 							<tbody>
-								{book !== null &&
-									book.map((data) => {
+								{props.history.history !== null &&
+									props.history.history.map((data) => {
 										return (
 											<tr key={data.id}>
 												<td>{data.title}</td>
@@ -274,6 +261,7 @@ const NavbarComponent = (props) => {
 					</ModalFooter>
 				</Modal>
 			</Navbar>
+			{loading && <Loading />}
 		</div>
 	);
 };

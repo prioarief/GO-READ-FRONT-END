@@ -40,23 +40,19 @@ class Home extends Component {
 
 	getCategory = async () => {
 		const token = this.props.auth.data.token;
-		await this.props
-			.dispatch(getGenre(token))
-			.catch((err) => {
-				if (err.response.status === 401) {
-					return this.props.history.push('/login');
-				}
-			});
+		await this.props.dispatch(getGenre(token)).catch((err) => {
+			if (err.response.status === 401) {
+				return this.props.history.push('/login');
+			}
+		});
 	};
 	getAuthor = async () => {
 		const token = this.props.auth.data.token;
-		await this.props
-			.dispatch(getAuthor(token))
-			.catch((err) => {
-				if (err.response.status === 401) {
-					return this.props.history.push('/login');
-				}
-			});
+		await this.props.dispatch(getAuthor(token)).catch((err) => {
+			if (err.response.status === 401) {
+				return this.props.history.push('/login');
+			}
+		});
 	};
 
 	handleParams = async (search, page) => {
@@ -70,14 +66,14 @@ class Home extends Component {
 	};
 
 	componentDidMount() {
+		if (this.props.auth.data === null) {
+			return this.props.history.push('/login');
+		}
 		this.handleParams();
 		this.getCategory();
 		this.getAuthor();
 		if (this.props.auth.data.role === 'Admin') {
-			this.props.history.push('/dashboard');
-		}
-		if (!this.props.auth.data.token) {
-			this.props.history.push('/login');
+			return this.props.history.push('/dashboard');
 		}
 		// this.getImage()
 	}
@@ -87,14 +83,19 @@ class Home extends Component {
 	render() {
 		return (
 			<div>
-				<Navbar data={this.handleParams} data_red={this.props.history} />
-				{/* <SliderComponent data={this.state.image} /> */}
-				<ListBook data={this.props.book} />
-				<Pagination
-					show={this.getParams().get('show') || 6}
-					page={this.getParams().get('page')}
-					qparams={this.handleParams}
-				/>
+				{this.props.auth.data !== null && (
+					<Navbar data={this.handleParams} data_red={this.props.history} />
+				)}
+				{this.props.auth.data !== null && this.props.book.value && (
+					<ListBook data={this.props.book} />
+				)}
+				{this.props.auth.data !== null && (
+					<Pagination
+						show={this.getParams().get('show') || 6}
+						page={this.getParams().get('page')}
+						qparams={this.handleParams}
+					/>
+				)}
 			</div>
 		);
 	}
