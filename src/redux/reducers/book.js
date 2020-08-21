@@ -2,6 +2,7 @@ const inialState = {
 	value: [],
 	detail: {},
 	count: 0,
+	isLoading: null,
 	error: null
 }
 
@@ -11,6 +12,7 @@ const book = (state = inialState, action) => {
 			// console.log(action.payload)
 			return {
 				...state,
+				isLoading: true,
 				// value: {},
 			}
 		}
@@ -18,6 +20,7 @@ const book = (state = inialState, action) => {
 			console.log(action.payload)
 			return {
 				...state,
+				isLoading: false,
 				error : action.payload,
 				// value: {},
 			}
@@ -27,6 +30,7 @@ const book = (state = inialState, action) => {
 			return {
 				...state,
 				error : null,
+				isLoading: false,
 				value: action.payload.data.data,
 				count: action.payload.data.length
 			}

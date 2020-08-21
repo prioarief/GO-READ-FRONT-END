@@ -14,21 +14,24 @@ import {
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Component } from 'react';
+import Loading from './home/Loading';
 
 class ListBook extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			books: props.book.value || null,
-			length: props.book.value.value
+			length: props.book.value.value,
+			loading: props.book.isLoading,
 		};
 	}
 
 	render() {
-		const {books, length} = this.state
+		const { books, length, loading } = this.state;
 		return (
 			<div>
 				<Container>
+					{loading && <Loading />}
 					{length === 14 && (
 						<Alert color='danger' className='mt-5'>
 							Data not found!
@@ -36,6 +39,7 @@ class ListBook extends Component {
 					)}
 					<Row>
 						{length !== 14 &&
+							!loading &&
 							books.map((book) => {
 								return (
 									<Col md='4' key={book.id}>
