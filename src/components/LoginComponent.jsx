@@ -23,7 +23,6 @@ const Login = (props) => {
 
 
 		setLoading(true)
-		setTimeout(() => {
 			props
 				.login(data)
 				.then(() => {
@@ -31,15 +30,15 @@ const Login = (props) => {
 						cookie.set('email', data.email)
 						cookie.set('password', data.password)
 					}
+					setLoading(false)
 					swal('Good job!', 'Login Success!', 'success')
 					return props.data.push('/')
 				})
 				.catch((err) => {
+					setLoading(false)
 					console.log(err)
 					swal('Ooopss!', `${err.response.data.data}`, 'error')
 				})
-			setLoading(false)
-		}, 1000)
 	}
 
 	useEffect(() => {
