@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import style from './../styles/SidebarStyle.module.css'
 
-const SidebarComponent = (props) => {
+const SidebarComponent = () => {
 	const [collapsed, setCollapsed] = useState(true)
-    console.log(props)
 	const toggleNavbar = () => setCollapsed(!collapsed)
 
 	return (

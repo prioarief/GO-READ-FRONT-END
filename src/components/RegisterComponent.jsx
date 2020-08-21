@@ -1,38 +1,44 @@
-import React, { useEffect } from 'react'
-import { FormGroup, Label, Input, Button, Form, Col, Spinner } from 'reactstrap'
-import { Link } from 'react-router-dom'
-import style from '../styles/style.module.css'
-import { useState } from 'react'
-import Axios from 'axios'
-import swal from 'sweetalert'
-import {Register as register} from '../redux/actions/auth'
-import { connect } from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import {
+	Button,
+	Col,
+	Form,
+	FormGroup,
+	Input,
+	Label,
+	Spinner,
+} from 'reactstrap';
+import swal from 'sweetalert';
+import { Register as register } from '../redux/actions/auth';
+import style from '../styles/style.module.css';
 
 const Register = (props) => {
-	const [user, setUser] = useState({ email: '', password: '', name: '' })
-	const [isLoading, setLoading] = useState(false)
-	const [isSubmit, setSubmit] = useState(true)
+	const [user, setUser] = useState({ email: '', password: '', name: '' });
+	const [isLoading, setLoading] = useState(false);
+	const [isSubmit, setSubmit] = useState(true);
 	const handleRegister = (e) => {
-		e.preventDefault()
-		setLoading(true)
-		
+		e.preventDefault();
+		setLoading(true);
+
 		setTimeout(() => {
 			const data = {
 				email: user.email,
 				password: user.password,
 				name: user.name,
-				role: 2
-			}
+				role: 2,
+			};
 			props
-			.dispatch(register(data))
-			.then(() => {
-				swal('Good job!', 'Register Success!', 'success')
-				props.data.push('/login')
-			})
-			.catch((err) => {
-				swal('Ooopss!', `${err.response.data.data}`, 'error')
-			})
-			setLoading(false)
+				.dispatch(register(data))
+				.then(() => {
+					swal('Good job!', 'Register Success!', 'success');
+					props.data.push('/login');
+				})
+				.catch((err) => {
+					swal('Ooopss!', `${err.response.data.data}`, 'error');
+				});
+			setLoading(false);
 		}, 2000);
 		// setTimeout(() => {
 		// 	Axios({
@@ -56,15 +62,17 @@ const Register = (props) => {
 		// 	})
 		// 	setLoading(false)
 		// }, 2000)
-	}
-	
+	};
+
 	useEffect(() => {
 		const data =
-			user.email.trim().length !== 0 && user.password.trim().length !== 0 && user.name.trim().length !== 0
+			user.email.trim().length !== 0 &&
+			user.password.trim().length !== 0 &&
+			user.name.trim().length !== 0
 				? false
-				: true
-		setSubmit(data)
-	}, [user])
+				: true;
+		setSubmit(data);
+	}, [user]);
 	return (
 		<div>
 			<div className={style.content}>
@@ -127,10 +135,12 @@ const Register = (props) => {
 						/>
 					</FormGroup>
 
-					<Button className={style.btn_login} disabled={isSubmit}>Sign Up</Button>
-				<Link to='/login'>
-					<Button className={style.btn_sign_up}>Login</Button>
-				</Link>
+					<Button className={style.btn_login} disabled={isSubmit}>
+						Sign Up
+					</Button>
+					<Link to='/login'>
+						<Button className={style.btn_sign_up}>Login</Button>
+					</Link>
 				</Form>
 
 				<p className={style.policy}>
@@ -139,13 +149,13 @@ const Register = (props) => {
 				</p>
 			</div>
 		</div>
-	)
-}
+	);
+};
 
 const mapStateToProps = (state) => ({
 	auth: state.auth,
-})
+});
 
 // const mapDispatchToProps = { login }
 
-export default connect(mapStateToProps)(Register)
+export default connect(mapStateToProps)(Register);

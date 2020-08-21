@@ -32,10 +32,11 @@ const Login = (props) => {
 						cookie.set('password', data.password)
 					}
 					swal('Good job!', 'Login Success!', 'success')
-					props.data.push('/home')
+					return props.data.push('/')
 				})
 				.catch((err) => {
-					swal('Ooopss!', `${err}`, 'error')
+					console.log(err)
+					swal('Ooopss!', `${err.response.data.data}`, 'error')
 				})
 			setLoading(false)
 		}, 1000)

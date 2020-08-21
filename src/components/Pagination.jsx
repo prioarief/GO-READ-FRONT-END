@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react'
 import { useQueryState } from 'react-router-use-location-state'
 import style from '../styles/book.module.css'
@@ -27,8 +28,6 @@ const PaginationComponent = (props) => {
 	useEffect(() => {
 		props.qparams(null, thisPage)
 	}, [pageActive])
-
-	console.log(dataLength)
 	return (
 		<Container>
 			<Pagination

@@ -27,7 +27,7 @@ const ListBook = (props) => {
 	return (
 		<div>
 			<Container>
-				{data === 14 && (
+				{/* {data === 14 && (
 					<Alert color='danger' className='mt-5'>
 						Data not found!
 					</Alert>
@@ -41,8 +41,8 @@ const ListBook = (props) => {
 										<CardImg
 											top
 											width='100%'
-											src={`http://18.209.179.39:8080/images/${book.image}`}
-											alt='Card image cap'
+											src={`${process.env.REACT_APP_API_URL}/images/${book.image}`}
+											alt={`${book.title} image`}
 											className={style.card_img}
 										/>
 										<CardBody>
@@ -70,7 +70,7 @@ const ListBook = (props) => {
 								</Col>
 							)
 						})}
-				</Row>
+				</Row> */}
 			</Container>
 		</div>
 	)

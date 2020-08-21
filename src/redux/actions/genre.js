@@ -27,6 +27,20 @@ export const insertGenre = (token, data) => {
 	}
 }
 
+export const editGenre = (token, id, data) => {
+	return {
+		type: 'EDIT',
+		payload: axios({
+			method: 'PUT',
+			url: `${process.env.REACT_APP_API_URL}/api/genres/${id}`,
+			data: data,
+			headers: {
+				Authorization: token,
+			},
+		}),
+	}
+}
+
 export const deleteGenre = (token, id) => {
 	return {
 		type: 'DELETE',

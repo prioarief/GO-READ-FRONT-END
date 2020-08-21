@@ -19,7 +19,7 @@ function App() {
 				<Route path='/activation' component={ActivationPage} />
 				<Route path='/detail/:book' component={Detail} />
 				<Route path='/books' component={Home} />
-				<Route path='/' component={Home} />
+				<Route path='/' exact component={Home} />
 			</Switch>
 		</Router>
 	);

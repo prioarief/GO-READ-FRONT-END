@@ -32,14 +32,14 @@ import { History, Return } from '../redux/actions/transaction';
 import swal from 'sweetalert';
 
 const NavbarComponent = (props) => {
-	const [genre] = useState(props.genre.value);
+	const [genre] = useState(props.genre.value || null);
 	const [isOpen, setIsOpen] = useState(false);
 	const [collapsed, setCollapsed] = useState(true);
 	const [search, setSearch] = useQueryState('search', '');
 	const [show, setShow] = useQueryState('show', 6);
 	const [sort, setSort] = useQueryState('sort', '');
 	const [modal, setModal] = useState(false);
-	const [book, setBook] = useState('');
+	const [book, setBook] = useState(props.history.history || null);
 
 	const toggleHistory = () => setModal(!modal);
 
@@ -57,8 +57,10 @@ const NavbarComponent = (props) => {
 		const { dispatch, auth } = props;
 		const token = auth.data.token;
 		await dispatch(History(token))
-			.then(async (res) => {
-				await setBook(res.value.data.data);
+			.then((res) => {
+				setBook('oke');
+				console.log(res.value.data.data, 'booj');
+				console.log(book, 'book');
 			})
 			.catch((err) => {
 				console.log(err.response.status);
@@ -83,6 +85,7 @@ const NavbarComponent = (props) => {
 	useEffect(() => {
 		props.data(search, 1);
 		// setPage(1)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [search, show, sort]);
 
 	return (
@@ -137,7 +140,7 @@ const NavbarComponent = (props) => {
 				<NavbarToggler onClick={toggle} />
 				<Collapse isOpen={isOpen} navbar>
 					<Nav className='mr-auto' navbar>
-						<UncontrolledDropdown nav inNavbar>
+						{/* <UncontrolledDropdown nav inNavbar>
 							<DropdownToggle
 								nav
 								caret
@@ -146,13 +149,14 @@ const NavbarComponent = (props) => {
 								All Genres
 							</DropdownToggle>
 							<DropdownMenu right>
-								{genre.map((data) => {
-									return (
-										<DropdownItem key={data.id}>{data.genre}</DropdownItem>
-									);
-								})}
+								{genre !== null &&
+									genre.map((data) => {
+										return (
+											<DropdownItem key={data.id}>{data.genre}</DropdownItem>
+										);
+									})}
 							</DropdownMenu>
-						</UncontrolledDropdown>
+						</UncontrolledDropdown> */}
 						<UncontrolledDropdown nav inNavbar>
 							<DropdownToggle
 								nav
@@ -237,26 +241,29 @@ const NavbarComponent = (props) => {
 								</tr>
 							</thead>
 							<tbody>
-								{props.history.history.map((data) => {
-									return (
-										<tr key={data.id}>
-											<td>{data.title}</td>
-											<td>{moment(data.borrowed_at).format('DD MMMM YYYY')}</td>
-											<td>
-												{data.returned_at === null ? (
-													<Button
-														color='info'
-														onClick={(id) => handleReturn(data.id)}
-													>
-														Return
-													</Button>
-												) : (
-													moment(data.returned_at).format('DD MMMM YYYY')
-												)}
-											</td>
-										</tr>
-									);
-								})}
+								{book !== null &&
+									book.map((data) => {
+										return (
+											<tr key={data.id}>
+												<td>{data.title}</td>
+												<td>
+													{moment(data.borrowed_at).format('DD MMMM YYYY')}
+												</td>
+												<td>
+													{data.returned_at === null ? (
+														<Button
+															color='info'
+															onClick={(id) => handleReturn(data.id)}
+														>
+															Return
+														</Button>
+													) : (
+														moment(data.returned_at).format('DD MMMM YYYY')
+													)}
+												</td>
+											</tr>
+										);
+									})}
 							</tbody>
 						</Table>
 					</ModalBody>

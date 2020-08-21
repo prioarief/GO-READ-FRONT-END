@@ -1,9 +1,8 @@
 const inialState = {
-	value: [],
+	value: null,
 	detail: {},
-	// data: [],
-	errosMsg: null
-}
+	errosMsg: null,
+};
 
 const genre = (state = inialState, action) => {
 	switch (action.type) {
@@ -12,16 +11,15 @@ const genre = (state = inialState, action) => {
 				...state,
 				errorMsg: null,
 				value: {},
-			}
+			};
 		}
 		case 'GENRE_REJECTED': {
-			console.log(action.payload)
+			console.log(action.payload);
 			return {
 				...state,
 				errorMsg: action.payload,
-				value: {},
-				
-			}
+				value: null,
+			};
 		}
 		case 'GENRE_FULFILLED': {
 			return {
@@ -29,24 +27,23 @@ const genre = (state = inialState, action) => {
 
 				// errorMsg: null,
 				value: action.payload.data.data,
-			}
+			};
 		}
-		
+
 		case 'INSERT_PENDING': {
 			return {
 				...state,
 				errorMsg: null,
 				value: {},
-			}
+			};
 		}
 		case 'INSERT_REJECTED': {
-			console.log(action.payload)
+			console.log(action.payload);
 			return {
 				...state,
 				errorMsg: action.payload,
 				value: {},
-				
-			}
+			};
 		}
 		case 'INSERT_FULFILLED': {
 			return {
@@ -54,48 +51,43 @@ const genre = (state = inialState, action) => {
 
 				// errorMsg: null,
 				// value: action.payload.data.data,
-			}
+			};
 		}
-		case 'DETAIL_PENDING': {
+		case 'EDIT_PENDING': {
 			return {
 				...state,
 				errorMsg: null,
 				value: {},
-			}
+			};
 		}
-		case 'DETAIL_REJECTED': {
-			console.log(action.payload)
+		case 'EDIT_REJECTED': {
+			console.log(action.payload);
 			return {
 				...state,
 				errorMsg: action.payload,
 				// value: {},
-				
-			}
+			};
 		}
-		case 'DETAIL_FULFILLED': {
+		case 'EDIT_FULFILLED': {
 			return {
 				...state,
-				detail : action.payload.data.data
-
-				// errorMsg: null,
-				// value: action.payload.data.data,
-			}
+				errorMsg: null,
+			};
 		}
-		
+
 		case 'DELETE_PENDING': {
 			return {
 				...state,
 				errorMsg: null,
 				value: {},
-			}
+			};
 		}
 		case 'DELETE_REJECTED': {
-			console.log(action.payload)
+			console.log(action.payload);
 			return {
 				...state,
 				errorMsg: action.payload,
-				
-			}
+			};
 		}
 		case 'DELETE_FULFILLED': {
 			return {
@@ -103,13 +95,13 @@ const genre = (state = inialState, action) => {
 
 				// errorMsg: null,
 				// value: action.payload.data.data,
-			}
+			};
 		}
 
 		default: {
-			return state
+			return state;
 		}
 	}
-}
+};
 
-export default genre
+export default genre;

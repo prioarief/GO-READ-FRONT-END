@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import Cover from '../components/CoverComponent';
-import Content from '../components/ContentDetailBook';
 import { connect } from 'react-redux';
-import { detailBook, getBook } from '../redux/actions/book';
+import Content from '../components/ContentDetailBook';
+import Cover from '../components/CoverComponent';
 
 class DetailBook extends Component {
 	constructor(props) {
@@ -18,11 +16,13 @@ class DetailBook extends Component {
 	getDetailBook = async () => {
 		const id = parseInt(this.props.match.params.book);
 		const data = this.props.book.value;
-		const filterData = data.filter((e) => {
-			return e.id === id;
-		});
+		if (data.length > 0) {
+			const filterData = data.filter((e) => {
+				return e.id === id;
+			});
 
-		await this.setState({ book: filterData[0] });
+			await this.setState({ book: filterData[0] });
+		}
 	};
 
 	componentDidMount() {

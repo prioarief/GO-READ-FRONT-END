@@ -1,25 +1,22 @@
-import React from 'react'
-import style from '../../styles/navbar/navbar.module.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-	faBookReader,
 	faBook,
-	faTachometerAlt,
+	faBookReader,
 	faFeatherAlt,
+	faTachometerAlt,
 	faTags,
-	faUserFriends,
-	faUserShield,
-} from '@fortawesome/free-solid-svg-icons'
-import { Navbar, NavbarBrand, Nav, NavItem } from 'reactstrap'
-import { Link } from 'react-router-dom'
-import { useState } from 'react'
-import { useEffect } from 'react'
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Nav, Navbar, NavbarBrand, NavItem } from 'reactstrap';
+import style from '../../styles/navbar/navbar.module.css';
 const Sidebar = (props) => {
-	const [menu, setMenu] = useState('Dashboard')
+	const [menu, setMenu] = useState('Dashboard');
 
 	useEffect(() => {
-		props.menu(menu)
-	}, [menu])
+		props.menu(menu);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [menu]);
 	return (
 		<div>
 			<Navbar light expand='md' className={style.sidebar}>
@@ -29,35 +26,59 @@ const Sidebar = (props) => {
 				</NavbarBrand>
 				<Nav className={`mr-auto ${style.nav_item}`} navbar>
 					<NavItem>
-						<Link to='/dashboard' className={style.link} onClick={(e) => setMenu('Dashboard')}>
+						<Link
+							to='/dashboard'
+							className={style.link}
+							onClick={(e) => setMenu('Dashboard')}
+						>
 							<FontAwesomeIcon icon={faTachometerAlt} size='lg' />{' '}
 							<span className={style.link_item}>Dashboard</span>
 						</Link>
-						<Link to='/dashboard' className={style.link} onClick={(e) => setMenu('Admin')}>
+						{/* <Link
+							to='/dashboard'
+							className={style.link}
+							onClick={(e) => setMenu('Admin')}
+						>
 							<FontAwesomeIcon icon={faUserShield} size='lg' />{' '}
 							<span className={style.link_item}>Administrators</span>
-						</Link>
-						<Link to='/dashboard' className={style.link} onClick={(e) => setMenu('Author')}>
+						</Link> */}
+						<Link
+							to='/dashboard'
+							className={style.link}
+							onClick={(e) => setMenu('Author')}
+						>
 							<FontAwesomeIcon icon={faFeatherAlt} size='lg' />{' '}
 							<span className={style.link_item}>Author</span>
 						</Link>
-						<Link to='/dashboard' className={style.link} onClick={(e) => setMenu('Book')}>
+						<Link
+							to='/dashboard'
+							className={style.link}
+							onClick={(e) => setMenu('Book')}
+						>
 							<FontAwesomeIcon icon={faBook} size='lg' />{' '}
 							<span className={style.link_item}>Book</span>
 						</Link>
-						<Link to='/dashboard' className={style.link} onClick={(e) => setMenu('Genre')}>
+						<Link
+							to='/dashboard'
+							className={style.link}
+							onClick={(e) => setMenu('Genre')}
+						>
 							<FontAwesomeIcon icon={faTags} size='lg' />{' '}
 							<span className={style.link_item}>Genre</span>
 						</Link>
-						<Link to='/dashboard' className={style.link} onClick={(e) => setMenu('User')}>
+						{/* <Link
+							to='/dashboard'
+							className={style.link}
+							onClick={(e) => setMenu('User')}
+						>
 							<FontAwesomeIcon icon={faUserFriends} size='lg' />{' '}
 							<span className={style.link_item}>Users</span>
-						</Link>
+						</Link> */}
 					</NavItem>
 				</Nav>
 			</Navbar>
 		</div>
-	)
-}
+	);
+};
 
-export default Sidebar
+export default Sidebar;

@@ -67,7 +67,7 @@ const auth = (state = inialState, action) => {
 		case 'LOGOUT': {
 			return {
 				...state,
-				data: {},
+				data: null,
 			}
 		}
 
