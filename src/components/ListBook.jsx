@@ -31,7 +31,7 @@ class ListBook extends Component {
 		return (
 			<div>
 				<Container>
-					{/* {loading && <Loading />}
+					{loading && <Loading />}
 					{length === 14 && (
 						<Alert color='danger' className='mt-5'>
 							Data not found!
@@ -76,7 +76,7 @@ class ListBook extends Component {
 									</Col>
 								);
 							})}
-					</Row> */}
+					</Row>
 				</Container>
 			</div>
 		);

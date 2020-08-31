@@ -86,9 +86,7 @@ class Home extends Component {
 				{this.props.auth.data !== null && (
 					<Navbar data={this.handleParams} data_red={this.props.history} />
 				)}
-				{this.props.auth.data !== null && this.props.book.value && (
-					<ListBook data={this.props.book} />
-				)}
+				{this.props.auth.data !== null && <ListBook />}
 				{this.props.auth.data !== null && (
 					<Pagination
 						show={this.getParams().get('show') || 6}
